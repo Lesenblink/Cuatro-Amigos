@@ -1,0 +1,67 @@
+
+Comandos investigados para GitHub: por parte de BinCode
+
+
+--------------------------Para crear un repositorio------------------
+# Inicializar repositorio
+git init
+
+--------------------------Para agregar archivos al repositorio------------------
+
+# Agregar todos los archivos
+git add .
+
+# Agregar un archivo en especifico
+git add nombre-del-archivo.ext
+
+# Quitar un archivo seleccionado
+git reset nombre-del-archivo.ext
+
+
+--------------------------Para Conectar a un repositorio------------------
+# Inicializar repositorio
+git init
+
+# Conectar con el repositorio remoto
+git remote add origin "Link Repositorio"
+
+--------------------------Para Clonar un repositorio------------------ 
+git clone
+
+--------------------------Para traer cosas del repositorio------------------
+
+# Traer cosas del repositorio
+git pull origin main
+
+
+--------------------------Para Subir cosas al repositorio------------------
+# Agregar todos los archivos
+git add .
+
+# Agregar un archivo en especifico
+git add nombre-del-archivo.ext
+
+# Subir cosas al repositorio
+git commit -m "Mensaje"
+git push origin main
+
+# o si usas master:
+git push -u origin master
+
+# Codigo para subir cosas locales al repositorio forzadas
+git push -u origin main --force
+
+
+
+
+----------------------------Otros comandos----------------
+
+# Para cancelar el repositorio interno
+rm -rf .git 
+
+
+# Ver estado actual
+git status
+
+# Crear el branch principal cuando se esta creando el repositorio por 1era vez
+git branch -M main
