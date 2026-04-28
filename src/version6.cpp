@@ -153,6 +153,9 @@ public:
 
 //motor del juego
 int main() {
+
+    cout << "hola mundo";
+
     // Intentamos cargar la fuente de letra de Windows
     Font font;
     if (!font.openFromFile("4amigos/assets/arial.ttf")) return -1;
