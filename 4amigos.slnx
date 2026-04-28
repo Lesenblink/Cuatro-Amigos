@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="4amigos/4amigos.vcxproj" Id="b0f4a0aa-9e04-4bdc-a8dd-8b5dd7f82012" />
+</Solution>
