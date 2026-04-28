@@ -7,6 +7,13 @@
 using namespace sf;
 using namespace std;
 
+//Clase:  Luigi
+class Luigi {
+
+
+
+};
+
 // CLASE CARTA: Define cómo se ven y se comportan las cartas
 class Carta : public Drawable, public Transformable {
 private:
