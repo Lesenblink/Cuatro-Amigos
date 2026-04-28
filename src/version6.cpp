@@ -9,7 +9,10 @@ using namespace std;
 
 //Clase:  Luigi
 class Luigi {
+private:
 
+
+public: 
 
 
 };
