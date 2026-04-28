@@ -155,7 +155,7 @@ public:
 int main() {
     // Intentamos cargar la fuente de letra de Windows
     Font font;
-    if (!font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")) return -1;
+    if (!font.openFromFile("C://Windows//Fonts//arial.ttf")) return -1;
 
     Mesa mesa(font);
     RenderWindow window(VideoMode(Vector2u(1400, 900)), "4 amigos");
