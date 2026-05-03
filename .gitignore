@@ -1,1 +1,14 @@
+HEAD
 .vs/
+
+.vs/
+x64/
+4amigos/
+*.exe
+*.obj
+*.log
+*.pdb
+*.ilk
+*.ipch
+*.sqlite
+56279b5f8ca4606c4b935ff260f449b4a8e7dbf0
