@@ -7,16 +7,6 @@
 using namespace sf;
 using namespace std;
 
-//Clase:  Luigi
-class Luigi {
-private:
-
-
-public: 
-
-
-};
-
 // CLASE CARTA: Define cómo se ven y se comportan las cartas
 class Carta : public Drawable, public Transformable {
 private:
@@ -161,12 +151,14 @@ public:
     RectangleShape& getBorde() { return borde; }
 };
 
+
+
+
 //motor del juego
 int main() {
-
     // Intentamos cargar la fuente de letra de Windows
     Font font;
-    if (!font.openFromFile("4amigos/assets/arial.ttf")) return -1;
+    if (!font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")) return -1;
 
     Mesa mesa(font);
     RenderWindow window(VideoMode(Vector2u(1400, 900)), "4 amigos");
@@ -201,7 +193,8 @@ int main() {
 
     //Se repite constantemente mientras la ventana esté abierta
     while (window.isOpen()) {
-        // Revisar si pasó algo (clics, cerrar ventana, etc.)
+        // Revisar si pasó algo
+        // (clics, cerrar ventana, etc.)
         while (const auto event = window.pollEvent()) {
             if (event->is<Event::Closed>())
                 window.close();
@@ -215,20 +208,27 @@ int main() {
                     if (jugador1.getCarta(0).getGlobalBounds().contains(mousePos)) {
                         siguiendo = true; // Empezamos a arrastrar
                         cartaSeleccionada = &jugador1.getCarta(0);
-                        // Calculamos la distancia
-                        offset = cartaSeleccionada->getPosition() - mousePos;
+
+                        //cambia si es clickeada
+                        jugador1.getCarta(0).setPosition(Vector2f(650.f, 360.f));
                     }
                     else if (jugador1.getCarta(1).getGlobalBounds().contains(mousePos)) {
                         siguiendo = true; // Empezamos a arrastrar
                         cartaSeleccionada = &jugador1.getCarta(1);
                         // Calculamos la distancia
                         offset = cartaSeleccionada->getPosition() - mousePos;
+
+                        //cambia si es clickeada
+                        jugador1.getCarta(1).setPosition(Vector2f(650.f, 360.f));
                     }
                     else if (jugador1.getCarta(2).getGlobalBounds().contains(mousePos)) {
                         siguiendo = true; // Empezamos a arrastrar
                         cartaSeleccionada = &jugador1.getCarta(2);
                         // Calculamos la distancia
                         offset = cartaSeleccionada->getPosition() - mousePos;
+
+                        //cambia si es clickeada
+                        jugador1.getCarta(2).setPosition(Vector2f(650.f, 360.f));
                     }
                     else if (mesa.getCarta(3, 11).getGlobalBounds().contains(mousePos)) {
                         siguiendo = true; // Empezamos a arrastrar
@@ -239,29 +239,19 @@ int main() {
                 }
             }
 
-            // Si soltamos el botón, dejamos de arrastrar
-            if (event->is<Event::MouseButtonReleased>()) {
-                siguiendo = false;
-                cartaSeleccionada = nullptr;
-            }
-        }
 
-        //Si hay una carta agarrada, que siga al mouse
-        if (siguiendo && cartaSeleccionada) {
-            Vector2f mousePos = window.mapPixelToCoords(Mouse::getPosition(window));
-            cartaSeleccionada->setPosition(mousePos + offset);
-        }
 
-        //Limpiamos la pantalla y redibujamos todo en su nueva posición
-        window.clear();
-        window.draw(mesa.getBorde()); // Dibujar el marco
-        window.draw(mesa);           // Dibujar el tapete verde
-        window.draw(panelLuigi); //Dibujar panel del dealer
-        window.draw(jugador1.getCarta(0)); // Dibujar la carta encima de todo
-        window.draw(jugador1.getCarta(1));
-        window.draw(jugador1.getCarta(2));
-        window.draw(mesa.getCarta(3, 11));
-        window.display();            // Mostrar el resultado en pantalla
+            //Limpiamos la pantalla y redibujamos todo en su nueva posición
+            window.clear();
+            window.draw(mesa.getBorde()); // Dibujar el marco
+            window.draw(mesa);           // Dibujar el tapete verde
+            window.draw(panelLuigi); //Dibujar panel del dealer
+            window.draw(jugador1.getCarta(0)); // Dibujar la carta encima de todo
+            window.draw(jugador1.getCarta(1));
+            window.draw(jugador1.getCarta(2));
+            window.draw(mesa.getCarta(3, 8));
+            window.display();            // Mostrar el resultado en pantalla
+        }
     }
 
     return 0;
