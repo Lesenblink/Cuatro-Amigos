@@ -1,0 +1,10 @@
+.vs/
+x64/
+4amigos/
+*.exe
+*.obj
+*.log
+*.pdb
+*.ilk
+*.ipch
+*.sqlite
