@@ -242,8 +242,8 @@ int main() {
 
     //Se repite constantemente mientras la ventana esté abierta
     while (window.isOpen()) {
-        // Revisar si pasó algo
-        // (clics, cerrar ventana, etc.)
+
+        // Revisar si pasó algo (clics, cerrar ventana, etc.)
         while (const auto event = window.pollEvent()) {
             if (event->is<Event::Closed>())
                 window.close();
@@ -258,11 +258,10 @@ int main() {
                         jugador1 + mesa.darCarta();
 
                     }
-                    else if (jugador1.getCarta(1).getGlobalBounds().contains(mousePos)) {
-                        siguiendo = true; // Empezamos a arrastrar
-                        cartaSeleccionada = &jugador1.getCarta(1);
-                        // Calculamos la distancia
-                        offset = cartaSeleccionada->getPosition() - mousePos;
+                    else {
+                        for (int x = 0; x < jugador1.numeroCartas(); x++) {   //Aquí con este for ayuda a dejar las cartas.
+                            if (jugador1.getCarta(x).getGlobalBounds().contains(mousePos)) {
+                                mesa.llenarBuche(jugador1.QuitarCarta(x)); // Mueve la carta al buche
 
                             }
                         }
@@ -284,11 +283,14 @@ int main() {
             window.draw(mesa.getBorde()); // Dibujar el marco
             window.draw(mesa);           // Dibujar el tapete verde
             window.draw(panelLuigi); //Dibujar panel del dealer
-            window.draw(jugador1.getCarta(0)); // Dibujar la carta encima de todo
-            window.draw(jugador1.getCarta(1));
-            window.draw(jugador1.getCarta(2));
-            window.draw(mesa.getCarta(3, 8));
-            window.display();            // Mostrar el resultado en pantalla
+            for (int i = 0; i < jugador1.numeroCartas(); i++) {  //Dibjuar las cartas y este for se adapta al tamaño de la mano del jugador
+                window.draw(jugador1.getCarta(i)); // Dibujar las cartas del jugador
+            }
+            for (int i = 0; i < mesa.tamanoDelBuche(); i++) {// Dibuja la ultima carta del buche
+                window.draw(mesa.getBuche()); // Dibujar las cartas en el buche
+            }
+            window.draw(mesa.getCarta());
+            window.display();
         }
     }
 
