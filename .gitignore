@@ -3,7 +3,6 @@ HEAD
 
 .vs/
 x64/
-4amigos/
 *.exe
 *.obj
 *.log
