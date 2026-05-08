@@ -48,11 +48,73 @@ public:
         numero.setPosition(Vector2f(5.f, 5.f));
 
         // Creamos un rombo geométrico como símbolo central
-        simbolo.setPointCount(4);
-        simbolo.setPoint(0, sf::Vector2f(0.f, -40.f));
-        simbolo.setPoint(1, sf::Vector2f(30.f, 0.f));
-        simbolo.setPoint(2, sf::Vector2f(0.f, 40.f));
-        simbolo.setPoint(3, sf::Vector2f(-30.f, 0.f));
+       // Creamos un rombo geométrico como símbolo central
+        if (color == Color::Red) {
+            simbolo.setPointCount(8);
+            simbolo.setPoint(0, Vector2f(0, 10));    // Centro superior (la hendidura)
+            simbolo.setPoint(1, Vector2f(-15, -10)); // Curva superior izquierda
+            simbolo.setPoint(2, Vector2f(-30, 0));   // Extremo izquierdo
+            simbolo.setPoint(3, Vector2f(-30, 15));  // Lateral izquierdo
+            simbolo.setPoint(4, Vector2f(0, 45));    // Punta inferior (el pico)
+            simbolo.setPoint(5, Vector2f(30, 15));   // Lateral derecho
+            simbolo.setPoint(6, Vector2f(30, 0));    // Extremo derecho
+            simbolo.setPoint(7, Vector2f(15, -10));  // Curva superior derecha
+        }
+        else if (color == Color::Black) {
+            // 1. Usamos 13 puntos para definir la silueta (3 hojas + tallo)
+            simbolo.setPointCount(13);
+
+            // --- Hoja Superior ---
+            simbolo.setPoint(0, Vector2f(0.f, -10.f));   // Centro superior (hendidura)
+            simbolo.setPoint(1, Vector2f(-15.f, -30.f)); // Pico izquierdo arriba
+            simbolo.setPoint(2, Vector2f(15.f, -30.f));  // Pico derecho arriba
+
+            // --- Hoja Derecha ---
+            simbolo.setPoint(3, Vector2f(10.f, -5.f));   // Unión
+            simbolo.setPoint(4, Vector2f(30.f, 5.f));    // Punta derecha
+            simbolo.setPoint(5, Vector2f(10.f, 15.f));   // Unión inferior derecha
+
+            // --- Tallo ---
+            simbolo.setPoint(6, Vector2f(5.f, 15.f));    // Inicio tallo derecho
+            simbolo.setPoint(7, Vector2f(0.f, 35.f));    // Punta del tallo (abajo)
+            simbolo.setPoint(8, Vector2f(-5.f, 15.f));   // Inicio tallo izquierdo
+
+            // --- Hoja Izquierda ---
+            simbolo.setPoint(9, Vector2f(-10.f, 15.f));  // Unión inferior izquierda
+            simbolo.setPoint(10, Vector2f(-30.f, 5.f));  // Punta izquierda
+            simbolo.setPoint(11, Vector2f(-10.f, -5.f)); // Unión superior izquierda
+            simbolo.setPoint(12, Vector2f(0.f, -10.f));  // Cerrar en el centro
+        }
+        else if (color == Color::Blue) {
+            // 1. Usamos 11 puntos para definir la forma de pica y su tallo
+            simbolo.setPointCount(11);
+
+            // --- Punta superior ---
+            simbolo.setPoint(0, Vector2f(0.f, -35.f));   // La punta de arriba
+
+            // --- Curva derecha (hoja) ---
+            simbolo.setPoint(1, Vector2f(15.f, -15.f));  // Hombro derecho
+            simbolo.setPoint(2, Vector2f(30.f, 10.f));   // Extremo derecho
+            simbolo.setPoint(3, Vector2f(10.f, 15.f));   // Base curva derecha
+
+            // --- Tallo ---
+            simbolo.setPoint(4, Vector2f(5.f, 15.f));    // Inicio tallo derecho
+            simbolo.setPoint(5, Vector2f(8.f, 35.f));    // Base tallo derecha
+            simbolo.setPoint(6, Vector2f(-8.f, 35.f));   // Base tallo izquierda
+            simbolo.setPoint(7, Vector2f(-5.f, 15.f));   // Inicio tallo izquierdo
+
+            // --- Curva izquierda (hoja) ---
+            simbolo.setPoint(8, Vector2f(-10.f, 15.f));  // Base curva izquierda
+            simbolo.setPoint(9, Vector2f(-30.f, 10.f));  // Extremo izquierdo
+            simbolo.setPoint(10, Vector2f(-15.f, -15.f));// Hombro izquierdo
+        }
+        else {
+            simbolo.setPointCount(4);
+            simbolo.setPoint(0, sf::Vector2f(0.f, -40.f));
+            simbolo.setPoint(1, sf::Vector2f(30.f, 0.f));
+            simbolo.setPoint(2, sf::Vector2f(0.f, 40.f));
+            simbolo.setPoint(3, sf::Vector2f(-30.f, 0.f));
+        }
         simbolo.setFillColor(color);
 
         // Centramos el símbolo para que no aparezca en una esquina
