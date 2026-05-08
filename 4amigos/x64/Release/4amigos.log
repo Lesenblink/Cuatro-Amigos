@@ -1,7 +1,1 @@
-﻿  4amigos.cpp
-  Generando código
-  89 of 463 functions (19.2%) were compiled, the rest were copied from previous compilation.
-    80 functions were new in current compilation
-    78 functions had inline decision re-evaluated but remain unchanged
-  Generación de código finalizada
-  4amigos.vcxproj -> C:\Users\COREP\source\repos\4amigos\x64\Release\4amigos.exe
+﻿C:\Users\COREP\source\repos\4amigos\4amigos\4amigos.vcxproj : error MSB4025: No se pudo cargar el archivo del proyecto. No se pudo encontrar el archivo 'C:\Users\COREP\source\repos\4amigos\4amigos\4amigos.vcxproj'.
