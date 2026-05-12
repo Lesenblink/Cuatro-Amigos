@@ -3,21 +3,20 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 #include <optional>
+#include <algorithm> 
+#include <random>  
 using namespace sf;
 using namespace std;
+class Mesa;
+
 // CLASE CARTA: Define cómo se ven y se comportan las cartas
-class Luigi {
-
-
-
-};
 class Carta : public Drawable, public Transformable {
 private:
     Color color;
     string valor;
     bool enJuego;
     const Font* font;
-    Text* numero = nullptr;         // para mostrar el número 
+    Text numero;         // para mostrar el número 
     RectangleShape forma; // El cuerpo de la carta
     ConvexShape simbolo;  // El rombo o figura de la baraja
 
@@ -25,59 +24,16 @@ private:
     virtual void draw(RenderTarget& target, RenderStates states) const override {
         states.transform *= getTransform(); // Aplica movimiento y rotación
         target.draw(forma, states);         // 1. Dibuja el fondo
-        if (numero) target.draw(static_cast<const sf::Drawable&>(*numero), states);        // 2. Dibuja el número arriba
+        target.draw(numero, states);        // 2. Dibuja el número arriba
         target.draw(simbolo, states);       // 3. Dibuja el símbolo
     }
 
 public:
-    Carta() : valor(" "), color(), enJuego(true), font(nullptr) {}
-
-    // Destructor
-    ~Carta() {
-        delete numero;
-    }
-
-    // Constructor de copia
-    Carta(const Carta& other)
-        : color(other.color), valor(other.valor), enJuego(other.enJuego),
-        font(other.font), forma(other.forma), simbolo(other.simbolo) {
-        if (other.font && other.numero) {
-            numero = new Text(*other.font, other.valor);
-            numero->setFillColor(other.numero->getFillColor());
-            numero->setCharacterSize(other.numero->getCharacterSize());
-            numero->setPosition(other.numero->getPosition());
-        }
-        else {
-            numero = nullptr;
-        }
-    }
-
-    // Operador de asignación
-    Carta& operator=(const Carta& other) {
-        if (this != &other) {
-            delete numero;
-            color = other.color;
-            valor = other.valor;
-            enJuego = other.enJuego;
-            font = other.font;
-            forma = other.forma;
-            simbolo = other.simbolo;
-            if (other.font && other.numero) {
-                numero = new Text(*other.font, other.valor);
-                numero->setFillColor(other.numero->getFillColor());
-                numero->setCharacterSize(other.numero->getCharacterSize());
-                numero->setPosition(other.numero->getPosition());
-            }
-            else {
-                numero = nullptr;
-            }
-        }
-        return *this;
-    }
+    Carta() : valor(" "), color(), enJuego(true), numero(*font, " ") {}
 
     // Constructor: Aquí se hace la carta
     Carta(Color color, string valor, const sf::Font* font)
-        : enJuego(true), color(color), valor(valor), font(font) {
+        : enJuego(true), color(color), valor(valor), font(font), numero(*font, valor) {
         setPosition(Vector2f(800.f, 300.f)); // Posición inicial (se puede cambiar después)
         // Configuramos el cuerpo de la carta (rectángulo blanco con borde)
         forma.setSize(sf::Vector2f(100.f, 150.f));
@@ -85,16 +41,12 @@ public:
         forma.setOutlineColor(sf::Color::Black);
         forma.setOutlineThickness(3.f);
 
-        //Inicializar numero antes de usarlo (corregido porque crasheaba)
-        numero = new sf::Text(*font, valor);
-
         // Configuramos el texto del número
-        numero->setFillColor(color);
-        numero->setCharacterSize(25);
-        numero->setPosition(Vector2f(5.f, 5.f));
+        numero.setFillColor(color);
+        numero.setCharacterSize(25);
+        numero.setPosition(Vector2f(5.f, 5.f));
 
         // Creamos un rombo geométrico como símbolo central
-       // Creamos un rombo geométrico como símbolo central
         if (color == Color::Red) {
             simbolo.setPointCount(8);
             simbolo.setPoint(0, Vector2f(0, 10));    // Centro superior (la hendidura)
@@ -168,7 +120,18 @@ public:
         simbolo.setOrigin(Vector2f(bounds.size.x / 2.f, bounds.size.y / 2.f));
         simbolo.setPosition(Vector2f(80.f, 115.f));
     }
+    int getValor() {
 
+        if (valor == "J")
+            return 11;
+        if (valor == "Q")
+            return 12;
+        if (valor == "K")
+            return 13;
+        if (valor == "A")
+            return 14;
+        return stoi(valor); //Funcion de la libreria #String para transformar string a enteros
+    }
     // Calcula el área que ocupa la carta en la pantalla (para saber si le haces clic)
     FloatRect getGlobalBounds() const {
         return getTransform().transformRect(forma.getGlobalBounds());
@@ -227,31 +190,58 @@ public:
         return mano.size();
     }
 };
+/*------------------------------------Clase Liugi o diller */
+class Liugui {
+private:
+    vector<vector<Carta>> cartas;
+    random_device semilla;
+    mt19937 aleatorio{ semilla() };  //intancia de un generador pseudoaleatorio 
+public:
+    void recibirBaraja(vector<vector<Carta>> cartasdeMesa) {
+        cartas = cartasdeMesa;
+        cout << "Se recibio con exito";
+    }
+    void mesclarBaraja() {
+        vector<Carta> temporal; //Creamos un vector temporal porque si uticisamos la matriz solo va barajear las filas pero no las cartas de cada fila
+        for (const auto& fila : cartas) {  //For por rango que fila tiene 0 elemntos hasta los elemntos del vector de vectores de cartas
+            temporal.insert(temporal.end(), fila.begin(), fila.end()); //Agregamos a la matriz temporal primero la posicon, desde donde copiar y hasta donde termianr de copiar
+        }
+        shuffle(temporal.begin(), temporal.end(), aleatorio);    //La funcion reorganiza el ultimo elemento
+
+        int llenarMatriz = 0;
+        for (auto& fila : cartas) {  //Aquí se recorremos cada fila en cartas
+            for (Carta& cartita : fila) {  //Recorremos cada carta de las filas
+                cartita = temporal[llenarMatriz]; //La carta mezclada la pone en la matriz
+                llenarMatriz++;//Sumamos uno para la posicon de la matriz
+            }
+        }
+    }
+    vector<vector<Carta>> darCartasBarajeadas() {
+        vector<vector<Carta>> totales = cartas;
+        cartas.clear();
+        return totales;
+    }
+};
 
 // CLASE MESA: El tablero donde se colocan las cartas 
-class Mesa {
+class Mesa : public RectangleShape {
 private:
-    RectangleShape tapete;
     vector<vector<Carta>> cartasTotales; // Un contenedor organizado por vectores (simula una base de datos)
     vector<Carta> bucheDeCartas; // Un contenedor para las cartas que ya se han usado
     RectangleShape borde;                // El marco de madera de la mesa
 
 public:
-    Mesa(const sf::Font& font) : tapete(Vector2f(1300.f, 800.f)), borde(Vector2f(1400.f, 900.f)) {
-        printf("Dentro de Mesa constructor\n"); fflush(stdout);
+    Mesa(const sf::Font& font) : RectangleShape(Vector2f(1300.f, 800.f)), borde(Vector2f(1400.f, 900.f)) {
         // Estética de la mesa (Verde casino y borde café)
-        tapete.setFillColor(Color(0, 80, 0));
-        tapete.setPosition(Vector2f(50.f, 50.f));
+        setFillColor(Color(0, 80, 0));
+        setPosition(Vector2f(50.f, 50.f));
         borde.setFillColor(Color(128, 64, 0));
-        printf("Colores OK\n"); fflush(stdout);
 
         Color colores[] = { Color::Red, Color::Green, Color::Black, Color::Blue };
         string especiales[] = { "J", "Q", "K", "A" };
-        printf("Arrays OK\n"); fflush(stdout);
 
         // Bucle para crear el mazo completo 
         for (int j = 0; j < 4; j++) {
-            printf("Pinta %d\n", j); fflush(stdout);
             vector<Carta> pinta;
             for (int i = 2; i <= 14; i++) {
                 // Si el número es mayor a 10, usa las letras (J, Q, K, A)
@@ -259,88 +249,81 @@ public:
                 pinta.push_back(Carta(colores[j], v, &font));
             }
             cartasTotales.push_back(pinta);
-            printf("Pinta %d OK\n", j); fflush(stdout);
 
         }
-
-        printf("Mesa constructor OK\n"); fflush(stdout);
     }
-
-    //Verificar si hay cartas en el mazo
-    bool hayCartas() {
-        for (int i = cartasTotales.size() - 1; i >= 0; i--) {
-            if (!cartasTotales[i].empty()) return true;
-        }
-        return false;
+    vector<vector<Carta>> darTodasLasCartas() {
+        vector<vector<Carta>> todas = cartasTotales;
+        cartasTotales.clear();
+        return todas;
     }
-
-    //Verificar si hay cartas en el buche
-    bool hayBuche() {
-        return !bucheDeCartas.empty();
+    void recibirCartasBarajeadas(Liugui& mario) {
+        cartasTotales = mario.darCartasBarajeadas();
     }
 
     // Funciones para obtener objetos específicos de la mesa
     Carta darCarta() {
+        //Este for se adapta al tamaño del vector, el -1 es porque los vectores inician desde 0.
+        //Recorre hasta i>=0  y se reduce hasta llegar a 0.
         for (int i = cartasTotales.size() - 1; i >= 0; i--) {
-            if (!cartasTotales[i].empty()) {
-                Carta carta = cartasTotales[i].back();
-                cartasTotales[i].pop_back();
-                return carta;
+            if (!cartasTotales[i].empty()) {          //Si en esa fila no hay objetos entonces para el siguiente ciclo va  a la otra fila
+                Carta carta = cartasTotales[i].back();  //Se tiene que llenar la memoria con este objeto porque con apuntador no funciona |_|
+                cartasTotales[i].pop_back();   //Y de hecho, al utilizar apuntadores se borra el objeto :(
+                return carta; //Regresa la copia guardada del objeto eliminado
             }
         }
-        return Carta(); //fallback si no hay cartas
     }
-
     Carta& getCarta() {
+        //Este for se adapta al tamaño del vector, el -1 es porque los vectores inician desde 0.
+       //Recorre hasta i>=0  y se reduce hasta llegar a 0.
         for (int i = cartasTotales.size() - 1; i >= 0; i--) {
             if (!cartasTotales[i].empty()) {
                 return cartasTotales[i].back();
             }
         }
-        //fallback seguro
-        return cartasTotales[0][0];
     }
-
     RectangleShape& getBorde() { return borde; }
-    RectangleShape& getTapete() { return tapete; }
 
     void llenarBuche(Carta carta) {  //Mecanica de 4 amigos como el UNO, recibe las cartas del jugador y los mete en el buche
         carta.setPosition(Vector2f(650.f, 360.f)); // Aquí se coloca las cartas en el centro
         bucheDeCartas.push_back(carta);
     }
-
     Carta& getBuche() {
-        return bucheDeCartas.back(); // Solo llamar si hayBuche() es true
+        return bucheDeCartas.back();
     }
-
     int tamanoDelBuche() {
         return bucheDeCartas.size();
     }
-
     Carta darCartaDelBuche() {
         if (bucheDeCartas.empty()) {
             cout << "No hay cartas en el buche para comer." << endl;
-            return Carta(); 
         }
-        Carta carta = bucheDeCartas.back();
-        bucheDeCartas.pop_back();
-        return carta;
+        else {
+            for (int i = bucheDeCartas.size() - 1; i >= 0; i--) {
+                if (!bucheDeCartas.empty()) {
+                    Carta carta = bucheDeCartas.back(); // Guarda la última carta del buche antes de eliminarla
+                    bucheDeCartas.pop_back(); // Elimina la carta del buche
+                    return carta; // Regresa la copia guardada del objeto eliminado
+                }
+            }
+        }
     }
 };
 
 
-
-
 //motor del juego
 int main() {
-    printf("Iniciando main\\\n"); fflush(stdout);
     // Intentamos cargar la fuente de letra de Windows
-    Font font; printf("Font creado\\n"); fflush(stdout);
-    printf("Abriendo fuente\\n"); fflush(stdout); bool loaded = font.openFromFile("../assets/arial.ttf"); printf(loaded ? "Fuente OK\\n" : "Fuente FALLO\\n"); fflush(stdout); if (!loaded) return -1;
+    Font font;
+    if (!font.openFromFile("C:\\Windows\\Fonts\\arial.ttf")) return -1;
 
-    printf("Creando mesa\\n"); fflush(stdout); Mesa mesa(font); printf("Mesa OK\\n"); fflush(stdout);
+    Mesa mesa(font);
+    Liugui mario;
+
     RenderWindow window(VideoMode(Vector2u(1400, 900)), "4 amigos");
-
+    mario.recibirBaraja(mesa.darTodasLasCartas());
+    mario.mesclarBaraja();
+    mesa.recibirCartasBarajeadas(mario);
     Jugador jugador1;
 
     //En esta parte se coloca el panel donde Luigi, el dealer, estará presente.
@@ -361,6 +344,9 @@ int main() {
     Carta* cartaSeleccionada = nullptr; // Guarda qué carta tenemos agarrada
     Vector2f offset;               // Distancia entre el mouse y la esquina de la carta (para que no "salte")
 
+    // Ponemos una carta en una posición visible para probar
+
+
     // Asignamos una carta a la mano del jugador
     jugador1 + mesa.darCarta();
     jugador1 + mesa.darCarta();
@@ -379,48 +365,46 @@ int main() {
             if (auto mouseEvent = event->getIf<Event::MouseButtonPressed>()) {
                 if (mouseEvent->button == Mouse::Button::Left) {
                     Vector2f mousePos = window.mapPixelToCoords(Mouse::getPosition(window));
-
-                    //verificar si hay cartas antes de acceder
-                    if (mesa.hayCartas() && mesa.getCarta().getGlobalBounds().contains(mousePos)) {
+                    /**/
+                    // ¿El clic fue dentro de la carta (posicion o posiciones)?
+                    if (mesa.getCarta().getGlobalBounds().contains(mousePos)) {  //Aquí es donde sucede la mágia para comer cartas
                         jugador1 + mesa.darCarta();
+
                     }
                     else {
-                        for (int x = 0; x < jugador1.numeroCartas(); x++) {
+                        for (int x = 0; x < jugador1.numeroCartas(); x++) {   //Aquí con este for ayuda a dejar las cartas.
                             if (jugador1.getCarta(x).getGlobalBounds().contains(mousePos)) {
-                                mesa.llenarBuche(jugador1.QuitarCarta(x));
+                                if ((mesa.tamanoDelBuche() == 0 || jugador1.getCarta(x).getValor() >= mesa.getBuche().getValor())) {
+                                    mesa.llenarBuche(jugador1.QuitarCarta(x)); // Mueve la carta al buche
+                                    break;
+                                }
                             }
                         }
-                        //verificar buche antes de acceder
-                        if (mesa.hayBuche() && mesa.getBuche().getGlobalBounds().contains(mousePos)) {
-                            int tamano = mesa.tamanoDelBuche();
-                            for (int i = 0; i < tamano; i++) {
-                                jugador1 + mesa.darCartaDelBuche();
+                        if (mesa.getBuche().getGlobalBounds().contains(mousePos)) { //En si no se porque no agarra todas las cartas del buche de una. 
+                            for (int i = 0; i < mesa.tamanoDelBuche(); i++) {  //Un for  para agarrar las cartas
+                                jugador1 + mesa.darCartaDelBuche(); // Aquí se come la carta del buche                      
+
                             }
+
                         }
                     }
                 }
-            }
 
-            // Limpiamos la pantalla y redibujamos todo en su nueva posición
+
+            }
+            //Si hay cartas en la reserva dibjuar sí o n
+             //Limpiamos la pantalla y redibujamos todo en su nueva posición
             window.clear();
-            window.draw(mesa.getBorde());
-            window.draw(mesa.getTapete());
-            window.draw(panelLuigi);
-
-            for (int i = 0; i < jugador1.numeroCartas(); i++) {
-                window.draw(jugador1.getCarta(i));
+            window.draw(mesa.getBorde()); // Dibujar el marco
+            window.draw(mesa);           // Dibujar el tapete verde
+            window.draw(panelLuigi); //Dibujar panel del dealer
+            for (int i = 0; i < jugador1.numeroCartas(); i++) {  //Dibjuar las cartas y este for se adapta al tamaño de la mano del jugador
+                window.draw(jugador1.getCarta(i)); // Dibujar las cartas del jugador
             }
-
-            //verificar si hay cartas en el buche antes de dibujar
-            if (mesa.hayBuche()) {
-                window.draw(mesa.getBuche());
+            for (int i = 0; i < mesa.tamanoDelBuche(); i++) {// Dibuja la ultima carta del buche
+                window.draw(mesa.getBuche()); // Dibujar las cartas en el buche
             }
-
-            //verificar si hay cartas en el mazo antes de dibujar
-            if (mesa.hayCartas()) {
-                window.draw(mesa.getCarta());
-            }
-
+            window.draw(mesa.getCarta());
             window.display();
         }
     }
@@ -432,5 +416,10 @@ int main() {
 COSAS OBSERVADAS:
 -Posiblemente está muy mal optimizado por la cuestion de las cartas. Practicamente se elimino algunos apuntadores de funciones porque
 para la mecanica del dar carta y quitar carta, se eliminaba el objeto Carta del programa.
--Se crashea el programa cuando ya no hay cartas para comer. ✅ CORREGIDO
+-Se crashea el programa cuando ya no hay cartas para comer.
+
+Aparte de lo nuevo:
+-Es importante el orden que se ejecuta el main
+-Solo es bueno tener una sola instancia de Ligui porque como es semilla
+
 */

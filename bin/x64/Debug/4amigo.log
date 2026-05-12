@@ -1,7 +1,10 @@
 ﻿  avance7.cpp
-C:\Users\COREP\source\repos\4amigo\src\avance7.cpp(227,25): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
-C:\Users\COREP\source\repos\4amigo\src\avance7.cpp(271,20): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
-C:\Users\COREP\source\repos\4amigo\src\avance7.cpp(284,20): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
-C:\Users\COREP\source\repos\4amigo\src\avance7.cpp(295,20): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
-C:\Users\COREP\source\repos\4amigo\src\avance7.cpp(317,34): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\4amigo\src\avance7.cpp(190,25): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\4amigo\src\avance7.cpp(268,20): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\4amigo\src\avance7.cpp(279,20): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\4amigo\src\avance7.cpp(295,34): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\4amigo\src\avance7.cpp(302,24): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\4amigo\src\avance7.cpp(284,1): warning C4715: 'Mesa::getCarta': no todas las rutas de acceso de control devuelven un valor
+C:\Users\COREP\source\repos\4amigo\src\avance7.cpp(275,1): warning C4715: 'Mesa::darCarta': no todas las rutas de acceso de control devuelven un valor
+C:\Users\COREP\source\repos\4amigo\src\avance7.cpp(310,1): warning C4715: 'Mesa::darCartaDelBuche': no todas las rutas de acceso de control devuelven un valor
   4amigo.vcxproj -> C:\Users\COREP\source\repos\4amigo\bin\Debug\4amigo.exe
