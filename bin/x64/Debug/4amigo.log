@@ -1,0 +1,7 @@
+﻿  avance7.cpp
+C:\Users\COREP\source\repos\4amigo\src\avance7.cpp(227,25): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\4amigo\src\avance7.cpp(271,20): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\4amigo\src\avance7.cpp(284,20): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\4amigo\src\avance7.cpp(295,20): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\4amigo\src\avance7.cpp(317,34): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+  4amigo.vcxproj -> C:\Users\COREP\source\repos\4amigo\bin\Debug\4amigo.exe
