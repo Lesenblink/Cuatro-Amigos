@@ -34,6 +34,10 @@ En la carpeta docs/ puedes encontrar información sobre el desarrollo del juego 
 - Minutas
 - Reportes
 
+##Links
+link directo para la carpeta de drive donde se encuentran UMLs y videos de evidencia
+[https://drive.google.com/drive/folders/1rhC401uT-KJwbPrxzk_ZMvH8QvXDeMCY?usp=sharing](https://drive.google.com/drive/folders/1rhC401uT-KJwbPrxzk_ZMvH8QvXDeMCY?usp=sharing))
+
 ## Extra
 
 No olviden apoyar este proyecto, muchas gracias.
