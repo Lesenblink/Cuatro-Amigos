@@ -21,6 +21,7 @@ void GamePlay::cargar() {
     mesa->recibirCartasBarajeadas(*luigui);
 
     jugador1 = new Jugador(mesa->darCarta(), mesa->darCarta(), mesa->darCarta(), mesa->darCarta(), mesa->darCarta(), mesa->darCarta(), mesa->darCarta(), mesa->darCarta(), mesa->darCarta());
+    mesa->llenarBuche(mesa->darCarta());
 }
 
 GamePlay::GamePlay() {
@@ -73,7 +74,7 @@ void GamePlay::juego(){
 
 
                     }
-                    if (jugador1->numeroCartas() == 0 && jugador1->numeroCartasReserva() > 0) {  //Aquí le decimos al gamplay que si np hay cartas en la mano principal entonces pasar a la otra regla del gameplay
+                    if (jugador1->numeroCartas() == 0 && jugador1->numeroCartasReserva() > 0 && mesa->tamanoCartasTotales()==0) {  //Aquí le decimos al gamplay que si np hay cartas en la mano principal entonces pasar a la otra regla del gameplay
                         for (int y = 0; y < jugador1->numeroCartasReserva(); y++) { //For para las cartas de la mano reserva
                             if (jugador1->getCartaReserva(y).getGlobalBounds().contains(mousePos)) {  //Si el jugador hizo click entonces...
 

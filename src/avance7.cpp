@@ -22,12 +22,11 @@ int main() {
 
 /*
 COSAS OBSERVADAS:
--Falta la mecanica para encadenar cartas como en el UNO y soltaras si tiene el mismo valor 
--Según yo, no deberá haber crasheos
--No sé si la forma que lo hice esté bien pero funciona, pero, creo que hay mejoras formas de hacer bien las mecanicas .
--Falta implemntar la mecánica al lanzar un 2
-- Faltan las IA y sistema de turnos, pero eso se puede hacer después de tener el gameplay completo.
-Aparte de lo nuevo:
--Es momento de mover todo a librerias.
--Solo es bueno tener una sola instancia de Ligui porque como es semilla.
+-Faltan el sistema de turnos
+-Tambien falta la IA
+-Falta el menu
+-Tarda en arrancar (creo que se puede optimizar mejor)
+-Falta la última meécanica, lanzar cartas encadenadas
+
+
 */
