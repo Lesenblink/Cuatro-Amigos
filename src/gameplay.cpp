@@ -6,8 +6,8 @@
 using namespace sf;
 //Funciones privadas
 void GamePlay::validarFonts() {
-    font.openFromFile("C:\\Windows\\Fonts\\arial.ttf");
-    font2.openFromFile("C:\\Windows\\Fonts\\arial.ttf");
+    font.openFromFile("../assets/arial.ttf");
+    font2.openFromFile("../assets/arial.ttf");
 
 }
 void GamePlay::cargar() {
@@ -40,7 +40,7 @@ void GamePlay::juego(){
                 Vector2f mousePos = window.mapPixelToCoords(Mouse::getPosition(window));
 
                 // ¿El clic fue dentro de la carta (posicion o posiciones)?
-                if (mesa->getCarta().getGlobalBounds().contains(mousePos) && jugador1->numeroCartas() < 3) {  //Aquí es donde sucede la mágia para comer cartas
+                if (mesa->tamanoCartasTotales() > 0 && mesa->getCarta().getGlobalBounds().contains(mousePos) && jugador1->numeroCartas() < 3 ) {  //Aquí es donde sucede la mágia para comer cartas
                     (*jugador1)+ mesa->darCarta();
 
                 }
@@ -84,7 +84,7 @@ void GamePlay::juego(){
 
                         }
                     }//
-                    if (jugador1->numeroCartas() == 0 && jugador1->numeroCartasReserva() == 0 && mesa->tamanoDelBuche() == 0) {
+                    if (jugador1->numeroCartas() == 0 && jugador1->numeroCartasReserva() == 0) {
                         for (int z = 0; z < jugador1->tamanoManoFinal(); z++) {
                             if (jugador1->getCartaManoFinal(z).getGlobalBounds().contains(mousePos)) {
 
@@ -129,8 +129,9 @@ void GamePlay::juego(){
             window.draw(mesa->getCartaBuche(i)); // Dibujar las cartas en el buche
         }
 
-
-        window.draw(mesa->getCarta());
+        if (mesa->tamanoCartasTotales() > 0) {
+            window.draw(mesa->getCarta());
+        }
         window.display();
     }
 }

@@ -48,6 +48,7 @@ Carta Mesa::darCarta() {
             return carta; //Regresa la copia guardada del objeto eliminado
         }
     }
+    throw runtime_error("No hay cartas disponibles");
 }
 Carta& Mesa::getCarta() {
     //Este for se adapta al tamaño del vector, el -1 es porque los vectores inician desde 0.
@@ -57,6 +58,7 @@ Carta& Mesa::getCarta() {
             return cartasTotales[i].back();
         }
     }
+    throw runtime_error("No hay cartas en el mazo");
 }
 int Mesa::tamanoCartasTotales() {      //Función para saber cuantas cartas hay en total en la mesa
     int totalDeCartas = 0; //Variable temporal
