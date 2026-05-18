@@ -513,6 +513,9 @@ int main() {
                                         if (jugador1.getCarta(x).getValor() == 10) { //Si la carta es un 10, se limpia el buche
                                             mesa.llenarBuche(jugador1.QuitarCarta(x));
                                             mesa.limpiarBuche();  // La mecanica es eliminar todo el buhce que hay con un 10 puesto
+                                        }else if(jugador1.getCarta(x).getValor() == 2)
+                                        {
+                                            mesa.llenarBuche(jugador1.QuitarCarta(x));
                                         }
                                         else {
                                         mesa.llenarBuche(jugador1.QuitarCarta(x)); // Mueve la carta al buche
