@@ -1,10 +1,19 @@
 ﻿  avance7.cpp
-C:\Users\COREP\source\repos\4amigo\src\avance7.cpp(190,25): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
-C:\Users\COREP\source\repos\4amigo\src\avance7.cpp(268,20): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
-C:\Users\COREP\source\repos\4amigo\src\avance7.cpp(279,20): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
-C:\Users\COREP\source\repos\4amigo\src\avance7.cpp(295,34): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
-C:\Users\COREP\source\repos\4amigo\src\avance7.cpp(302,24): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
-C:\Users\COREP\source\repos\4amigo\src\avance7.cpp(275,1): warning C4715: 'Mesa::darCarta': no todas las rutas de acceso de control devuelven un valor
-C:\Users\COREP\source\repos\4amigo\src\avance7.cpp(284,1): warning C4715: 'Mesa::getCarta': no todas las rutas de acceso de control devuelven un valor
-C:\Users\COREP\source\repos\4amigo\src\avance7.cpp(310,1): warning C4715: 'Mesa::darCartaDelBuche': no todas las rutas de acceso de control devuelven un valor
+  Carta.cpp
+  gameplay.cpp
+C:\Users\COREP\source\repos\4amigo\src\gameplay.cpp(9,22): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
+C:\Users\COREP\source\repos\4amigo\src\gameplay.cpp(10,23): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
+  Jugador.cpp
+C:\Users\COREP\source\repos\4amigo\src\Jugador.cpp(64,18): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\4amigo\src\Jugador.cpp(67,25): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\4amigo\src\Jugador.cpp(87,23): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+  Luigui.cpp
+  Mesa.cpp
+C:\Users\COREP\source\repos\4amigo\src\Mesa.cpp(44,16): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\4amigo\src\Mesa.cpp(56,16): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\4amigo\src\Mesa.cpp(66,35): warning C4267: '+=': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\4amigo\src\Mesa.cpp(80,30): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\4amigo\src\Mesa.cpp(87,20): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
+  Generando código...
+C:\Users\COREP\source\repos\4amigo\src\Mesa.cpp(95,1): warning C4715: 'Mesa::darCartaDelBuche': no todas las rutas de acceso de control devuelven un valor
   4amigo.vcxproj -> C:\Users\COREP\source\repos\4amigo\bin\Debug\4amigo.exe
