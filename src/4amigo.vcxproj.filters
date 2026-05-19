@@ -50,5 +50,11 @@
     <ClInclude Include="gameplay.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+<<<<<<< HEAD
+=======
+    <ClInclude Include="Bot.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+>>>>>>> 0cb4faacb84d8c46680c17aef0860b37bf9a8e78
   </ItemGroup>
 </Project>

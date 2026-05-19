@@ -97,6 +97,15 @@ void Carta::crearSimbolo() {
 		//3. El punto 2 es la punta inferior del diamante
         simbolo.setPoint(2, Vector2f(0.f, 40.f));
 		//4. El punto 3 es la punta izquierda del diamante
+        simbolo.setPointCount(4);
+        //1. Usamos 4 puntos para definir la forma de diamante
+        simbolo.setPoint(0, Vector2f(0.f, -40.f));
+        //2. El orden de los puntos es importante para que se dibuje correctamente
+        simbolo.setPoint(1, Vector2f(30.f, 0.f));
+        //3. El punto 2 es la punta inferior del diamante
+        simbolo.setPoint(2, Vector2f(0.f, 40.f));
+        //4. El punto 3 es la punta izquierda del diamante
+>>>>>>> 0cb4faacb84d8c46680c17aef0860b37bf9a8e78
         simbolo.setPoint(3, Vector2f(-30.f, 0.f));
     }
 
@@ -112,13 +121,20 @@ void Carta::configurarTexto() {
 	numero.setFillColor(color);
 	numero.setPosition(Vector2f(5.f, 5.f));
 	numeroAbajo.setCharacterSize(20);   // Configuramos el texto del número de abajo
-	numeroAbajo.setFillColor(color);
+    numeroAbajo.setFillColor(color);
+    numero.setCharacterSize(20);   // Configuramos el texto del número
+    numero.setFillColor(color);
+    numero.setPosition(Vector2f(5.f, 5.f));
+    numeroAbajo.setCharacterSize(20);   // Configuramos el texto del número de abajo
+    numeroAbajo.setFillColor(color);
+
     numeroAbajo.setPosition(Vector2f(80.f, 110.f)); // Gira el número para que se vea al revés
 }
 
 
 // Esta función le dice a la ventana qué orden seguir para dibujar la carta. Estoy aquí redefiniendo la función draw de la clase Drawable
  void Carta::draw(RenderTarget& target, RenderStates states) const  {
+void Carta::draw(RenderTarget& target, RenderStates states) const {
     if (enJuego == true) {
         states.transform *= getTransform(); // Aplica movimiento y rotación
         target.draw(forma, states);         // 1. Dibuja el fondo
@@ -147,7 +163,7 @@ Carta::Carta(Color color, string valor, const sf::Font* font, const Font* font2,
     crearSimbolo();
     configurarTexto();
     setPosition(Vector2f(800.f, 300.f));  //Posición inicial
-    
+
 }
 int Carta::getValor() {
 
@@ -173,4 +189,11 @@ void Carta::voltear() {
 void Carta::aparecerAlreves() { //Funcion para aparecer la carta alreves
     enJuego = false;
 
+
+}
+bool Carta::getHItBox() const { //Función para obtener el valor de la hitbox
+    return hitBox;
+}
+void Carta::setHitBox(bool valor) { //Función para establecer el valor de la hitbox
+    hitBox = valor;
 }

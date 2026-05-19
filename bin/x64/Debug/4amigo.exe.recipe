@@ -2,7 +2,11 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
+<<<<<<< HEAD
       <FullPath>C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\bin\Debug\4amigo.exe</FullPath>
+=======
+      <FullPath>C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\bin\Debug\4amigo.exe</FullPath>
+>>>>>>> 0cb4faacb84d8c46680c17aef0860b37bf9a8e78
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />
