@@ -6,19 +6,32 @@ using namespace std;
 //Funciones Private
 void Jugador::definirPosicionMano() {
     for (int i = 0; i < mano.size(); i++) {
-        mano[i].setPosition(Vector2f(700.f - i * 50.f, 700.f)); //Posicion de las cartas de la mano principal
+        mano[i].setPosition(Vector2f(900.f - i * 70.f, 650.f)); //Posicion de las cartas de la mano principal
     }
 }
 void Jugador::definirPosicionManoReserva() {
 	for (int i = 0; i < manoReserva.size(); i++) {
-		manoReserva[i].setPosition(Vector2f(700.f - i * 50.f, 520.f)); // Posiciona las cartas de la mano reserva
+		manoReserva[i].setPosition(Vector2f(1240.f - i * 50.f, 520.f)); // Posiciona las cartas de la mano reserva
 	}
 }
 void Jugador::definirPosicionManoFinal() {
 	for (int i = 0; i < manoFinal.size(); i++) {
-		manoFinal[i].setPosition(Vector2f(1000.f - i * 50.f, 700.f)); // Posiciona las cartas de la mano final
+		manoFinal[i].setPosition(Vector2f(1240.f - i * 50.f, 690.f)); // Posiciona las cartas de la mano final
 	}
 }
+
+void Jugador::separarCarta(Vector2f mousePos) {
+	for (int i = 0; i < mano.size(); i++) {
+		if (mano[i].getGlobalBounds().contains(mousePos)) {
+			mano[i].setPosition(Vector2f(900.f - i * 70.f, 670.f));
+		}
+		else {
+			mano[i].setPosition(Vector2f(900.f - i * 70.f, 700.f));
+		}
+	}
+}//separar la carta de las demás (cuestión de hitbox)
+
+
 // public
 
 Jugador::Jugador(Carta  carta1, Carta carta2, Carta carta3, Carta  carta4, Carta  carta5, Carta  carta6, Carta  carta7, Carta  carta8, Carta  carta9, int num) : numeroJugador(num) {
@@ -40,7 +53,7 @@ Jugador::Jugador(Carta  carta1, Carta carta2, Carta carta3, Carta  carta4, Carta
 }
 void Jugador::operator+(Carta carta) {  //Función sobrecargada para comer 
 	mano.push_back(carta); // Agrega la carta a la última  de la mano
-	mano.back().setPosition(Vector2f(700.f - (mano.size() - 1) * 50.f, 700.f)); // Aquí acomoda la posicion de la nueva carta a la mano
+	mano.back().setPosition(Vector2f(900.f - (mano.size() - 1) * 70.f, 700.f)); // Aquí acomoda la posicion de la nueva carta a la mano
 }
 Carta& Jugador::getCarta(int  posicion) {
 	return mano[posicion];

@@ -13,7 +13,9 @@ void Mesa::crearMazo(const sf::Font& font, const Font& font2) {
             // Si el número es mayor a 10, usa las letras (J, Q, K, A)
             string v = (i <= 10) ? to_string(i) : especiales[i - 11];
             string u = v;
-            pinta.push_back(Carta(colores[j], v, &font, &font2, u));
+            Carta carta(colores[j], v, &font, &font2, u);
+            carta.aparecerAlreves();//para que aparezca al revez
+			pinta.push_back(carta);//Agrega la carta al vector temporal de esa fila
         }
         cartasTotales.push_back(pinta);
 

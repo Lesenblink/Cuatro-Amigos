@@ -20,8 +20,27 @@ void GamePlay::cargar() {
     luigui->mesclarBaraja();
     mesa->recibirCartasBarajeadas(*luigui);
 
-    jugador1 = new Jugador(mesa->darCarta(), mesa->darCarta(), mesa->darCarta(), mesa->darCarta(), mesa->darCarta(), mesa->darCarta(), mesa->darCarta(), mesa->darCarta(), mesa->darCarta());
-    mesa->llenarBuche(mesa->darCarta());
+    Carta c1 = mesa->darCarta(); c1.voltear();//poner todas volteadas al inicio
+    Carta c2 = mesa->darCarta(); c2.voltear();
+    Carta c3 = mesa->darCarta(); c3.voltear();
+    Carta c4 = mesa->darCarta(); c4.voltear();
+    Carta c5 = mesa->darCarta(); c5.voltear();
+    Carta c6 = mesa->darCarta(); c6.voltear();
+    Carta c7 = mesa->darCarta(); c7.voltear();
+    Carta c8 = mesa->darCarta(); c8.voltear();
+    Carta c9 = mesa->darCarta(); c9.voltear();
+
+    jugador1 = new Jugador(c1, c2, c3, c4, c5, c6, c7, c8, c9);//darselas al jugador
+    Carta inicial = mesa->darCarta();//inicializar variable para voltear la primera carta de el buche (las que se sueltan)
+    inicial.voltear();
+    mesa->llenarBuche(inicial);
+
+	//musica de fondo
+    if (musica.openFromFile("../assets/musica.mp3")) {
+        musica.setLooping(true);  // Se repite en loop
+        musica.setVolume(50.f);   // Volumen del 0 al 100
+        musica.play();
+    }
 }
 
 GamePlay::GamePlay() {
@@ -40,14 +59,16 @@ void GamePlay::juego(){
                 Vector2f mousePos = window.mapPixelToCoords(Mouse::getPosition(window));
 
                 // ¿El clic fue dentro de la carta (posicion o posiciones)?
-                if (mesa->tamanoCartasTotales() > 0 && mesa->getCarta().getGlobalBounds().contains(mousePos) && jugador1->numeroCartas() < 3 ) {  //Aquí es donde sucede la mágia para comer cartas
-                    (*jugador1)+ mesa->darCarta();
-
+                if (mesa->tamanoCartasTotales() > 0 && mesa->getCarta().getGlobalBounds().contains(mousePos) && jugador1->numeroCartas() < 3) {
+                    Carta nueva = mesa->darCarta();
+                    nueva.voltear();
+                    (*jugador1) + nueva;
                 }
                 else   if (mesa->tamanoDelBuche() > 0 && mesa->getBuche().getGlobalBounds().contains(mousePos)) { //En si no se porque no agarra todas las cartas del buche de una. 
-                    while (mesa->tamanoDelBuche() > 0) {  //Un while mientras haya cartas en el buche entonces agarrar  para agarrar las cartas
-                        (*jugador1) + mesa->darCartaDelBuche(); // Aquí se come la carta del buche                      
-
+                    while (mesa->tamanoDelBuche() > 0) {
+                        Carta delBuche = mesa->darCartaDelBuche();
+                        delBuche.voltear();
+                        (*jugador1) + delBuche;
                     }
 
                 }
@@ -110,6 +131,8 @@ void GamePlay::juego(){
 
         }
 
+		Vector2f mousePos = window.mapPixelToCoords(Mouse::getPosition(window)); //manda las coordenadas del mouse a una variable para usarla en la función de separar carta
+        jugador1->separarCarta(mousePos);
 
         //Limpiamos la pantalla y redibujamos todo en su nueva posición
         window.clear();

@@ -29,5 +29,5 @@ public:
 	int tamanoManoFinal(); //Función para saber cuantas cartas tiene la mano final
 	Carta& gettamanoManoFinal(int  posicion);  //Función para obtener una carta de la mano final
 	Carta darCartaFinal(int x);     //Damos la carta de la mano final
-
+	void separarCarta(Vector2f mousePos);//para separar la carte de las demas (cuestion de hitbox)
 };
