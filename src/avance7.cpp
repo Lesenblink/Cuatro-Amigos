@@ -10,8 +10,6 @@
 using namespace sf;
 using namespace std;
 
-
-
 //motor del juego
 int main() {
     // Intentamos cargar la fuente de letra de Windows
