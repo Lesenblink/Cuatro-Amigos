@@ -1,6 +1,20 @@
-﻿  avance7.cpp
+﻿  Carta.cpp
+  Jugador.cpp
+C:\Users\COREP\source\repos\4amigo\src\Jugador.cpp(77,18): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\4amigo\src\Jugador.cpp(80,25): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\4amigo\src\Jugador.cpp(100,23): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+  Luigui.cpp
+  Mesa.cpp
+C:\Users\COREP\source\repos\4amigo\src\Mesa.cpp(46,16): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\4amigo\src\Mesa.cpp(58,16): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\4amigo\src\Mesa.cpp(68,35): warning C4267: '+=': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\4amigo\src\Mesa.cpp(82,30): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\4amigo\src\Mesa.cpp(89,20): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
+  avance7.cpp
   gameplay.cpp
 C:\Users\COREP\source\repos\4amigo\src\gameplay.cpp(9,22): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
 C:\Users\COREP\source\repos\4amigo\src\gameplay.cpp(10,23): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
   Generando código...
+C:\Users\COREP\source\repos\4amigo\src\Mesa.cpp(97,1): warning C4715: 'Mesa::darCartaDelBuche': no todas las rutas de acceso de control devuelven un valor
+  LINK : no se encontró C:\Users\COREP\source\repos\4amigo\src\..\bin\Debug\4amigo.exe o no lo generó el último vínculo incremental; ejecutando vínculo completo
   4amigo.vcxproj -> C:\Users\COREP\source\repos\4amigo\bin\Debug\4amigo.exe
