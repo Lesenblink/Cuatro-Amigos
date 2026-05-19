@@ -20,8 +20,27 @@ void GamePlay::cargar() {
     luigui->mesclarBaraja();
     mesa->recibirCartasBarajeadas(*luigui);
 
-    jugador1 = new Jugador(mesa->darCarta(), mesa->darCarta(), mesa->darCarta(), mesa->darCarta(), mesa->darCarta(), mesa->darCarta(), mesa->darCarta(), mesa->darCarta(), mesa->darCarta());
-    mesa->llenarBuche(mesa->darCarta());
+    Carta c1 = mesa->darCarta(); c1.voltear();//poner todas volteadas al inicio
+    Carta c2 = mesa->darCarta(); c2.voltear();
+    Carta c3 = mesa->darCarta(); c3.voltear();
+    Carta c4 = mesa->darCarta(); c4.voltear();
+    Carta c5 = mesa->darCarta(); c5.voltear();
+    Carta c6 = mesa->darCarta(); c6.voltear();
+    Carta c7 = mesa->darCarta(); c7.voltear();
+    Carta c8 = mesa->darCarta(); c8.voltear();
+    Carta c9 = mesa->darCarta(); c9.voltear();
+
+    jugador1 = new Jugador(c1, c2, c3, c4, c5, c6, c7, c8, c9);
+    Carta inicial = mesa->darCarta();//inicializar variable para voltear la primera carta de el buche (las que se sueltan)
+    inicial.voltear();
+    mesa->llenarBuche(inicial);
+   
+    //musica de fondo
+    if (musica.openFromFile("../assets/musica.mp3")) {
+        musica.setLooping(true);  // Se repite en loop
+        musica.setVolume(50.f);   // Volumen del 0 al 100
+        musica.play();
+    }
 }
 
 GamePlay::GamePlay() {
@@ -31,6 +50,34 @@ GamePlay::GamePlay() {
 }
 
 /*----------------------------------------LOGIA DEL JUEGO DESGLOSADA EN FUNCIONES -----------------------------------------------------------*/
+void GamePlay::hitboxMano() {
+
+    Vector2f temporalMouse =
+        window.mapPixelToCoords(Mouse::getPosition(window));
+
+     estaLevantada = false;
+
+    for (int i = jugador1->numeroCartas() - 1; i >= 0; i--) {
+
+         jugador1->getCarta(i).setPosition(Vector2f(700.f - i * 50.f, 700.f));
+      
+        
+
+        if (!estaLevantada && jugador1->getCarta(i).getGlobalBounds().contains(temporalMouse) )
+        {
+            jugador1->getCarta(i).setPosition(Vector2f(700.f - i * 50.f, 650.f));
+			   jugador1->getCarta(i).setHitBox(true);
+            estaLevantada = true;
+			jugador1->getCarta(i).setHitBox(true);
+        }
+        else {
+
+            jugador1->getCarta(i).setPosition(Vector2f(700.f - i * 50.f, 700.f));
+            jugador1->getCarta(i).setHitBox(false);
+        }
+    }
+}
+
 void GamePlay::eventos() {   // Aquí manejamos la función de los eventos
 	while (const auto event = window.pollEvent()) {
 		if (event->is<Event::Closed>())
@@ -49,7 +96,9 @@ void GamePlay::comerCarta() {
 
     // ¿El clic fue dentro de la carta (posicion o posiciones)?
     if (mesa->tamanoCartasTotales() > 0 && mesa->getCarta().getGlobalBounds().contains(mousePos) && jugador1->numeroCartas() < 3) {  //Aquí es donde sucede la mágia para comer cartas
-        (*jugador1) + mesa->darCarta();
+        Carta nueva = mesa->darCarta();
+        nueva.voltear();
+        (*jugador1) + nueva;
         click = false;
     }
 }
@@ -58,9 +107,9 @@ void GamePlay::comerCartaBuche() {
         cout << mesa->tamanoDelBuche() << endl;
         while (mesa->tamanoDelBuche() > 0) {  //Un while mientras haya cartas en el buche entonces agarrar  para agarrar las cartas
             cout << "Sacando carta\n";
-
-            (*jugador1) + mesa->darCartaDelBuche(); // Aquí se come la carta del buche                      
-
+            Carta delBuche = mesa->darCartaDelBuche();
+            delBuche.voltear();
+            (*jugador1) + delBuche;
         }
         click = false;
 
@@ -69,7 +118,7 @@ void GamePlay::comerCartaBuche() {
 void GamePlay::dejarCartas() {
 
     for (int x = 0; x < jugador1->numeroCartas(); x++) {   //Aquí con este for ayuda a dejar las cartas.
-        if (jugador1->getCarta(x).getGlobalBounds().contains(mousePos)) {   //Si el jugador hizo click entonces...
+        if (jugador1->getCarta(x).getGlobalBounds().contains(mousePos) && jugador1->getCartaHitBox(x)) {   //Si el jugador hizo click entonces...
 
             //Mecanica para el número 10
             if ((mesa->tamanoDelBuche() == 0 || jugador1->getCarta(x).getValor() >= mesa->getBuche().getValor() || jugador1->getCarta(x).getValor() == 10 || jugador1->getCarta(x).getValor() == 2)) {
@@ -157,9 +206,11 @@ void GamePlay::dibujar() {
 
 //********************************************************************
 void GamePlay::juego(){
-    
+                hitboxMano();
+             dibujar();
                 if(!click)
 					return; // Si no se hizo clic, no hacemos nada
+               
                 comerCarta();
                 // ¿El clic fue dentro de la carta (posicion o posiciones)?
                 comerCartaBuche(); 
@@ -167,7 +218,9 @@ void GamePlay::juego(){
                 jugarCartasReserva();
                 jugarCartasFinal();
                 limpiar4Buhce();
-				dibujar();
+                mousePos = window.mapPixelToCoords(Mouse::getPosition(window));
+                jugador1->separarCarta(mousePos);
+               
                 click = false;
 }
 void GamePlay::ejecutarJuego() {

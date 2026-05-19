@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <SFML/Audio.hpp>
 class Mesa;
 class Luigui;
 class Carta;
@@ -15,6 +16,8 @@ private:
 	Jugador* jugador1;
 	Font font, font2;
 	Vector2f mousePos;
+	Music musica;
+	bool estaLevantada; //Variable para separar las cosas.
 	bool click;  //Variable para separar las cosas. 
 	bool turno;
 	int cadenaComodin;
@@ -29,6 +32,7 @@ private:
 	void jugarCartasFinal();
 	void limpiar4Buhce();
 	void dibujar();
+	void hitboxMano();
 public:
 	
 	GamePlay();

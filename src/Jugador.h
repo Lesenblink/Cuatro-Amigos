@@ -13,7 +13,7 @@ private:
 	void definirPosicionMano();  //Separamos el constructor (Los for) en funciones miembro privadas.
 	void definirPosicionManoReserva();
 	void definirPosicionManoFinal();
-
+	
 public:
 	Jugador(Carta  carta1, Carta carta2, Carta carta3, Carta  carta4, Carta  carta5, Carta  carta6, Carta  carta7, Carta  carta8, Carta  carta9, int num = 1);
 	void operator+(Carta carta);  //Función sobrecargada para comer 
@@ -29,5 +29,6 @@ public:
 	int tamanoManoFinal(); //Función para saber cuantas cartas tiene la mano final
 	Carta& gettamanoManoFinal(int  posicion);  //Función para obtener una carta de la mano final
 	Carta darCartaFinal(int x);     //Damos la carta de la mano final
-
+	void separarCarta(Vector2f mousePos);
+	bool getCartaHitBox(int x); //Función para obtener el valor de la hitbox
 };

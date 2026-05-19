@@ -12,6 +12,7 @@ private:
     bool enJuego;
     const Font* font;
     const Font* font2;
+	bool hitBox; // Variable para hacer validaciones con la hitbox
     Text numero;
     Text numeroAbajo;// para mostrar el número 
     RectangleShape forma; // El cuerpo de la carta
@@ -34,6 +35,8 @@ public:
 	Vector2f getPos() const; //Función para tener la posición de la carta
     void voltear();
 	void aparecerAlreves(); //Funcion para aparecer la carta alreves
+	bool getHItBox() const; //Función para obtener el valor de la hitbox
+	void setHitBox(bool valor); //Función para establecer el valor de la hitbox
 };
 
 

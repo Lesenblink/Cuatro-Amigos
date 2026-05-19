@@ -174,3 +174,9 @@ void Carta::aparecerAlreves() { //Funcion para aparecer la carta alreves
     enJuego = false;
 
 }
+bool Carta::getHItBox() const { //Función para obtener el valor de la hitbox
+    return hitBox;
+}
+void Carta::setHitBox(bool valor) { //Función para establecer el valor de la hitbox
+	hitBox = valor;
+}
