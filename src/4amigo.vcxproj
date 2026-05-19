@@ -20,8 +20,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="avance7.cpp" />
+    <ClCompile Include="Carta.cpp" />
+    <ClCompile Include="gameplay.cpp" />
+    <ClCompile Include="Jugador.cpp" />
+    <ClCompile Include="Luigui.cpp" />
+    <ClCompile Include="Mesa.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Carta.h" />
+    <ClInclude Include="gameplay.h" />
+    <ClInclude Include="Jugador.h" />
+    <ClInclude Include="Luigui.h" />
+    <ClInclude Include="Mesa.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
