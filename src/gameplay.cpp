@@ -11,10 +11,10 @@ void GamePlay::validarFonts() {
 
 }
 void GamePlay::cargar() {
-	
-	window.create(VideoMode(Vector2u(1400, 900)), "4 amigos");
-	mesa = new Mesa(font, font2);
-	luigui = new Luigui();
+
+    window.create(VideoMode(Vector2u(1400, 900)), "4 amigos");
+    mesa = new Mesa(font, font2);
+    luigui = new Luigui();
 
     luigui->recibirBaraja(mesa->darTodasLasCartas());
     luigui->mesclarBaraja();
@@ -34,7 +34,7 @@ void GamePlay::cargar() {
     Carta inicial = mesa->darCarta();//inicializar variable para voltear la primera carta de el buche (las que se sueltan)
     inicial.voltear();
     mesa->llenarBuche(inicial);
-   
+
     //musica de fondo
     if (musica.openFromFile("../assets/musica.mp3")) {
         musica.setLooping(true);  // Se repite en loop
@@ -44,7 +44,7 @@ void GamePlay::cargar() {
 }
 
 GamePlay::GamePlay() {
-	click = false;
+    click = false;
     validarFonts();
     cargar();
 }
@@ -55,20 +55,20 @@ void GamePlay::hitboxMano() {
     Vector2f temporalMouse =
         window.mapPixelToCoords(Mouse::getPosition(window));
 
-     estaLevantada = false;
+    estaLevantada = false;
 
     for (int i = jugador1->numeroCartas() - 1; i >= 0; i--) {
 
-         jugador1->getCarta(i).setPosition(Vector2f(700.f - i * 50.f, 700.f));
-      
-        
+        jugador1->getCarta(i).setPosition(Vector2f(700.f - i * 50.f, 700.f));
 
-        if (!estaLevantada && jugador1->getCarta(i).getGlobalBounds().contains(temporalMouse) )
+
+
+        if (!estaLevantada && jugador1->getCarta(i).getGlobalBounds().contains(temporalMouse))
         {
             jugador1->getCarta(i).setPosition(Vector2f(700.f - i * 50.f, 650.f));
-			   jugador1->getCarta(i).setHitBox(true);
+            jugador1->getCarta(i).setHitBox(true);
             estaLevantada = true;
-			jugador1->getCarta(i).setHitBox(true);
+            jugador1->getCarta(i).setHitBox(true);
         }
         else {
 
@@ -79,9 +79,9 @@ void GamePlay::hitboxMano() {
 }
 
 void GamePlay::eventos() {   // Aquí manejamos la función de los eventos
-	while (const auto event = window.pollEvent()) {
-		if (event->is<Event::Closed>())
-			window.close();
+    while (const auto event = window.pollEvent()) {
+        if (event->is<Event::Closed>())
+            window.close();
         if (auto mouseEvent = event->getIf<Event::MouseButtonPressed>()) {  // Si el usuario presiona el botón izquierdo del mouse
             if (mouseEvent->button == Mouse::Button::Left) {
 
@@ -90,7 +90,7 @@ void GamePlay::eventos() {   // Aquí manejamos la función de los eventos
 
             }
         }
-	}
+    }
 }
 void GamePlay::comerCarta() {
 
@@ -172,68 +172,67 @@ void GamePlay::jugarCartasFinal() {
     }
 }
 void GamePlay::limpiar4Buhce() {
-	if (mesa->tamanoDelBuche() >= 4) {   //Mecanica para eliminar el buche cuando hay 4 cartas con el mismo valor
-		int a = mesa->tamanoDelBuche() - 1;  //variable temporal del mismo tamaño del vector 
-		int valorCarta1 = mesa->valorDeCartaBuche(a);  //Variables temporales 
-		int valorCarta2 = mesa->valorDeCartaBuche(a - 1);
-		int valorCarta3 = mesa->valorDeCartaBuche(a - 2);
-		int valorCarta4 = mesa->valorDeCartaBuche(a - 3);
-		if (valorCarta1 == valorCarta2 && valorCarta2 == valorCarta3 && valorCarta3 == valorCarta4)  //Si las 4 son iguales entonces limpiar buhce 
-			mesa->limpiarBuche();
-	}
+    if (mesa->tamanoDelBuche() >= 4) {   //Mecanica para eliminar el buche cuando hay 4 cartas con el mismo valor
+        int a = mesa->tamanoDelBuche() - 1;  //variable temporal del mismo tamaño del vector 
+        int valorCarta1 = mesa->valorDeCartaBuche(a);  //Variables temporales 
+        int valorCarta2 = mesa->valorDeCartaBuche(a - 1);
+        int valorCarta3 = mesa->valorDeCartaBuche(a - 2);
+        int valorCarta4 = mesa->valorDeCartaBuche(a - 3);
+        if (valorCarta1 == valorCarta2 && valorCarta2 == valorCarta3 && valorCarta3 == valorCarta4)  //Si las 4 son iguales entonces limpiar buhce 
+            mesa->limpiarBuche();
+    }
 }
 void GamePlay::dibujar() {
-	window.clear();
-	window.draw(mesa->getBorde()); // Dibujar el marco
-	window.draw(*mesa);           // Dibujar el tapete verde
-	for (int i = 0; i < jugador1->numeroCartas(); i++) {  //Dibjuar las cartas y este for se adapta al tamaño de la mano del jugador
-		window.draw(jugador1->getCarta(i)); // Dibujar las cartas del jugador
-	}
-	for (int i = 0; i < jugador1->numeroCartasReserva(); i++) {  //Dibjuar las cartas y este for se adapta al tamaño de la mano del jugador
-		window.draw(jugador1->getCartaReserva(i)); // Dibujar las cartas del jugador
-	}
-	for (int i = 0; i < jugador1->tamanoManoFinal(); i++) {  //Dibjuar las cartas y este for se adapta al tamaño de la mano del jugador
-		window.draw(jugador1->getCartaManoFinal(i)); // Dibujar las cartas del jugador
-	}
-	for (int i = 0; i < mesa->tamanoDelBuche(); i++) {// Dibuja la ultima carta del buche
-		window.draw(mesa->getCartaBuche(i)); // Dibujar las cartas en el buche
-	}
-	if (mesa->tamanoCartasTotales() > 0) {
-		window.draw(mesa->getCarta());
-	}
-	window.display();
+    window.clear();
+    window.draw(mesa->getBorde()); // Dibujar el marco
+    window.draw(*mesa);           // Dibujar el tapete verde
+    for (int i = 0; i < jugador1->numeroCartas(); i++) {  //Dibjuar las cartas y este for se adapta al tamaño de la mano del jugador
+        window.draw(jugador1->getCarta(i)); // Dibujar las cartas del jugador
+    }
+    for (int i = 0; i < jugador1->numeroCartasReserva(); i++) {  //Dibjuar las cartas y este for se adapta al tamaño de la mano del jugador
+        window.draw(jugador1->getCartaReserva(i)); // Dibujar las cartas del jugador
+    }
+    for (int i = 0; i < jugador1->tamanoManoFinal(); i++) {  //Dibjuar las cartas y este for se adapta al tamaño de la mano del jugador
+        window.draw(jugador1->getCartaManoFinal(i)); // Dibujar las cartas del jugador
+    }
+    for (int i = 0; i < mesa->tamanoDelBuche(); i++) {// Dibuja la ultima carta del buche
+        window.draw(mesa->getCartaBuche(i)); // Dibujar las cartas en el buche
+    }
+    if (mesa->tamanoCartasTotales() > 0) {
+        window.draw(mesa->getCarta());
+    }
+    window.display();
 }
 
 //********************************************************************
-void GamePlay::juego(){
-                hitboxMano();
-             dibujar();
-                if(!click)
-					return; // Si no se hizo clic, no hacemos nada
-               
-                comerCarta();
-                // ¿El clic fue dentro de la carta (posicion o posiciones)?
-                comerCartaBuche(); 
-                dejarCartas();
-                jugarCartasReserva();
-                jugarCartasFinal();
-                limpiar4Buhce();
-                mousePos = window.mapPixelToCoords(Mouse::getPosition(window));
-                jugador1->separarCarta(mousePos);
-               
-                click = false;
+void GamePlay::juego() {
+    hitboxMano();
+    dibujar();
+    if (!click)
+        return; // Si no se hizo clic, no hacemos nada
+
+    comerCarta();
+    // ¿El clic fue dentro de la carta (posicion o posiciones)?
+    comerCartaBuche();
+    dejarCartas();
+    jugarCartasReserva();
+    jugarCartasFinal();
+    limpiar4Buhce();
+    mousePos = window.mapPixelToCoords(Mouse::getPosition(window));
+    jugador1->separarCarta(mousePos);
+
+    click = false;
 }
 void GamePlay::ejecutarJuego() {
     void validarFonts();
     void cargar();
     while (window.isOpen()) {
         eventos();
-        
+
         juego();
     }
     delete mesa;
     delete jugador1;
-	delete luigui;
-	
-}
+    delete luigui;
 
+}

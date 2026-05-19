@@ -34,9 +34,9 @@ private:
 	void dibujar();
 	void hitboxMano();
 public:
-	
+
 	GamePlay();
 	void ejecutarJuego();
-	
+
 
 };

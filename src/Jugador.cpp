@@ -5,9 +5,9 @@ using namespace std;
 
 //Funciones Private
 void Jugador::definirPosicionMano() {
-    for (int i = 0; i < mano.size(); i++) {
-        mano[i].setPosition(Vector2f(900.f - i * 70.f, 650.f)); //Posicion de las cartas de la mano principal
-    }
+	for (int i = 0; i < mano.size(); i++) {
+		mano[i].setPosition(Vector2f(900.f - i * 70.f, 650.f)); //Posicion de las cartas de la mano principal
+	}
 }
 void Jugador::definirPosicionManoReserva() {
 	for (int i = 0; i < manoReserva.size(); i++) {
@@ -121,4 +121,3 @@ bool Jugador::getCartaHitBox(int x) {
 		throw out_of_range("Índice fuera de rango");//Detenemos el programa si el indice es incorrecto y lanzamos un mensaje de error 
 	}
 }
-
