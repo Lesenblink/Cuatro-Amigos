@@ -1,6 +1,5 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
 #include <iostream>
 #include <SFML/Audio.hpp>
 class Mesa;
@@ -11,7 +10,6 @@ class Jugador;
 using namespace sf;
 class GamePlay {
 private:
-	sf::Music musica;
 	RenderWindow window;
 	Mesa* mesa;
 	Luigui* luigui;
@@ -36,9 +34,9 @@ private:
 	void dibujar();
 	void hitboxMano();
 public:
-	
+
 	GamePlay();
 	void ejecutarJuego();
-	
+
 
 };
