@@ -235,4 +235,8 @@ void GamePlay::ejecutarJuego() {
     delete jugador1;
     delete luigui;
 
+
 }
+
+
+
