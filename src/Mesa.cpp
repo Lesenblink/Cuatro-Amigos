@@ -15,7 +15,11 @@ void Mesa::crearMazo(const sf::Font& font, const Font& font2) {
             string u = v;
             Carta carta(colores[j], v, &font, &font2, u);
             carta.aparecerAlreves();//para que aparezca al revez
+<<<<<<< HEAD
             pinta.push_back(carta);//Agrega la carta al vector temporal de esa fila
+=======
+			pinta.push_back(carta);//Agrega la carta al vector temporal de esa fila
+>>>>>>> cd1a9651eeda2158d67db7627bf1b647cfee082d
         }
         cartasTotales.push_back(pinta);
 

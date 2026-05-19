@@ -17,6 +17,7 @@ void Jugador::definirPosicionManoReserva() {
 void Jugador::definirPosicionManoFinal() {
 	for (int i = 0; i < manoFinal.size(); i++) {
 		manoFinal[i].setPosition(Vector2f(1240.f - i * 50.f, 690.f)); // Posiciona las cartas de la mano final
+<<<<<<< HEAD
 	}
 
 }
@@ -29,8 +30,23 @@ void Jugador::separarCarta(Vector2f mousePos) { //Separar las cartas de la mano 
 		else {
 			mano[i].setPosition(Vector2f(900.f - i * 70.f, 700.f));
 		}
+=======
+>>>>>>> cd1a9651eeda2158d67db7627bf1b647cfee082d
 	}
 }
+
+void Jugador::separarCarta(Vector2f mousePos) {
+	for (int i = 0; i < mano.size(); i++) {
+		if (mano[i].getGlobalBounds().contains(mousePos)) {
+			mano[i].setPosition(Vector2f(900.f - i * 70.f, 670.f));
+		}
+		else {
+			mano[i].setPosition(Vector2f(900.f - i * 70.f, 700.f));
+		}
+	}
+}//separar la carta de las demás (cuestión de hitbox)
+
+
 // public
 
 Jugador::Jugador(Carta  carta1, Carta carta2, Carta carta3, Carta  carta4, Carta  carta5, Carta  carta6, Carta  carta7, Carta  carta8, Carta  carta9, int num) : numeroJugador(num) {
