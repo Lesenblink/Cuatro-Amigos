@@ -14,13 +14,21 @@ private:
 	Luigui* luigui;
 	Jugador* jugador1;
 	Font font, font2;
-	
+	Vector2f mousePos;
+	bool click;  //Variable para separar las cosas. 
 	bool turno;
 	int cadenaComodin;
-	void validarFonts();
+	void validarFonts();  //Separar la logica 
 	void cargar();
-
+	void comerCarta();
 	void juego();
+	void eventos();
+	void comerCartaBuche();
+	void dejarCartas();
+	void jugarCartasReserva();
+	void jugarCartasFinal();
+	void limpiar4Buhce();
+	void dibujar();
 public:
 	
 	GamePlay();

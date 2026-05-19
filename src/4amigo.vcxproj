@@ -27,6 +27,7 @@
     <ClCompile Include="Mesa.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bot.h" />
     <ClInclude Include="Carta.h" />
     <ClInclude Include="gameplay.h" />
     <ClInclude Include="Jugador.h" />
