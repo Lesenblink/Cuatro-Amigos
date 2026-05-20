@@ -1,4 +1,44 @@
+<<<<<<< HEAD
+﻿  Carta.cpp
+  Jugador.cpp
+C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\Jugador.cpp(64,18): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\Jugador.cpp(67,25): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\Jugador.cpp(87,23): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+  Luigui.cpp
+  Mesa.cpp
+C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\Mesa.cpp(44,16): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\Mesa.cpp(56,16): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\Mesa.cpp(66,35): warning C4267: '+=': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\Mesa.cpp(80,30): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\Mesa.cpp(87,20): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
+  avance7.cpp
+C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\avance7.cpp(18,19): warning C4244: 'inicializando': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\avance7.cpp(19,19): warning C4244: 'inicializando': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\avance7.cpp(24,47): warning C4244: 'argumento': conversión de 'int' a 'T'; posible pérdida de datos
+C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\avance7.cpp(24,47): warning C4244:         with
+C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\avance7.cpp(24,47): warning C4244:         [
+C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\avance7.cpp(24,47): warning C4244:             T=float
+C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\avance7.cpp(24,47): warning C4244:         ]
+C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\avance7.cpp(24,40): warning C4244: 'argumento': conversión de 'int' a 'T'; posible pérdida de datos
+C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\avance7.cpp(24,40): warning C4244:         with
+C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\avance7.cpp(24,40): warning C4244:         [
+C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\avance7.cpp(24,40): warning C4244:             T=float
+C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\avance7.cpp(24,40): warning C4244:         ]
+C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\avance7.cpp(27,40): warning C4244: 'argumento': conversión de 'int' a 'T'; posible pérdida de datos
+C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\avance7.cpp(27,40): warning C4244:         with
+C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\avance7.cpp(27,40): warning C4244:         [
+C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\avance7.cpp(27,40): warning C4244:             T=float
+C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\avance7.cpp(27,40): warning C4244:         ]
+  gameplay.cpp
+C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\gameplay.cpp(9,22): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
+C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\gameplay.cpp(10,23): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
+  Generando código...
+C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\Mesa.cpp(95,1): warning C4715: 'Mesa::darCartaDelBuche': no todas las rutas de acceso de control devuelven un valor
+  LINK : no se encontró C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\..\bin\Debug\4amigo.exe o no lo generó el último vínculo incremental; ejecutando vínculo completo
+  4amigo.vcxproj -> C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\bin\Debug\4amigo.exe
+=======
 ﻿  avance7.cpp
+<<<<<<< HEAD
 C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\avance7.cpp(18,19): warning C4244: 'inicializando': conversión de 'float' a 'int'; posible pérdida de datos
 C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\avance7.cpp(19,19): warning C4244: 'inicializando': conversión de 'float' a 'int'; posible pérdida de datos
 C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\avance7.cpp(24,47): warning C4244: 'argumento': conversión de 'int' a 'T'; posible pérdida de datos
@@ -17,3 +57,24 @@ C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\avance7.cpp(27,40): war
 C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\avance7.cpp(27,40): warning C4244:             T=float
 C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\avance7.cpp(27,40): warning C4244:         ]
   4amigo.vcxproj -> C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\bin\Debug\4amigo.exe
+=======
+  Carta.cpp
+  gameplay.cpp
+C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\gameplay.cpp(9,22): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
+C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\gameplay.cpp(10,23): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
+  Jugador.cpp
+C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\Jugador.cpp(76,18): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\Jugador.cpp(79,25): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\Jugador.cpp(99,23): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+  Luigui.cpp
+  Mesa.cpp
+C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\Mesa.cpp(46,16): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\Mesa.cpp(58,16): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\Mesa.cpp(68,35): warning C4267: '+=': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\Mesa.cpp(82,30): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\Mesa.cpp(89,20): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
+  Generando código...
+C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\Mesa.cpp(97,1): warning C4715: 'Mesa::darCartaDelBuche': no todas las rutas de acceso de control devuelven un valor
+  4amigo.vcxproj -> C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\bin\Debug\4amigo.exe
+>>>>>>> 0cb4faacb84d8c46680c17aef0860b37bf9a8e78
+>>>>>>> 43da6d6f2c86c3c414286d2effad6f5fc907024f

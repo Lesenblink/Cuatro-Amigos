@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+	#pragma once
+=======
 #pragma once
+>>>>>>> 0cb4faacb84d8c46680c17aef0860b37bf9a8e78
 #include <SFML/Graphics.hpp>
 #include <string>
 using namespace sf;
@@ -12,7 +16,10 @@ private:
     bool enJuego;
     const Font* font;
     const Font* font2;
+<<<<<<< HEAD
+=======
     bool hitBox; // Variable para hacer validaciones con la hitbox
+>>>>>>> 0cb4faacb84d8c46680c17aef0860b37bf9a8e78
     Text numero;
     Text numeroAbajo;// para mostrar el número 
     RectangleShape forma; // El cuerpo de la carta
@@ -32,9 +39,18 @@ public:
     Carta(Color color, string valor, const sf::Font* font, const Font* font2, string valor2);
     int getValor();
     FloatRect getGlobalBounds() const;
+<<<<<<< HEAD
+	Vector2f getPos() const; //Función para tener la posición de la carta
+    void voltear();
+	void aparecerAlreves(); //Funcion para aparecer la carta alreves
+};
+
+
+=======
     Vector2f getPos() const; //Función para tener la posición de la carta
     void voltear();
     void aparecerAlreves(); //Funcion para aparecer la carta alreves
     bool getHItBox() const; //Función para obtener el valor de la hitbox
     void setHitBox(bool valor); //Función para establecer el valor de la hitbox
 };
+>>>>>>> 0cb4faacb84d8c46680c17aef0860b37bf9a8e78

@@ -1,2 +1,12 @@
+<<<<<<< HEAD
 PlatformToolSet=v145:VCToolArchitecture=Native64Bit:VCToolsVersion=14.51.36231:VCServicingVersionATL=14.51.36241:VCServicingVersionCrtHeaders=14.51.36241:VCServicingVersionCompilers=14.51.36241:TargetPlatformVersion=10.0.26100.0:
 Debug|x64|C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\|
+=======
+<<<<<<< HEAD
+PlatformToolSet=v145:VCToolArchitecture=Native64Bit:VCToolsVersion=14.51.36231:VCServicingVersionATL=14.51.36241:VCServicingVersionCrtHeaders=14.51.36241:VCServicingVersionCompilers=14.51.36241:TargetPlatformVersion=10.0.26100.0:
+Debug|x64|C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\src\|
+=======
+PlatformToolSet=v145:VCToolArchitecture=Native64Bit:VCToolsVersion=14.51.36231:VCServicingVersionMFC=14.51.36243:VCServicingVersionATL=14.51.36243:VCServicingVersionCrtHeaders=14.51.36243:VCServicingVersionCompilers=14.51.36243:TargetPlatformVersion=10.0.26100.0:
+Debug|x64|C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\|
+>>>>>>> 0cb4faacb84d8c46680c17aef0860b37bf9a8e78
+>>>>>>> 43da6d6f2c86c3c414286d2effad6f5fc907024f
