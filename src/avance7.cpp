@@ -10,13 +10,78 @@
 using namespace sf;
 using namespace std;
 
+class Menu {
+private:
+    bool iniciarJuego;
+public:
+    void iniciarMenu() {
+        int menux = -600.f;
+        int menuy = -150.f;
+
+        sf::RenderWindow window(sf::VideoMode({ 1400, 800 }), "SFML works!");
+
+        sf::RectangleShape Opcion1(sf::Vector2f(400.f, 200.f));
+        Opcion1.setOrigin(sf::Vector2f(menux, menuy));
+        Opcion1.setFillColor(sf::Color::Green);
+        sf::RectangleShape Opcion2(sf::Vector2f(400.f, 200.f));
+        Opcion2.setOrigin(sf::Vector2f(menux, menuy - 300.f));
+        Opcion2.setFillColor(sf::Color::Blue);
+
+        while (window.isOpen())
+        {
+            while (const std::optional event = window.pollEvent())
+            {
+                if (event->is<sf::Event::Closed>())
+                    window.close();
+
+                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+
+                if (event->is<sf::Event::MouseButtonPressed>())
+                {
+                    if (Opcion1.getGlobalBounds().contains(sf::Vector2f(mousePos)))
+                    {
+                        window.close();
+                        iniciarJuego = 1;
+                    }
+                }
+                if (event->is<sf::Event::MouseButtonPressed>())
+                {
+                    if (Opcion2.getGlobalBounds().contains(sf::Vector2f(mousePos)))
+                    {
+                        window.close();
+                        iniciarJuego = 0;
+                    }
+                }
+            }
+
+            window.clear();
+            window.draw(Opcion1);
+            window.draw(Opcion2);
+            window.display();
+        }
+    }
+
+    bool getIniciarJuego() const {
+        return iniciarJuego;
+    }
+
+	void setIniciarJuego(bool iniciar) {
+		iniciarJuego = iniciar;
+	}
+
+};
+
 
 //motor del juego
 int main() {
-  
-	GamePlay juego;
-	juego.ejecutarJuego();
-
+    // Intentamos cargar la fuente de letra de Windows
+    GamePlay juego;
+    Menu menu;
+	menu.setIniciarJuego(0);
+    menu.iniciarMenu();
+    if (menu.getIniciarJuego() == 1) {
+        juego.ejecutarJuego();
+    };
     return 0;
 }
 
