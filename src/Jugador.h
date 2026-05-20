@@ -6,16 +6,18 @@
 
 class Jugador {
 private:
-	vector <Carta>  mano;         //Vector para la mano del jugador del inicio
-	vector<Carta> manoReserva;    //Venctor para la mano de reserva 
-	vector<Carta> manoFinal;      //Vector para la mano que se uitliza al final con las cartas volteadas
-	int numeroJugador;
+
+	
 	void definirPosicionMano();  //Separamos el constructor (Los for) en funciones miembro privadas.
 	void definirPosicionManoReserva();
 	void definirPosicionManoFinal();
 
+protected:
+	vector <Carta>  mano;         //Vector para la mano del jugador del inicio
+	vector<Carta> manoReserva;    //Venctor para la mano de reserva 
+	vector<Carta> manoFinal;      //Vector para la mano que se uitliza al final con las cartas volteadas
 public:
-	Jugador(Carta  carta1, Carta carta2, Carta carta3, Carta  carta4, Carta  carta5, Carta  carta6, Carta  carta7, Carta  carta8, Carta  carta9, int num = 1);
+	Jugador(Carta  carta1, Carta carta2, Carta carta3, Carta  carta4, Carta  carta5, Carta  carta6, Carta  carta7, Carta  carta8, Carta  carta9);
 	void operator+(Carta carta);  //Función sobrecargada para comer 
 	Carta& getCarta(int  posicion);   //Obtenemos una carta especifica
 	Carta& getCartaReserva(int  posicion);
@@ -29,5 +31,6 @@ public:
 	int tamanoManoFinal(); //Función para saber cuantas cartas tiene la mano final
 	Carta& gettamanoManoFinal(int  posicion);  //Función para obtener una carta de la mano final
 	Carta darCartaFinal(int x);     //Damos la carta de la mano final
-	void separarCarta(Vector2f mousePos);//para separar la carte de las demas (cuestion de hitbox)
+	void separarCarta(Vector2f mousePos);
+	bool getCartaHitBox(int x); //Función para obtener el valor de la hitbox
 };

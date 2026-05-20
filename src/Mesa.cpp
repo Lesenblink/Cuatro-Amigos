@@ -15,7 +15,7 @@ void Mesa::crearMazo(const sf::Font& font, const Font& font2) {
             string u = v;
             Carta carta(colores[j], v, &font, &font2, u);
             carta.aparecerAlreves();//para que aparezca al revez
-			pinta.push_back(carta);//Agrega la carta al vector temporal de esa fila
+            pinta.push_back(carta);//Agrega la carta al vector temporal de esa fila
         }
         cartasTotales.push_back(pinta);
 
@@ -29,8 +29,8 @@ void Mesa::estatica() {
 //Publico
 
 Mesa::Mesa(const sf::Font& font, const Font& font2) : RectangleShape(Vector2f(1300.f, 800.f)), borde(Vector2f(1400.f, 900.f)) {
-	estatica();
-	crearMazo(font, font2);
+    estatica();
+    crearMazo(font, font2);
 }
 vector<vector<Carta>> Mesa::darTodasLasCartas() {
     vector<vector<Carta>> todas = cartasTotales;

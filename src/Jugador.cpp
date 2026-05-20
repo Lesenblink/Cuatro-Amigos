@@ -5,9 +5,9 @@ using namespace std;
 
 //Funciones Private
 void Jugador::definirPosicionMano() {
-    for (int i = 0; i < mano.size(); i++) {
-        mano[i].setPosition(Vector2f(900.f - i * 70.f, 650.f)); //Posicion de las cartas de la mano principal
-    }
+	for (int i = 0; i < mano.size(); i++) {
+		mano[i].setPosition(Vector2f(900.f - i * 70.f, 650.f)); //Posicion de las cartas de la mano principal
+	}
 }
 void Jugador::definirPosicionManoReserva() {
 	for (int i = 0; i < manoReserva.size(); i++) {
@@ -18,9 +18,10 @@ void Jugador::definirPosicionManoFinal() {
 	for (int i = 0; i < manoFinal.size(); i++) {
 		manoFinal[i].setPosition(Vector2f(1240.f - i * 50.f, 690.f)); // Posiciona las cartas de la mano final
 	}
+
 }
 
-void Jugador::separarCarta(Vector2f mousePos) {
+void Jugador::separarCarta(Vector2f mousePos) { //Separar las cartas de la mano principal al pasar el mouse por encima
 	for (int i = 0; i < mano.size(); i++) {
 		if (mano[i].getGlobalBounds().contains(mousePos)) {
 			mano[i].setPosition(Vector2f(900.f - i * 70.f, 670.f));
@@ -29,12 +30,10 @@ void Jugador::separarCarta(Vector2f mousePos) {
 			mano[i].setPosition(Vector2f(900.f - i * 70.f, 700.f));
 		}
 	}
-}//separar la carta de las demás (cuestión de hitbox)
-
-
+}
 // public
 
-Jugador::Jugador(Carta  carta1, Carta carta2, Carta carta3, Carta  carta4, Carta  carta5, Carta  carta6, Carta  carta7, Carta  carta8, Carta  carta9, int num) : numeroJugador(num) {
+Jugador::Jugador(Carta  carta1, Carta carta2, Carta carta3, Carta  carta4, Carta  carta5, Carta  carta6, Carta  carta7, Carta  carta8, Carta  carta9)  {
 	mano.push_back(carta1);
 	mano.push_back(carta2);
 	mano.push_back(carta3);
@@ -114,5 +113,11 @@ Carta Jugador::darCartaFinal(int x) {
 		throw out_of_range("Índice fuera de rango");//Detenemos el programa si el indice es incorrecto y lanzamos un mensaje de error 
 	}
 }
-
-
+bool Jugador::getCartaHitBox(int x) {
+	if (x >= 0 && x < mano.size()) {  //Validamos si el indice es correcto
+		return mano[x].getHItBox();
+	}
+	else {
+		throw out_of_range("Índice fuera de rango");//Detenemos el programa si el indice es incorrecto y lanzamos un mensaje de error 
+	}
+}
