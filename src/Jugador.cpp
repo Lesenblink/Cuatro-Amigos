@@ -33,7 +33,7 @@ void Jugador::separarCarta(Vector2f mousePos) { //Separar las cartas de la mano 
 }
 // public
 
-Jugador::Jugador(Carta  carta1, Carta carta2, Carta carta3, Carta  carta4, Carta  carta5, Carta  carta6, Carta  carta7, Carta  carta8, Carta  carta9, int num) : numeroJugador(num) {
+Jugador::Jugador(Carta  carta1, Carta carta2, Carta carta3, Carta  carta4, Carta  carta5, Carta  carta6, Carta  carta7, Carta  carta8, Carta  carta9)  {
 	mano.push_back(carta1);
 	mano.push_back(carta2);
 	mano.push_back(carta3);

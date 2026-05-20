@@ -3,6 +3,7 @@
 #include "Jugador.h"
 #include "Carta.h"
 #include "Luigui.h"
+#include "Bot.h"
 using namespace sf;
 //Funciones privadas
 void GamePlay::validarFonts() {
@@ -10,8 +11,7 @@ void GamePlay::validarFonts() {
     font2.openFromFile("../assets/arial.ttf");
 
 }
-void GamePlay::cargar() {
-
+void GamePlay::cargar() {    
     window.create(VideoMode(Vector2u(1400, 900)), "4 amigos");
     mesa = new Mesa(font, font2);
     luigui = new Luigui();
@@ -30,6 +30,38 @@ void GamePlay::cargar() {
     Carta c8 = mesa->darCarta(); c8.voltear();
     Carta c9 = mesa->darCarta(); c9.voltear();
 
+    Carta c10 = mesa->darCarta(); c10.voltear();//poner todas volteadas al inicio
+    Carta c11 = mesa->darCarta(); c11.voltear();
+    Carta c12 = mesa->darCarta(); c12.voltear();
+    Carta c13 = mesa->darCarta(); c13.voltear();
+    Carta c14 = mesa->darCarta(); c14.voltear();
+    Carta c15 = mesa->darCarta(); c15.voltear();
+    Carta c16 = mesa->darCarta(); c16.voltear();
+    Carta c17 = mesa->darCarta(); c17.voltear();
+    Carta c18 = mesa->darCarta(); c18.voltear();
+    Carta c19 = mesa->darCarta(); c19.voltear();
+    Carta c20 = mesa->darCarta(); c20.voltear();//poner todas volteadas al inicio
+    Carta c21 = mesa->darCarta(); c21.voltear();
+    Carta c22 = mesa->darCarta(); c22.voltear();
+    Carta c23 = mesa->darCarta(); c23.voltear();
+    Carta c24 = mesa->darCarta(); c24.voltear();
+    Carta c25 = mesa->darCarta(); c25.voltear();
+    Carta c26 = mesa->darCarta(); c26.voltear();
+    Carta c27 = mesa->darCarta(); c27.voltear();
+    Carta c28 = mesa->darCarta(); c28.voltear();
+    Carta c29 = mesa->darCarta(); c29.voltear();
+    Carta c30 = mesa->darCarta(); c30.voltear();
+
+    Carta c31 = mesa->darCarta(); c31.voltear();//poner todas volteadas al inicio
+    Carta c32 = mesa->darCarta(); c32.voltear();
+    Carta c33 = mesa->darCarta(); c33.voltear();
+    Carta c34 = mesa->darCarta(); c34.voltear();
+    Carta c35 = mesa->darCarta(); c35.voltear();
+    Carta c36 = mesa->darCarta(); c36.voltear();
+
+	IA.push_back(new Bot(c10, c11, c12, c13, c14, c15, c16, c17, c18,2));
+    IA.push_back(new Bot(c19, c20, c21, c22, c23, c24, c25, c26, c27, 3));
+    IA.push_back(new Bot(c28, c29, c30, c31, c32, c33, c34, c35, c36, 4));
     jugador1 = new Jugador(c1, c2, c3, c4, c5, c6, c7, c8, c9);
     Carta inicial = mesa->darCarta();//inicializar variable para voltear la primera carta de el buche (las que se sueltan)
     inicial.voltear();
@@ -46,10 +78,11 @@ void GamePlay::cargar() {
 GamePlay::GamePlay() {
     click = false;
     validarFonts();
+	turno = 1;
     cargar();
 }
 
-/*----------------------------------------LOGIA DEL JUEGO DESGLOSADA EN FUNCIONES -----------------------------------------------------------*/
+/*----------------------------------------Lógica del Jugador  -----------------------------------------------------------*/
 void GamePlay::hitboxMano() {
 
     Vector2f temporalMouse =
@@ -95,11 +128,14 @@ void GamePlay::eventos() {   // Aquí manejamos la función de los eventos
 void GamePlay::comerCarta() {
 
     // ¿El clic fue dentro de la carta (posicion o posiciones)?
-    if (mesa->tamanoCartasTotales() > 0 && mesa->getCarta().getGlobalBounds().contains(mousePos) && jugador1->numeroCartas() < 3) {  //Aquí es donde sucede la mágia para comer cartas
-        Carta nueva = mesa->darCarta();
-        nueva.voltear();
-        (*jugador1) + nueva;
-        click = false;
+    if (mesa->tamanoCartasTotales() > 0 && mesa->getCarta().getGlobalBounds().contains(mousePos) && jugador1->numeroCartas() < 3 ) {  //Aquí es donde sucede la mágia para comer cartas
+       
+            Carta nueva = mesa->darCarta();
+            nueva.voltear();
+            (*jugador1) + nueva;
+            click = false;
+           
+		 // Cambia el turno al siguiente jugador (en este caso, solo hay un jugador, pero se puede expandir para más jugadores)
     }
 }
 void GamePlay::comerCartaBuche() {
@@ -112,13 +148,13 @@ void GamePlay::comerCartaBuche() {
             (*jugador1) + delBuche;
         }
         click = false;
-
+        turno = 2;
     }
 }
 void GamePlay::dejarCartas() {
 
     for (int x = 0; x < jugador1->numeroCartas(); x++) {   //Aquí con este for ayuda a dejar las cartas.
-        if (jugador1->getCarta(x).getGlobalBounds().contains(mousePos) && jugador1->getCartaHitBox(x)) {   //Si el jugador hizo click entonces...
+        if (jugador1->getCarta(x).getGlobalBounds().contains(mousePos) && jugador1->getCartaHitBox(x) && turno == 1) {   //Si el jugador hizo click entonces...
 
             //Mecanica para el número 10
             if ((mesa->tamanoDelBuche() == 0 || jugador1->getCarta(x).getValor() >= mesa->getBuche().getValor() || jugador1->getCarta(x).getValor() == 10 || jugador1->getCarta(x).getValor() == 2)) {
@@ -126,16 +162,18 @@ void GamePlay::dejarCartas() {
                     mesa->llenarBuche(jugador1->QuitarCarta(x));
                     mesa->limpiarBuche();  // La mecanica es eliminar todo el buhce que hay con un 10 puesto
                     click = false;
-
+                    turno = 2;
                 }
                 else if (jugador1->getCarta(x).getValor() == 2)
                 {
                     mesa->llenarBuche(jugador1->QuitarCarta(x));
                     click = false;
+					turno = 1;  //Esto hace que el poder del 2, le da otra posibilidad de tirar otra carta
                 }
                 else {
                     mesa->llenarBuche(jugador1->QuitarCarta(x)); // Mueve la carta al buche
                     click = false;
+                    turno = 2;
                 }
 
             }
@@ -145,7 +183,7 @@ void GamePlay::dejarCartas() {
     }
 }
 void GamePlay::jugarCartasReserva() {
-    if (jugador1->numeroCartas() == 0 && jugador1->numeroCartasReserva() > 0 && mesa->tamanoCartasTotales() == 0) {  //Aquí le decimos al gamplay que si np hay cartas en la mano principal entonces pasar a la otra regla del gameplay
+    if (jugador1->numeroCartas() == 0 && jugador1->numeroCartasReserva() > 0 && mesa->tamanoCartasTotales() == 0 && turno == 1) {  //Aquí le decimos al gamplay que si np hay cartas en la mano principal entonces pasar a la otra regla del gameplay
         for (int y = 0; y < jugador1->numeroCartasReserva(); y++) { //For para las cartas de la mano reserva
             if (jugador1->getCartaReserva(y).getGlobalBounds().contains(mousePos)) {  //Si el jugador hizo click entonces...
 
@@ -158,7 +196,7 @@ void GamePlay::jugarCartasReserva() {
     }//
 }
 void GamePlay::jugarCartasFinal() {
-    if (jugador1->numeroCartas() == 0 && jugador1->numeroCartasReserva() == 0) {
+    if (jugador1->numeroCartas() == 0 && jugador1->numeroCartasReserva() == 0 && turno == 1) {
         for (int z = 0; z < jugador1->tamanoManoFinal(); z++) {
             if (jugador1->getCartaManoFinal(z).getGlobalBounds().contains(mousePos)) {
 
@@ -204,13 +242,11 @@ void GamePlay::dibujar() {
     window.display();
 }
 
-//********************************************************************
+//********************************************************************  Función donde se llaman las anterios mecanicnas para el jugador ********************************************************************
 void GamePlay::juego() {
     hitboxMano();
-    dibujar();
     if (!click)
         return; // Si no se hizo clic, no hacemos nada
-
     comerCarta();
     // ¿El clic fue dentro de la carta (posicion o posiciones)?
     comerCartaBuche();
@@ -220,20 +256,40 @@ void GamePlay::juego() {
     limpiar4Buhce();
     mousePos = window.mapPixelToCoords(Mouse::getPosition(window));
     jugador1->separarCarta(mousePos);
-
     click = false;
+}
+
+
+/*---------------------------------------------------------------------------- Lógica para la IA ------------------------------------------------------------------------------*/
+//La idea es tener una función para todas las IA, solo se necesita el parametro del objeto IA. Aquí no se necesita el mouse. Solo validar posiciones con if y hacer la acción 
+
+void JugarManoIA(Bot* ia)//Lanza la carta si el buhce se lo permite
+{}     
+void GamePlay::IAcomerCarta(Bot* ia) {}  //Come las cartas si se acabo su turno y tiene menos de 3 cartas.
+void GamePlay::comerBuhceIA(Bot* ia) {} // Si no pudo lanzar carta entonces comer del buche
+void GamePlay::jugarMAnoIAReserva(Bot* ia) {} //SI ya no hay cartas en la mano principal y en la mano comunitaria de la mesa, entonces pasar esas cartas reservas a su mano principal
+void GamePlay::jugarManoIAFinal(Bot* ia) {} //SI ya no hay cartas en la mano principal y en la mano comunitaria de la mesa y ya no tiene mano reserva, entonces pasar las cartas de la mano final a su mano principal para seguir jugando
+
+
+void GamePlay::IAJugar(Bot* ia) {  //Función para llamar las las anteriores funciones y hacer el flujo de la IA
+	
 }
 void GamePlay::ejecutarJuego() {
     void validarFonts();
     void cargar();
     while (window.isOpen()) {
         eventos();
-
+        dibujar();
         juego();
     }
-    delete mesa;
+	delete mesa;  //Eliminamos los objetos creados con new para liberar memoria
     delete jugador1;
     delete luigui;
+    for (int i = 0; i < IA.size(); i++)
+    {
+        delete IA[i];
+    }
+    IA.clear();
 
 
 }
