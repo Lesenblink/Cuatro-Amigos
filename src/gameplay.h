@@ -13,6 +13,7 @@ class GamePlay {
 private:
 	RenderWindow window;
 	std::vector <Bot*> IA;
+	Clock relojIA;
 	Mesa* mesa;
 	Luigui* luigui;
 	Jugador* jugador1;
@@ -34,15 +35,22 @@ private:
 	void jugarCartasFinal();
 	void limpiar4Buhce();
 	void dibujar();
-	void hitboxMano();
+	void hitboxMano(); // Detecta el mouse sobre las cartas y las levanta al pasar encima
 
-	void JugarManoIA(Bot* ia);
-	void comerBuhceIA(Bot* ia);
-	void IAcomerCarta(Bot* ia);
-	void jugarMAnoIAReserva(Bot* ia);
-	void jugarManoIAFinal(Bot* ia);
 
-	void IAJugar(Bot* ia);
+	void JugarManoIA(Bot* ia); // La IA tira la mejor carta válida al buche
+	void comerBuhceIA(Bot* ia); // La IA toma todas las cartas del buche si no puede jugar
+	void IAcomerCarta(Bot* ia); // La IA toma cartas del mazo para reponer su mano
+	void jugarMAnoIAReserva(Bot* ia); // La IA pasa cartas de reserva a mano principal cuando se acaban
+	void jugarManoIAFinal(Bot* ia); // La IA pasa cartas de mano final a mano principal cuando no hay más
+
+	void IAJugar(Bot* ia); // Función principal que controla el flujo del turno de la IA
+
+	bool puedeJugarCarta(Bot* ia, int indice); // Verifica si una carta específica de la IA es válida para tirar
+	int mejorCartaIA(Bot* ia); // Encuentra el índice de la mejor carta a jugar (guarda comodines)
+
+	bool verificarGanador(); // Verifica si algún jugador se quedó sin cartas y termina el juego
+
 public:
 
 	GamePlay();

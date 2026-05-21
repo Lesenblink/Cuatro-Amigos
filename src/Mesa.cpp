@@ -28,7 +28,7 @@ void Mesa::estatica() {
 }
 //Publico
 
-Mesa::Mesa(const sf::Font& font, const Font& font2) : RectangleShape(Vector2f(1300.f, 800.f)), borde(Vector2f(1400.f, 900.f)) {
+Mesa::Mesa(const sf::Font& font, const Font& font2) : RectangleShape(Vector2f(1500.f, 900.f)), borde(Vector2f(1600.f, 1000.f)) {
     estatica();
     crearMazo(font, font2);
 }
@@ -71,9 +71,11 @@ int Mesa::tamanoCartasTotales() {      //Función para saber cuantas cartas hay 
 }
 RectangleShape& Mesa::getBorde() { return borde; }
 
-void Mesa::llenarBuche(Carta carta) {  //Mecanica de 4 amigos como el UNO, recibe las cartas del jugador y los mete en el buche
-    carta.setPosition(Vector2f(650.f, 360.f)); // Aquí se coloca las cartas en el centro
-    bucheDeCartas.push_back(carta);//Agrega la carta al buche
+void Mesa::llenarBuche(Carta carta) {
+    carta.voltear();                          // Voltear para que se vea el frente
+    carta.setRotation(sf::degrees(0.f));      // Quitar rotación
+    carta.setPosition(Vector2f(750.f, 600.f));
+    bucheDeCartas.push_back(carta);
 }
 Carta& Mesa::getBuche() {  //Obtemenos la carta del buche 
     return bucheDeCartas.back();
