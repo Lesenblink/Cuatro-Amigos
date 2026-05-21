@@ -12,7 +12,7 @@ void GamePlay::validarFonts() {
 
 }
 void GamePlay::cargar() {    
-    window.create(VideoMode(Vector2u(1400, 900)), "4 amigos");
+    window.create(VideoMode(Vector2u(1600, 1000)), "4 amigos", sf::Style::Titlebar | sf::Style::Close); //tamaño de la ventana y quitar el resize
     mesa = new Mesa(font, font2);
     luigui = new Luigui();
 
@@ -85,27 +85,18 @@ GamePlay::GamePlay() {
 /*----------------------------------------Lógica del Jugador  -----------------------------------------------------------*/
 void GamePlay::hitboxMano() {
 
-    Vector2f temporalMouse =
-        window.mapPixelToCoords(Mouse::getPosition(window));
-
+    Vector2f temporalMouse = window.mapPixelToCoords(Mouse::getPosition(window));
     estaLevantada = false;
 
     for (int i = jugador1->numeroCartas() - 1; i >= 0; i--) {
 
-        jugador1->getCarta(i).setPosition(Vector2f(700.f - i * 50.f, 700.f));
-
-
-
-        if (!estaLevantada && jugador1->getCarta(i).getGlobalBounds().contains(temporalMouse))
-        {
-            jugador1->getCarta(i).setPosition(Vector2f(700.f - i * 50.f, 650.f));
+        if (!estaLevantada && jugador1->getCarta(i).getGlobalBounds().contains(temporalMouse)) {
+            jugador1->getCarta(i).setPosition(Vector2f(1320.f - i * 70.f, 910.f)); // ← carta levantada
             jugador1->getCarta(i).setHitBox(true);
             estaLevantada = true;
-            jugador1->getCarta(i).setHitBox(true);
         }
         else {
-
-            jugador1->getCarta(i).setPosition(Vector2f(700.f - i * 50.f, 700.f));
+            jugador1->getCarta(i).setPosition(Vector2f(1320.f - i * 70.f, 940.f)); // ← posición normal
             jugador1->getCarta(i).setHitBox(false);
         }
     }
@@ -125,30 +116,35 @@ void GamePlay::eventos() {   // Aquí manejamos la función de los eventos
         }
     }
 }
-void GamePlay::comerCarta() {
 
-    // ¿El clic fue dentro de la carta (posicion o posiciones)?
-    if (mesa->tamanoCartasTotales() > 0 && mesa->getCarta().getGlobalBounds().contains(mousePos) && jugador1->numeroCartas() < 3 ) {  //Aquí es donde sucede la mágia para comer cartas
-       
-            Carta nueva = mesa->darCarta();
-            nueva.voltear();
-            (*jugador1) + nueva;
-            click = false;
-           
-		 // Cambia el turno al siguiente jugador (en este caso, solo hay un jugador, pero se puede expandir para más jugadores)
+// Solo permite comer si es el turno del jugador, hay cartas en el mazo,
+// el jugador hizo click sobre la carta del mazo y tiene menos de 3 cartas en mano
+void GamePlay::comerCarta() {
+    if (turno == 1 && mesa->tamanoCartasTotales() > 0 &&
+        mesa->getCarta().getGlobalBounds().contains(mousePos) &&
+        jugador1->numeroCartas() < 3) {
+
+        Carta nueva = mesa->darCarta(); // Saca la carta del mazo
+        nueva.voltear(); // La voltea para que se vea el frente
+        (*jugador1) + nueva; // La agrega a la mano del jugador
+        click = false;
     }
 }
+
+// Solo permite comer el buche si es el turno del jugador y hay cartas en el buche
+// Toma todas las cartas acumuladas en el buche y las pasa a la mano del jugador
 void GamePlay::comerCartaBuche() {
-    if (mesa->tamanoDelBuche() > 0 && mesa->getBuche().getGlobalBounds().contains(mousePos)) { //En si no se porque no agarra todas las cartas del buche de una. 
-        cout << mesa->tamanoDelBuche() << endl;
-        while (mesa->tamanoDelBuche() > 0) {  //Un while mientras haya cartas en el buche entonces agarrar  para agarrar las cartas
-            cout << "Sacando carta\n";
-            Carta delBuche = mesa->darCartaDelBuche();
-            delBuche.voltear();
-            (*jugador1) + delBuche;
+    if (turno == 1 && mesa->tamanoDelBuche() > 0 && mesa->getBuche().getGlobalBounds().contains(mousePos)) {
+        cout << "Buche pos: " << mesa->getBuche().getPos().x << ", "
+            << mesa->getBuche().getPos().y << endl;
+        cout << "Mouse pos: " << mousePos.x << ", " << mousePos.y << endl;
+        while (mesa->tamanoDelBuche() > 0) { // Mientras haya cartas en el buche
+            Carta delBuche = mesa->darCartaDelBuche(); // Saca la carta del buche
+            delBuche.voltear(); // La voltea para que se vea el frente
+            (*jugador1) + delBuche; // La agrega a la mano del jugador
         }
         click = false;
-        turno = 2;
+        turno = 2; // Pasa el turno al siguiente jugador
     }
 }
 void GamePlay::dejarCartas() {
@@ -222,77 +218,261 @@ void GamePlay::limpiar4Buhce() {
 }
 void GamePlay::dibujar() {
     window.clear();
-    window.draw(mesa->getBorde()); // Dibujar el marco
-    window.draw(*mesa);           // Dibujar el tapete verde
-    for (int i = 0; i < jugador1->numeroCartas(); i++) {  //Dibjuar las cartas y este for se adapta al tamaño de la mano del jugador
-        window.draw(jugador1->getCarta(i)); // Dibujar las cartas del jugador
+    window.draw(mesa->getBorde());
+    window.draw(*mesa);
+
+    // Jugador principal
+    for (int i = 0; i < jugador1->numeroCartas(); i++)
+        window.draw(jugador1->getCarta(i));
+    for (int i = 0; i < jugador1->tamanoManoFinal(); i++)
+        window.draw(jugador1->getCartaManoFinal(i));
+    for (int i = 0; i < jugador1->numeroCartasReserva(); i++)
+        window.draw(jugador1->getCartaReserva(i));
+
+    //dibujar las cartas de la ia
+    for (int b = 0; b < IA.size(); b++) {
+        for (int i = 0; i < IA[b]->numeroCartas(); i++)
+            window.draw(IA[b]->getCarta(i));
+        for (int i = 0; i < IA[b]->numeroCartasReserva(); i++)
+            window.draw(IA[b]->getCartaReserva(i));
+        for (int i = 0; i < IA[b]->tamanoManoFinal(); i++)
+            window.draw(IA[b]->getCartaManoFinal(i));
     }
-    for (int i = 0; i < jugador1->numeroCartasReserva(); i++) {  //Dibjuar las cartas y este for se adapta al tamaño de la mano del jugador
-        window.draw(jugador1->getCartaReserva(i)); // Dibujar las cartas del jugador
-    }
-    for (int i = 0; i < jugador1->tamanoManoFinal(); i++) {  //Dibjuar las cartas y este for se adapta al tamaño de la mano del jugador
-        window.draw(jugador1->getCartaManoFinal(i)); // Dibujar las cartas del jugador
-    }
-    for (int i = 0; i < mesa->tamanoDelBuche(); i++) {// Dibuja la ultima carta del buche
-        window.draw(mesa->getCartaBuche(i)); // Dibujar las cartas en el buche
-    }
-    if (mesa->tamanoCartasTotales() > 0) {
+    
+    //buche y maso
+    for (int i = 0; i < mesa->tamanoDelBuche(); i++)
+        window.draw(mesa->getCartaBuche(i));
+    if (mesa->tamanoCartasTotales() > 0)
         window.draw(mesa->getCarta());
-    }
+
     window.display();
 }
 
 //********************************************************************  Función donde se llaman las anterios mecanicnas para el jugador ********************************************************************
 void GamePlay::juego() {
-    hitboxMano();
-    if (!click)
-        return; // Si no se hizo clic, no hacemos nada
-    comerCarta();
-    // ¿El clic fue dentro de la carta (posicion o posiciones)?
-    comerCartaBuche();
-    dejarCartas();
-    jugarCartasReserva();
-    jugarCartasFinal();
-    limpiar4Buhce();
-    mousePos = window.mapPixelToCoords(Mouse::getPosition(window));
-    jugador1->separarCarta(mousePos);
-    click = false;
+    // Reponer mano hasta 3 cartas si hay cartas en el mazo
+    while (jugador1->numeroCartas() < 3 && mesa->tamanoCartasTotales() > 0) {
+        Carta nueva = mesa->darCarta();
+        nueva.voltear();
+        (*jugador1) + nueva;
+    }
+
+    hitboxMano(); // Detecta el mouse sobre las cartas y las levanta
+    if (!click) return; // Si no hubo click, no hacer nada
+    comerCarta(); // Intentar comer carta del mazo
+    comerCartaBuche(); // Intentar comer cartas del buche
+    dejarCartas(); // Intentar tirar una carta al buche
+    jugarCartasReserva(); // Intentar pasar cartas de reserva a mano principal
+    jugarCartasFinal(); // Intentar pasar cartas de mano final a mano principal
+    limpiar4Buhce(); // Verificar si se limpia el buche por 4 iguales
+    mousePos = window.mapPixelToCoords(Mouse::getPosition(window)); // Actualizar posicion del mouse
+    jugador1->separarCarta(mousePos); // Separar carta bajo el mouse
+    click = false; // Resetear el click
 }
 
 
 /*---------------------------------------------------------------------------- Lógica para la IA ------------------------------------------------------------------------------*/
 //La idea es tener una función para todas las IA, solo se necesita el parametro del objeto IA. Aquí no se necesita el mouse. Solo validar posiciones con if y hacer la acción 
 
-void JugarManoIA(Bot* ia)//Lanza la carta si el buhce se lo permite
-{}     
-void GamePlay::IAcomerCarta(Bot* ia) {}  //Come las cartas si se acabo su turno y tiene menos de 3 cartas.
-void GamePlay::comerBuhceIA(Bot* ia) {} // Si no pudo lanzar carta entonces comer del buche
-void GamePlay::jugarMAnoIAReserva(Bot* ia) {} //SI ya no hay cartas en la mano principal y en la mano comunitaria de la mesa, entonces pasar esas cartas reservas a su mano principal
-void GamePlay::jugarManoIAFinal(Bot* ia) {} //SI ya no hay cartas en la mano principal y en la mano comunitaria de la mesa y ya no tiene mano reserva, entonces pasar las cartas de la mano final a su mano principal para seguir jugando
-
-
-void GamePlay::IAJugar(Bot* ia) {  //Función para llamar las las anteriores funciones y hacer el flujo de la IA
-	
+bool GamePlay::puedeJugarCarta(Bot* ia, int indice) {
+    int valor = ia->getCarta(indice).getValor(); // Verifica si la carta en el indice dado es válida para tirar al buche
+    if (valor == 2 || valor == 10) return true; // Comodines siempre válidos
+    if (mesa->tamanoDelBuche() == 0) return true; // Buche vacío, cualquier carta es válida
+    return valor >= mesa->getBuche().getValor(); // Debe ser mayor o igual al tope
 }
+
+// Busca la mejor carta a jugar usando estrategia media
+// Prefiere cartas normales sobre comodines para guardarlos
+// Entre cartas normales, elige la más baja para conservar las altas
+// Retorna -1 si no tiene ninguna carta válida para jugar
+int GamePlay::mejorCartaIA(Bot* ia) {
+    int mejorIndice = -1;
+    int mejorValor = -1;
+
+    for (int i = 0; i < ia->numeroCartas(); i++) {
+        int valor = ia->getCarta(i).getValor();
+        if (!puedeJugarCarta(ia, i)) continue; // Saltar cartas no válidas
+
+        bool esComodin = (valor == 2 || valor == 10);
+
+        if (mejorIndice == -1) {
+            // Primera carta válida encontrada
+            mejorIndice = i;
+            mejorValor = valor;
+        }
+        else if (!esComodin && (mejorValor == 2 || mejorValor == 10)) {
+            // Prefiere carta normal sobre comodin
+            mejorIndice = i;
+            mejorValor = valor;
+        }
+        else if (!esComodin && valor < mejorValor) {
+            // Entre cartas normales, prefiere la más baja
+            mejorIndice = i;
+            mejorValor = valor;
+        }
+    }
+    return mejorIndice;
+}
+
+void GamePlay::JugarManoIA(Bot* ia) {
+    int indice = mejorCartaIA(ia);
+    if (indice == -1) return; // No tiene carta válida
+
+    int valor = ia->getCarta(indice).getValor();
+
+    if (valor == 10) {
+        mesa->llenarBuche(ia->QuitarCarta(indice));
+        mesa->limpiarBuche(); // El 10 limpia todo el buche
+        turno = (ia->getNumeroJugador() % 4) + 1;
+    }
+    else if (valor == 2) {
+        mesa->llenarBuche(ia->QuitarCarta(indice));
+        // turno extra: no cambia turno
+    }
+    else {
+        mesa->llenarBuche(ia->QuitarCarta(indice));
+        turno = (ia->getNumeroJugador() % 4) + 1;
+    }
+
+    limpiar4Buhce(); // Verificar si se limpian 4 iguales
+}
+
+// La IA toma una carta del mazo si tiene menos de 3 en mano
+// La carta aparece de espaldas para que el jugador no la vea
+void GamePlay::IAcomerCarta(Bot* ia) {
+    if (mesa->tamanoCartasTotales() > 0 && ia->numeroCartas() < 3) {
+        Carta nueva = mesa->darCarta();
+        nueva.aparecerAlreves();  // que aparezca de espaldas
+        (*ia) + nueva;
+    }
+}
+
+// La IA toma todas las cartas del buche cuando no puede jugar
+// el turno pasa al siguiente jugador
+void GamePlay::comerBuhceIA(Bot* ia) {
+    while (mesa->tamanoDelBuche() > 0) {
+        Carta delBuche = mesa->darCartaDelBuche();
+        delBuche.aparecerAlreves();  // que aparezca de espaldas
+        (*ia) + delBuche;
+    }
+    turno = (ia->getNumeroJugador() % 4) + 1;
+}
+
+// Pasa una carta de la mano reserva a la mano principal
+// Solo cuando la mano principal está vacía y el mazo se acabó
+void GamePlay::jugarMAnoIAReserva(Bot* ia) {
+    if (ia->numeroCartas() == 0 && ia->numeroCartasReserva() > 0 && mesa->tamanoCartasTotales() == 0) {
+        Carta reserva = ia->QuitarCartaReserva(0);
+        (*ia) + reserva;
+    }
+}
+
+// Pasa una carta de la mano final a la mano principal
+// Solo cuando no tiene cartas en mano principal ni reserva
+void GamePlay::jugarManoIAFinal(Bot* ia) {
+    if (ia->numeroCartas() == 0 && ia->numeroCartasReserva() == 0 && ia->tamanoManoFinal() > 0) { 
+        Carta cartaFinal = ia->darCartaFinal(0);
+		cartaFinal.voltear(); // Voltear la carta para el frrente
+        (*ia) + cartaFinal;
+    }
+}
+
+// Función principal del turno de la IA, controla el flujo completo
+// Verifica si es su turno y espera 1.5 segundos entre jugadas
+void GamePlay::IAJugar(Bot* ia) {
+    if (turno != ia->getNumeroJugador()) return;
+    if (relojIA.getElapsedTime().asSeconds() < 1.5f) return;
+    relojIA.restart();
+
+    // Si no tiene ninguna carta en ninguna mano, ganó
+    if (ia->numeroCartas() == 0 && ia->numeroCartasReserva() == 0 && ia->tamanoManoFinal() == 0) {
+        cout << "Bot " << ia->getNumeroJugador() << " gano!" << endl;
+        turno = (ia->getNumeroJugador() % 4) + 1;
+        return;
+    }
+
+    // Reponer mano hasta 3 cartas si hay cartas en el mazo
+    while (ia->numeroCartas() < 3 && mesa->tamanoCartasTotales() > 0) {
+        Carta nueva = mesa->darCarta();
+        nueva.aparecerAlreves();
+        (*ia) + nueva;
+    }
+
+    // Si no tiene cartas en mano principal, pasar de reserva o final
+    if (ia->numeroCartas() == 0) {
+        jugarMAnoIAReserva(ia);
+        jugarManoIAFinal(ia);
+        return;
+    }
+
+    // Si tiene carta válida la tira, si no se come el buche
+    int indice = mejorCartaIA(ia);
+    if (indice != -1) {
+        JugarManoIA(ia);
+    }
+    else {
+        comerBuhceIA(ia);
+        IAcomerCarta(ia);
+    }
+}
+
+// Verifica si algún jugador se quedó sin cartas en todas sus manos
+// El jugador principal también necesita que el mazo esté vacío para ganar
+// Retorna true si hay un ganador y cierra el juego después de 3 segundos
+bool GamePlay::verificarGanador() {
+    // Verificar jugador principal
+    if (jugador1->numeroCartas() == 0 &&
+        jugador1->numeroCartasReserva() == 0 &&
+        jugador1->tamanoManoFinal() == 0 &&
+        mesa->tamanoCartasTotales() == 0) {
+        cout << "Jugador 1 gano!" << endl;
+        return true;
+    }
+
+    // Verificar bots
+    for (int i = 0; i < IA.size(); i++) {
+        if (IA[i]->numeroCartas() == 0 &&
+            IA[i]->numeroCartasReserva() == 0 &&
+            IA[i]->tamanoManoFinal() == 0) {
+            cout << "Bot " << IA[i]->getNumeroJugador() << " gano!" << endl;
+            return true;
+        }
+    }
+    return false;
+}
+
+// Alterna entre el turno del jugador y los turnos de las IAs
+// Al detectar un ganador espera 3 segundos y cierra la ventana
 void GamePlay::ejecutarJuego() {
-    void validarFonts();
-    void cargar();
     while (window.isOpen()) {
         eventos();
         dibujar();
-        juego();
+
+        if (verificarGanador()) {
+            // Esperar 3 segundos y cerrar
+            sf::sleep(sf::seconds(3.f));
+            window.close();
+            break;
+        }
+
+        if (turno == 1) {
+            juego();
+        }
+        else {
+            for (int i = 0; i < IA.size(); i++) {
+                if (IA[i]->getNumeroJugador() == turno) {
+                    IAJugar(IA[i]);
+                    break;
+                }
+            }
+        }
     }
-	delete mesa;  //Eliminamos los objetos creados con new para liberar memoria
+    delete mesa;
     delete jugador1;
     delete luigui;
     for (int i = 0; i < IA.size(); i++)
-    {
         delete IA[i];
-    }
     IA.clear();
-
-
 }
-
 
 

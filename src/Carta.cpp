@@ -5,23 +5,30 @@ using namespace sf;
 using namespace std;
 //Private 
 void Carta::crearFrente() {
-    forma.setSize(Vector2f(100.f, 150.f));  // Configuramos el cuerpo de la carta 
+    forma.setSize(Vector2f(80.f, 130.f));  // Configuramos el cuerpo de la carta 
     forma.setFillColor(Color::White);
     forma.setOutlineColor(Color::Black);
     forma.setOutlineThickness(3.f);
+    forma.setOrigin(Vector2f(40.f, 65.f));
+    forma.setPosition(Vector2f(0.f, 0.f));
+    setOrigin(Vector2f(40.f, 65.f));
 }
 
 void Carta::crearReverso() {
     numero.setFont(*font);
-    cartaReves.setSize(Vector2f(100.f, 150.f));  // Configuramos el cuerpo de la carta. El diseño de al reves 
+    cartaReves.setSize(Vector2f(80.f, 130.f));  // Configuramos el cuerpo de la carta. El diseño de al reves 
     cartaReves.setFillColor(Color(30, 50, 180));
     cartaReves.setOutlineThickness(3.f);
     cartaReves.setOutlineColor(Color::White);
+    cartaReves.setOrigin(Vector2f(40.f, 65.f));
+    cartaReves.setPosition(Vector2f(0.f, 0.f));
     numeroAbajo.setFont(*font2);
-    marcoInterior.setSize(Vector2f(84.f, 134.f));
+    marcoInterior.setSize(Vector2f(64.f, 114.f));
     marcoInterior.setFillColor(Color(20, 30, 120));
     marcoInterior.setOutlineThickness(2.f);
-    marcoInterior.setPosition(Vector2f(8.f, 8.f));
+    marcoInterior.setOrigin(Vector2f(32.f, 57.f));
+    marcoInterior.setPosition(Vector2f(0.f, 0.f));
+   
 
     if (color == Color::Red) {  //Colroes de los bordes 
         marcoInterior.setOutlineColor(Color::Red);
@@ -49,25 +56,31 @@ void Carta::crearSimbolo() {
         simbolo.setPoint(7, Vector2f(15, -10));  // Curva superior derecha
     }
     else if (color == Color::Black) {
-        //  Usamos 13 puntos para definir la silueta (3 hojas + tallo)
-        simbolo.setPointCount(13);
-        // --- Hoja Superior ---
-        simbolo.setPoint(0, Vector2f(0.f, -10.f));   // Centro superior (hendidura)
-        simbolo.setPoint(1, Vector2f(-15.f, -30.f)); // Pico izquierdo arriba
-        simbolo.setPoint(2, Vector2f(15.f, -30.f));  // Pico derecho arriba
-        // --- Hoja Derecha ---
-        simbolo.setPoint(3, Vector2f(10.f, -5.f));   // Unión
-        simbolo.setPoint(4, Vector2f(30.f, 5.f));    // Punta derecha
-        simbolo.setPoint(5, Vector2f(10.f, 15.f));   // Unión inferior derecha
-        // --- Tallo ---
-        simbolo.setPoint(6, Vector2f(5.f, 15.f));    // Inicio tallo derecho
-        simbolo.setPoint(7, Vector2f(0.f, 35.f));    // Punta del tallo (abajo)
-        simbolo.setPoint(8, Vector2f(-5.f, 15.f));   // Inicio tallo izquierdo
-        // --- Hoja Izquierda ---
-        simbolo.setPoint(9, Vector2f(-10.f, 15.f));  // Unión inferior izquierda
-        simbolo.setPoint(10, Vector2f(-30.f, 5.f));  // Punta izquierda
-        simbolo.setPoint(11, Vector2f(-10.f, -5.f)); // Unión superior izquierda
-        simbolo.setPoint(12, Vector2f(0.f, -10.f));  // Cerrar en el centro
+        float r = 12.f; // radio de cada hoja
+
+        // Hoja superior
+        hoja1.setRadius(r);
+        hoja1.setOrigin(Vector2f(r, r));
+        hoja1.setPosition(Vector2f(0.f, -10.f));
+        hoja1.setFillColor(Color::Black);
+
+        // Hoja izquierda
+        hoja2.setRadius(r);
+        hoja2.setOrigin(Vector2f(r, r));
+        hoja2.setPosition(Vector2f(-11.f, 4.f));
+        hoja2.setFillColor(Color::Black);
+
+        // Hoja derecha
+        hoja3.setRadius(r);
+        hoja3.setOrigin(Vector2f(r, r));
+        hoja3.setPosition(Vector2f(11.f, 4.f));
+        hoja3.setFillColor(Color::Black);
+
+        // Tallo
+        tallo.setSize(Vector2f(5.f, 18.f));
+        tallo.setOrigin(Vector2f(2.5f, 0.f));
+        tallo.setPosition(Vector2f(0.f, 10.f));
+        tallo.setFillColor(Color::Black);
     }
     else if (color == Color::Blue) {
         // 1. Usamos 11 puntos para definir la forma de pica y su tallo
@@ -102,35 +115,44 @@ void Carta::crearSimbolo() {
 
     simbolo.setFillColor(color);
 
-    FloatRect bounds = simbolo.getLocalBounds();
-    simbolo.setOrigin(Vector2f(bounds.size.x / 2.f, bounds.size.y / 2.f));
-    simbolo.setPosition(Vector2f(80.f, 115.f));
+    FloatRect bounds = simbolo.getLocalBounds(); // Calcula el área local del símbolo para centrar su origen
+    simbolo.setOrigin(Vector2f(bounds.size.x / 2.f, bounds.size.y / 2.f)); // Establece el origen en el centro del símbolo para que rote y escale correctamente
+    simbolo.setPosition(Vector2f(30.f, 35.f)); // Posiciona el símbolo en el centro de la carta
 
 }
 void Carta::configurarTexto() {
-    numero.setCharacterSize(20);   // Configuramos el texto del número
+    numero.setCharacterSize(15);   // Configuramos el texto del número
     numero.setFillColor(color);
-    numero.setPosition(Vector2f(5.f, 5.f));
-    numeroAbajo.setCharacterSize(20);   // Configuramos el texto del número de abajo
+    numero.setPosition(Vector2f(-35.f, -60.f));
+    numeroAbajo.setCharacterSize(15);   // Configuramos el texto del número de abajo
     numeroAbajo.setFillColor(color);
-    numeroAbajo.setPosition(Vector2f(80.f, 110.f)); // Gira el número para que se vea al revés
+    numeroAbajo.setPosition(Vector2f(25.f, 45.f)); // Gira el número para que se vea al revés
 }
 
 
 // Esta función le dice a la ventana qué orden seguir para dibujar la carta. Estoy aquí redefiniendo la función draw de la clase Drawable
 void Carta::draw(RenderTarget& target, RenderStates states) const {
     if (enJuego == true) {
-        states.transform *= getTransform(); // Aplica movimiento y rotación
-        target.draw(forma, states);         // 1. Dibuja el fondo
-        target.draw(numero, states);            // 2. Dibuja el número arriba
-        target.draw(numeroAbajo, states);        // 3. Dibuja el número arriba
-        target.draw(simbolo, states);       // 4. Dibuja el símbolo
-    }
-    else if (enJuego == false) {
-        states.transform *= getTransform();  //Aplica movimiento y rotación
-        target.draw(cartaReves, states); //1. Dibuja el fondo del reverso de la carta
+        states.transform *= getTransform();
+        target.draw(forma, states);
+        target.draw(numero, states);
+        target.draw(numeroAbajo, states);
 
-        target.draw(marcoInterior, states); //2. Dibuja el marco interior del reverso de la carta
+        if (color == Color::Black) {
+            // Dibujar trébol con círculos
+            target.draw(hoja1, states);
+            target.draw(hoja2, states);
+            target.draw(hoja3, states);
+            target.draw(tallo, states);
+        }
+        else {
+            target.draw(simbolo, states);
+        }
+    }
+    else {
+        states.transform *= getTransform();
+        target.draw(cartaReves, states);
+        target.draw(marcoInterior, states);
     }
 }
 
@@ -146,7 +168,7 @@ Carta::Carta(Color color, string valor, const sf::Font* font, const Font* font2,
     numeroAbajo.setString(valor2);
     crearSimbolo();
     configurarTexto();
-    setPosition(Vector2f(800.f, 300.f));  //Posición inicial
+    setPosition(Vector2f(850.f, 420.f));  //Posición inicial
 
 }
 int Carta::getValor() {
@@ -163,12 +185,13 @@ int Carta::getValor() {
 }
 // Calcula el área que ocupa la carta en la pantalla (para saber si le haces clic)
 FloatRect Carta::getGlobalBounds() const {
-    return getTransform().transformRect(forma.getGlobalBounds());
+    FloatRect local = forma.getLocalBounds();
+    local.position -= Vector2f(40.f, 65.f);  // compensar el origen
+    return getTransform().transformRect(local);
 }
 Vector2f Carta::getPos() const { return Transformable::getPosition(); } //Función para tener la posición de la carta
 void Carta::voltear() {
     enJuego = true;
-    cout << "Se volteo la carta";
 }
 void Carta::aparecerAlreves() { //Funcion para aparecer la carta alreves
     enJuego = false;
@@ -180,3 +203,4 @@ bool Carta::getHItBox() const { //Función para obtener el valor de la hitbox
 void Carta::setHitBox(bool valor) { //Función para establecer el valor de la hitbox
     hitBox = valor;
 }
+

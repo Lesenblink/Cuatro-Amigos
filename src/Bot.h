@@ -19,7 +19,9 @@ private:
 	void posicionJugador4Final(); //Función para posicionar las cartas de la mano final del bot
 public:
 	Bot(Carta  carta1, Carta carta2, Carta carta3, Carta  carta4, Carta  carta5, Carta  carta6, Carta  carta7, Carta  carta8, Carta  carta9, int num);
-	int  verBuche(Carta cartaDelBuhce);
-	int verMano( Carta cartita);
+	int verBuche(Carta cartaDelBuhce); // Verifica si el bot puede jugar sobre el buche
+	int verMano( Carta cartita); // Verifica las cartas en la mano del bot
+	int getNumeroJugador() { return numeroBot; } // Retorna el número del bot (2, 3 o 4)
+	void operator+(Carta carta); // Agrega una carta a la mano del bot y la posiciona
 
 };
