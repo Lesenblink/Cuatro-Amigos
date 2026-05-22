@@ -4,88 +4,136 @@ using namespace sf;
 using namespace std;
 
 //Funciones Private
-void Jugador::definirPosicionMano() {
-	for (int i = 0; i < mano.size(); i++) {
-		mano[i].setPosition(Vector2f(600.f - i * 70.f, 940.f));  // izquierda
+
+void Jugador::asignarPosicion(string tipoMano) {
+
+	Vector2f posicion;
+
+	if (tipoMano == "mano") {
+
+		posicion = Vector2f(600.f, 700.f);
+
+		for (int i = 0; i < mano.size(); i++) {
+			mano[i].setPosition(posicion - Vector2f(i * 70.f, 0));
+		}
 	}
-}
-void Jugador::definirPosicionManoReserva() {
-	for (int i = 0; i < manoReserva.size(); i++) {
-		manoReserva[i].setPosition(Vector2f(1540.f - i * 50.f, 870.f));  // derecha, misma Y
+	else if (tipoMano == "reserva") {
+
+		posicion = Vector2f(1540.f, 620.f);
+
+		for (int i = 0; i < manoReserva.size(); i++) {
+			manoReserva[i].setPosition(posicion - Vector2f(i * 100.f, 0));
+		}
 	}
-}
-void Jugador::definirPosicionManoFinal() {
-	for (int i = 0; i < manoFinal.size(); i++) {
-		manoFinal[i].setPosition(Vector2f(1540.f - i * 50.f, 940.f));  // arriba de la reserva
+	else if (tipoMano == "final") {
+
+		posicion = Vector2f(1540.f, 790.f);
+
+		for (int i = 0; i < manoFinal.size(); i++) {
+			manoFinal[i].setPosition(posicion - Vector2f(i * 100.f, 0));
+		}
 	}
 }
 
 void Jugador::separarCarta(Vector2f mousePos) { //Separar las cartas de la mano principal al pasar el mouse por encima
 	for (int i = 0; i < mano.size(); i++) {
 		if (mano[i].getGlobalBounds().contains(mousePos)) {
-			mano[i].setPosition(Vector2f(1350.f - i * 70.f, 770.f)); // cuando el mouse esta sobre la carta, se levanta un poco
+			mano[i].setPosition(Vector2f(900.f - i * 70.f, 670.f));
 		}
 		else {
-			mano[i].setPosition(Vector2f(1350.f - i * 70.f, 800.f)); //estado natural
+			mano[i].setPosition(Vector2f(900.f - i * 70.f, 700.f));
 		}
+	}
+}
+
+void Jugador::inicializarMazo(Carta& carta, Carta& carta2, Carta& carta3, string tipoMano) {
+	if (tipoMano == "mano") {
+		mano.push_back(carta);
+		mano.push_back(carta2);
+		mano.push_back(carta3);
+	}
+	else if (tipoMano == "reserva") {
+		manoReserva.push_back(carta);
+		manoReserva.push_back(carta2);
+		manoReserva.push_back(carta3);
+	}
+	else if (tipoMano == "final") {
+		manoFinal.push_back(carta);
+		manoFinal.push_back(carta2);
+		manoFinal.push_back(carta3);
+		cout << "-----------------------------------------Mano final inicializada con 3 cartas" << endl;
 	}
 }
 // public
 
-Jugador::Jugador(Carta  carta1, Carta carta2, Carta carta3, Carta  carta4, Carta  carta5, Carta  carta6, Carta  carta7, Carta  carta8, Carta  carta9)  {
-	mano.push_back(carta1);
-	mano.push_back(carta2);
-	mano.push_back(carta3);
-	manoReserva.push_back(carta4);
-	manoReserva.push_back(carta5);
-	manoReserva.push_back(carta6);
-	manoFinal.push_back(carta7);
-	manoFinal.push_back(carta8);
-	manoFinal.push_back(carta9);
-	definirPosicionMano();
-	definirPosicionManoReserva();
-	definirPosicionManoFinal();
+Jugador::Jugador( vector<Carta>& cartas) {
+	inicializarMazo(cartas[0], cartas[1], cartas[2]);
+	inicializarMazo(cartas[3], cartas[4], cartas[5], "reserva");
+	inicializarMazo(cartas[6], cartas[7], cartas[8], "final");
+	asignarPosicion();
+	asignarPosicion("reserva");
+	asignarPosicion("final");
+	for (auto& carta : mano) { //Aquí volteamos las cartas de la mano final
+		carta.voltear();
+	}
 	for (auto& carta : manoFinal) { //Aquí volteamos las cartas de la mano final
-		carta.aparecerAlreves();
+		carta.voltear(false);
+	}
+	for (auto& carta : manoReserva) { //Aquí volteamos las cartas de la mano final
+		carta.voltear();
 	}
 }
 void Jugador::operator+(Carta carta) {  //Función sobrecargada para comer 
 	mano.push_back(carta); // Agrega la carta a la última  de la mano
-	mano.back().setPosition(Vector2f(1350.f - (mano.size() - 1) * 70.f, 940.f)); // Aquí acomoda la posicion de la nueva carta a la mano
+	mano.back().setPosition(Vector2f(900.f - (mano.size() - 1) * 70.f, 700.f)); // Aquí acomoda la posicion de la nueva carta a la mano
 }
-Carta& Jugador::getCarta(int  posicion) {
-	return mano[posicion];
+Carta& Jugador::getCarta(int  posicion, string tipoMano) {  //Para dibujar las cartas, obtenemos una carta especifica
+	if (tipoMano == "mano") {
+		return mano.at(posicion); //validamos el indice con at() para evitar errores de acceso a memoria
+	}
+	else if (tipoMano == "reserva") {
+		return manoReserva.at(posicion);
+	}
+	else {
+		return manoFinal.at(posicion);
+	}
 }
-Carta& Jugador::getCartaReserva(int  posicion) {
-	return manoReserva[posicion];
+Carta  Jugador::QuitarCarta(int x, string tipoMano) {
+	if (tipoMano == "mano") {
+		Carta carta = mano[x]; // Guarda la carta que se va a quitar
+		mano.erase(mano.begin() + x); // Elimina la carta de la mano
+		asignarPosicion(tipoMano); // Reajusta las posiciones de las cartas restantes
+		return carta; // Devuelve la carta quitada
+	}
+	else if(tipoMano=="reserva")
+	{
+		Carta carta = manoReserva[x]; // Guarda la carta que se va a quitar
+		manoReserva.erase(manoReserva.begin() + x); // Elimina la carta de la mano reserva
+		asignarPosicion("reserva"); // Reajusta las posiciones de las cartas restantes en la mano reserva
+		return carta; // Devuelve la carta quitada
+	}else if(tipoMano == "final")
+	{
+		Carta carta = manoFinal[x]; // Guarda la carta que se va a quitar
+		manoFinal.erase(manoFinal.begin() + x); // Elimina la carta de la mano final
+		asignarPosicion("final"); // Reajusta las posiciones de las cartas restantes en la mano final
+		return carta; // Devuelve la carta quitada
+	}
+	else 
+		throw invalid_argument("Tipo de mano inválido"); // Si el tipo de mano no es válido, lanza una excepción
 }
-Carta  Jugador::QuitarCarta(int x) {
-	Carta carta = mano[x]; // Guarda la carta que se va a quitar
-	mano.erase(mano.begin() + x); // Elimina la carta de la mano
-	definirPosicionMano(); // Reajusta las posiciones de las cartas restantes
-	return carta; // Devuelve la carta quitada
+
+int Jugador::numeroCartas(string tipoMano) {
+	if (tipoMano == "mano") {
+		return mano.size();
+	}
+	else if (tipoMano == "reserva") {
+		return manoReserva.size();
+	}
+	else {
+		return manoFinal.size();
+	}
 }
-Carta  Jugador::QuitarCartaReserva(int x) {
-	Carta carta = manoReserva[x]; // Guarda la carta que se va a quitar
-	manoReserva.erase(manoReserva.begin() + x); // Elimina la carta de la mano reserva
-	definirPosicionManoReserva(); // Reajusta las posiciones de las cartas restantes en la mano reserva
-	return carta; // Devuelve la carta quitada
-}
-int Jugador::numeroCartas() {
-	return mano.size();
-}
-int Jugador::numeroCartasReserva() {
-	return manoReserva.size();
-}
-Carta& Jugador::getCartaManoFinal(int  posicion) {
-	return manoFinal[posicion];
-}
-Carta Jugador::darCartaDeReserva(int x) {
-	Carta carta = manoReserva[x]; // Guarda la carta que se va a dar
-	manoReserva.erase(manoReserva.begin() + x); // Elimina la carta de la mano reserva
-	definirPosicionManoReserva(); // Reajusta las posiciones de las cartas restantes en la mano reserva
-	return carta; // Devuelve la carta dada
-}
+
 void Jugador::voltearCarta(int x) {
 	if (x >= 0 && x < mano.size()) {   //Validamos si el indice es correcto
 		mano[x].voltear();
@@ -94,24 +142,10 @@ void Jugador::voltearCarta(int x) {
 		throw out_of_range("Índice fuera de rango");//Detenemos el programa si el indice es incorrecto y lanzamos un mensaje de error 
 	}
 }
-int Jugador::tamanoManoFinal() {
-	return manoFinal.size(); //Regresa el tamaño de la mano final
-}
 
-Carta& Jugador::gettamanoManoFinal(int  posicion) {
-	return manoFinal[posicion];
-}
-Carta Jugador::darCartaFinal(int x) {
-	if (x >= 0 && x < manoFinal.size()) {  //Validamos si el indice es correcto
-		Carta carta = manoFinal[x];  //Creamos una copia
-		manoFinal.erase(manoFinal.begin() + x); // Elimina la carta de la mano final
-		cout << "Sacaste la carta de la mano final" << x << endl;
-		return carta; //Regresamos la copia
-	}
-	else {
-		throw out_of_range("Índice fuera de rango");//Detenemos el programa si el indice es incorrecto y lanzamos un mensaje de error 
-	}
-}
+
+
+
 bool Jugador::getCartaHitBox(int x) {
 	if (x >= 0 && x < mano.size()) {  //Validamos si el indice es correcto
 		return mano[x].getHItBox();
@@ -120,3 +154,4 @@ bool Jugador::getCartaHitBox(int x) {
 		throw out_of_range("Índice fuera de rango");//Detenemos el programa si el indice es incorrecto y lanzamos un mensaje de error 
 	}
 }
+
