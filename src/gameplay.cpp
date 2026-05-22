@@ -1,10 +1,11 @@
 #include "gameplay.h"
-#include "Mesa.h"
-#include "Jugador.h"
 #include "Carta.h"
-#include "Luigui.h"
+#include "Jugador.h"
 #include "Bot.h"
+#include "Mesa.h"
+#include "Luigui.h"
 using namespace sf;
+
 //Funciones privadas
 void GamePlay::validarFonts() {
     font.openFromFile("../assets/arial.ttf");
@@ -117,8 +118,7 @@ void GamePlay::comerCarta() {
 // Toma todas las cartas acumuladas en el buche y las pasa a la mano del jugador
 void GamePlay::comerCartaBuche() {
     if (turno == 1 && mesa->tamanoDelBuche() > 0 && mesa->getBuche().getGlobalBounds().contains(mousePos)) {
-        cout << "Buche pos: " << mesa->getBuche().getPos().x << ", "
-            << mesa->getBuche().getPos().y << endl;
+        cout << "Buche pos: " << mesa->getBuche().getPos().x << ", "<< mesa->getBuche().getPos().y << endl;
         cout << "Mouse pos: " << mousePos.x << ", " << mousePos.y << endl;
         while (mesa->tamanoDelBuche() > 0) { // Mientras haya cartas en el buche
             Carta delBuche = mesa->darCartaDelBuche(); // Saca la carta del buche

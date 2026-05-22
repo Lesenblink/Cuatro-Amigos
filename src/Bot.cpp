@@ -68,6 +68,8 @@ void Bot::asignarPosicion(std::string tipoMano) {
 			}
 		}
 	}
+
+	cout << "Posiciones asignadas para Bot " << numeroBot << " en la mano " << tipoMano << endl;
 }
 Bot::Bot(vector<Carta>& cartas, int num) : Jugador(cartas) {
 	numeroBot = num; 
@@ -85,6 +87,7 @@ Bot::Bot(vector<Carta>& cartas, int num) : Jugador(cartas) {
 	// Mano final: visibles
 	for (int i = 0; i < numeroCartas("final"); i++)
 		getCarta(i, "final").voltear(true);
+
 }
 
 
@@ -104,4 +107,6 @@ void Bot::operator+(Carta carta) {
 		mano.back().setPosition(Vector2f(1590.f, 460.f + (mano.size() - 1) * 90.f));
 		mano.back().setRotation(sf::degrees(-90.f));
 	}
+
+	cout << "Carta agregada a Bot " << numeroBot << ". Posición: (" << mano.back().getPos().x << ", " << mano.back().getPos().y << ")" << endl;
 }

@@ -9,6 +9,8 @@ void Carta::crearFrente() {
     forma.setFillColor(Color::White);
     forma.setOutlineColor(Color::Black);
     forma.setOutlineThickness(3.f);
+
+    cout << "se creo el frente de las cartas"<<endl;
 }
 
 void Carta::crearReverso() {
@@ -35,6 +37,7 @@ void Carta::crearReverso() {
     else {
         marcoInterior.setOutlineColor(Color::Green);
     }
+	cout << "se creo el reverso y el marco de las cartas" << endl;
 }
 void Carta::crearSimbolo() {
     if (color == Color::Red) {
@@ -108,6 +111,7 @@ void Carta::crearSimbolo() {
     simbolo.setOrigin(Vector2f(bounds.size.x / 2.f, bounds.size.y / 2.f));
     simbolo.setPosition(Vector2f(90.f, 125.f));
 
+	cout << "se creo el simbolo de las cartas" << endl;
 }
 void Carta::configurarTexto() {
     numero.setCharacterSize(20);   // Configuramos el texto del número
@@ -145,6 +149,12 @@ void Carta::draw(RenderTarget& target, RenderStates states) const {
 
         target.draw(marcoInterior, states); //2. Dibuja el marco interior del reverso de la carta
     }
+
+    static bool yaImprimio = false;
+    if (!yaImprimio) {
+        cout << "se dibujaron las cartas" << endl;
+        yaImprimio = true;
+    }
 }
 
 
@@ -181,11 +191,11 @@ FloatRect Carta::getGlobalBounds() const {
 Vector2f Carta::getPos() const { return Transformable::getPosition(); } //Función para tener la posición de la carta
 void Carta::voltear() {
     enJuego = true;
-    cout << "-[Se volteo la carta]-";
+    cout << "se volteo la carta" << endl;
 }
 void Carta::voltear(bool tipo) { //Funcion para aparecer la carta alreves
     enJuego = false;
-    cout << "*(Se volteo la carta  a asia arriba)*";
+	cout << "se volteo la carta" << endl;
 }
 bool Carta::getHItBox() const { //Función para obtener el valor de la hitbox
     return hitBox;

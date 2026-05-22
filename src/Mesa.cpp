@@ -20,17 +20,25 @@ void Mesa::crearMazo(const sf::Font& font, const Font& font2) {
         cartasTotales.push_back(pinta);
 
     }
+
+    cout<<"se creo el mazo"<<endl;
+
 }
 void Mesa::estatica() {
     setFillColor(Color(0, 80, 0));
     setPosition(Vector2f(50.f, 50.f));
     borde.setFillColor(Color(128, 64, 0));
+
+    cout << "se creo el borde"<<endl;
+
 }
 //Publico
 
 Mesa::Mesa(const sf::Font& font, const Font& font2) : RectangleShape(Vector2f(1700.f, 950.f)), borde(Vector2f(1800.f, 1050.f)) {
     estatica();
     crearMazo(font, font2);
+
+    cout << "se creo la mesa"<<endl;
 }
 vector<vector<Carta>> Mesa::darTodasLasCartas() {
     vector<vector<Carta>> todas = cartasTotales;
@@ -39,6 +47,7 @@ vector<vector<Carta>> Mesa::darTodasLasCartas() {
 }
 void Mesa::recibirCartasBarajeadas(Luigui& mario) {
     cartasTotales = mario.darCartasBarajeadas();
+    cout << "se recibieron las cartas barajeadas";
 }
 Carta Mesa::darCarta() {
     //Este for se adapta al tamaño del vector, el -1 es porque los vectores inician desde 0.
@@ -51,6 +60,8 @@ Carta Mesa::darCarta() {
         }
     }
     throw runtime_error("No hay cartas disponibles");
+
+    cout << "se dieron todas las cartas";
 }
 Carta& Mesa::getCarta() {
     //Este for se adapta al tamaño del vector, el -1 es porque los vectores inician desde 0.
@@ -61,6 +72,8 @@ Carta& Mesa::getCarta() {
         }
     }
     throw runtime_error("No hay cartas en el mazo");
+
+    cout << "se tomo una carta";
 }
 int Mesa::tamanoCartasTotales() {      //Función para saber cuantas cartas hay en total en la mesa
     int totalDeCartas = 0; //Variable temporal
@@ -68,6 +81,8 @@ int Mesa::tamanoCartasTotales() {      //Función para saber cuantas cartas hay 
         totalDeCartas += fila.size();
     }
     return totalDeCartas; // Regresamos el resultado del for 
+
+	cout << "se obtuvo el tamaño de las cartas totales" << endl;
 }
 RectangleShape& Mesa::getBorde() { return borde; }
 
@@ -76,6 +91,8 @@ void Mesa::llenarBuche(Carta carta) {
     carta.setRotation(sf::degrees(0.f));      // Quitar rotación
     carta.setPosition(Vector2f(750.f, 600.f));
     bucheDeCartas.push_back(carta);
+
+	cout << "se lleno el buche" << endl;
 }
 Carta& Mesa::getBuche() {  //Obtemenos la carta del buche 
     return bucheDeCartas.back();
@@ -96,6 +113,8 @@ Carta Mesa::darCartaDelBuche() {  //Función para comer la carta del buche
             }
         
     }
+
+	cout << "se dio una carta del buche" << endl;
 }
 int Mesa::valorDeCartaBuche(int a) { //Obtenemos el valor de la ultima carta 
     return bucheDeCartas[a].getValor();
