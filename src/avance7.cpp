@@ -23,7 +23,7 @@ public:
 
         //Imagen de fondo
         sf::Texture menuTex;
-        menuTex.loadFromFile("C:\\Users\\fzava\\source\\repos\\ConsoleApplication1\\assets\\Menu.png");
+        menuTex.loadFromFile("../assets/Menu.png");
         sf::Sprite menuSprite(menuTex);
         sf::Vector2u texSize = menuTex.getSize();
         menuSprite.setScale(sf::Vector2f(1400.f / texSize.x, 800.f / texSize.y));

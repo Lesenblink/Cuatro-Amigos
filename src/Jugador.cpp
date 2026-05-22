@@ -11,7 +11,7 @@ void Jugador::asignarPosicion(string tipoMano) {
 
 	if (tipoMano == "mano") {
 
-		posicion = Vector2f(600.f, 700.f);
+		posicion = Vector2f(1320.f, 770.f);
 
 		for (int i = 0; i < mano.size(); i++) {
 			mano[i].setPosition(posicion - Vector2f(i * 70.f, 0));
@@ -19,7 +19,7 @@ void Jugador::asignarPosicion(string tipoMano) {
 	}
 	else if (tipoMano == "reserva") {
 
-		posicion = Vector2f(1540.f, 620.f);
+		posicion = Vector2f(1640.f, 770.f);
 
 		for (int i = 0; i < manoReserva.size(); i++) {
 			manoReserva[i].setPosition(posicion - Vector2f(i * 100.f, 0));
@@ -27,7 +27,7 @@ void Jugador::asignarPosicion(string tipoMano) {
 	}
 	else if (tipoMano == "final") {
 
-		posicion = Vector2f(1540.f, 790.f);
+		posicion = Vector2f(1640.f, 840.f);
 
 		for (int i = 0; i < manoFinal.size(); i++) {
 			manoFinal[i].setPosition(posicion - Vector2f(i * 100.f, 0));
@@ -41,7 +41,7 @@ void Jugador::separarCarta(Vector2f mousePos) { //Separar las cartas de la mano 
 			mano[i].setPosition(Vector2f(900.f - i * 70.f, 670.f));
 		}
 		else {
-			mano[i].setPosition(Vector2f(900.f - i * 70.f, 700.f));
+			mano[i].setPosition(Vector2f(1320.f - i * 70.f, 770.f));
 		}
 	}
 }
@@ -85,7 +85,7 @@ Jugador::Jugador( vector<Carta>& cartas) {
 }
 void Jugador::operator+(Carta carta) {  //Función sobrecargada para comer 
 	mano.push_back(carta); // Agrega la carta a la última  de la mano
-	mano.back().setPosition(Vector2f(900.f - (mano.size() - 1) * 70.f, 700.f)); // Aquí acomoda la posicion de la nueva carta a la mano
+	asignarPosicion("mano"); // Aquí acomoda la posicion de la nueva carta a la mano
 }
 Carta& Jugador::getCarta(int  posicion, string tipoMano) {  //Para dibujar las cartas, obtenemos una carta especifica
 	if (tipoMano == "mano") {
