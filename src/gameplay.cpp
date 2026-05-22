@@ -73,12 +73,12 @@ void GamePlay::hitboxMano() {
     for (int i = jugador1->numeroCartas() - 1; i >= 0; i--) {
 
         if (!estaLevantada && jugador1->getCarta(i).getGlobalBounds().contains(temporalMouse)) {
-            jugador1->getCarta(i).setPosition(Vector2f(1320.f - i * 70.f, 910.f)); // ← carta levantada
+            jugador1->getCarta(i).setPosition(Vector2f(1320.f - i * 70.f, 810.f)); // ← carta levantada
             jugador1->getCarta(i).setHitBox(true);
             estaLevantada = true;
         }
         else {
-            jugador1->getCarta(i).setPosition(Vector2f(1320.f - i * 70.f, 940.f)); // ← posición normal
+            jugador1->getCarta(i).setPosition(Vector2f(1320.f - i * 70.f, 840.f)); // ← posición normal
             jugador1->getCarta(i).setHitBox(false);
         }
     }
@@ -215,10 +215,11 @@ void GamePlay::dibujar() {
     for (int b = 0; b < IA.size(); b++) {
         for (int i = 0; i < IA[b]->numeroCartas(); i++)
             window.draw(IA[b]->getCarta(i));
-        for (int i = 0; i < IA[b]->numeroCartas("reserva"); i++)
-            window.draw(IA[b]->getCarta(i, "reserva"));
         for (int i = 0; i < IA[b]->numeroCartas("final"); i++)
             window.draw(IA[b]->getCarta(i, "final"));
+        for (int i = 0; i < IA[b]->numeroCartas("reserva"); i++)
+            window.draw(IA[b]->getCarta(i, "reserva"));
+        
     }
     
     //buche y maso
