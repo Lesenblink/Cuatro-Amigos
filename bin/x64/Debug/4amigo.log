@@ -1,4 +1,5 @@
-﻿  gameplay.cpp
-C:\Users\COREP\source\repos\proyecto\src\gameplay.cpp(10,22): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
-C:\Users\COREP\source\repos\proyecto\src\gameplay.cpp(11,23): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
-  4amigo.vcxproj -> C:\Users\COREP\source\repos\proyecto\bin\Debug\4amigo.exe
+﻿  avance7.cpp
+C:\Users\fzava\source\repos\ConsoleApplication1\src\avance7.cpp(19,19): warning C4244: 'inicializando': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\fzava\source\repos\ConsoleApplication1\src\avance7.cpp(20,19): warning C4244: 'inicializando': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\fzava\source\repos\ConsoleApplication1\src\avance7.cpp(26,29): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
+  4amigo.vcxproj -> C:\Users\fzava\source\repos\ConsoleApplication1\bin\Debug\4amigo.exe

@@ -10,6 +10,7 @@
 using namespace sf;
 using namespace std;
 
+
 class Menu {
 private:
     bool iniciarJuego = 0;
@@ -18,14 +19,22 @@ public:
         int menux = -600.f;
         int menuy = -150.f;
 
-        sf::RenderWindow window(sf::VideoMode({ 1400, 800 }), "SFML works!");
+        sf::RenderWindow window(sf::VideoMode({ 1400, 800 }), "Four Friends");
 
-        sf::RectangleShape Opcion1(sf::Vector2f(400.f, 200.f));
-        Opcion1.setOrigin(sf::Vector2f(menux, menuy));
-        Opcion1.setFillColor(sf::Color::Green);
-        sf::RectangleShape Opcion2(sf::Vector2f(400.f, 200.f));
-        Opcion2.setOrigin(sf::Vector2f(menux, menuy - 300.f));
-        Opcion2.setFillColor(sf::Color::Blue);
+        //Imagen de fondo
+        sf::Texture menuTex;
+        menuTex.loadFromFile("C:\\Users\\fzava\\source\\repos\\ConsoleApplication1\\assets\\Menu.png");
+        sf::Sprite menuSprite(menuTex);
+        sf::Vector2u texSize = menuTex.getSize();
+        menuSprite.setScale(sf::Vector2f(1400.f / texSize.x, 800.f / texSize.y));
+
+        //Botones interactivos del menú
+        sf::RectangleShape Opcion1(sf::Vector2f(450.f, 105.f));
+        Opcion1.setOrigin(sf::Vector2f(-830.f, -440.f));
+        Opcion1.setFillColor(sf::Color::Transparent);
+        sf::RectangleShape Opcion2(sf::Vector2f(450.f, 105.f));
+        Opcion2.setOrigin(sf::Vector2f(-830.f, -600.f));
+        Opcion2.setFillColor(sf::Color::Transparent);
 
         while (window.isOpen())
         {
@@ -43,9 +52,6 @@ public:
                         window.close();
                         iniciarJuego = 1;
                     }
-                }
-                if (event->is<sf::Event::MouseButtonPressed>())
-                {
                     if (Opcion2.getGlobalBounds().contains(sf::Vector2f(mousePos)))
                     {
                         window.close();
@@ -55,6 +61,7 @@ public:
             }
 
             window.clear();
+            window.draw(menuSprite);
             window.draw(Opcion1);
             window.draw(Opcion2);
             window.display();
@@ -64,28 +71,22 @@ public:
     bool getIniciarJuego() const {
         return iniciarJuego;
     }
-
 };
 
-//motor del juego
+//Motor del juego
 int main() {
-  
-    // Intentamos cargar la fuente de letra de Windows
     GamePlay juego;
     Menu menu;
     menu.iniciarMenu();
     if (menu.getIniciarJuego() == 1) {
         juego.ejecutarJuego();
-    };
+    }
 
     return 0;
 }
 
 /*
 COSAS OBSERVADAS:
--Faltan el sistema de turnos
--Tambien falta la IA
--Falta el menu
 -Tarda en arrancar (creo que se puede optimizar mejor)
 -Falta la última meécanica, lanzar cartas encadenadas
 
