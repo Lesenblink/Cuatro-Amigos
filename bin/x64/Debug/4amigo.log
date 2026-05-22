@@ -1,15 +1,2 @@
-﻿  Bot.cpp
-  Jugador.cpp
-C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\Jugador.cpp(127,19): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
-C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\Jugador.cpp(130,26): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
-C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\Jugador.cpp(133,24): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
-  avance7.cpp
-C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\avance7.cpp(19,19): warning C4244: 'inicializando': conversión de 'float' a 'int'; posible pérdida de datos
-C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\avance7.cpp(20,19): warning C4244: 'inicializando': conversión de 'float' a 'int'; posible pérdida de datos
-C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\avance7.cpp(26,29): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
-  gameplay.cpp
-C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\gameplay.cpp(10,22): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
-C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\gameplay.cpp(11,23): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
-  Generando código...
-  LINK : no se encontró C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\..\bin\Debug\4amigo.exe o no lo generó el último vínculo incremental; ejecutando vínculo completo
-  4amigo.vcxproj -> C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\bin\Debug\4amigo.exe
+﻿  Carta.cpp
+  4amigo.vcxproj -> C:\Users\COREP\source\repos\proyecto\bin\Debug\4amigo.exe

@@ -3,7 +3,7 @@
 #include "Carta.h"
 void Luigui::recibirBaraja(vector<vector<Carta>> cartasdeMesa) {
     cartas = cartasdeMesa;
-    cout << "Se recibio con exito";
+    cout << "Se recibio la baraja con exito"<<endl;
 }
 void Luigui::mesclarBaraja() {
     vector<Carta> temporal; //Creamos un vector temporal porque si uticisamos la matriz solo va barajear las filas pero no las cartas de cada fila
@@ -19,9 +19,13 @@ void Luigui::mesclarBaraja() {
             llenarMatriz++;//Sumamos uno para la posicon de la matriz
         }
     }
+
+	cout << "Se mezclo la baraja con exito" << endl;
 }
 vector<vector<Carta>> Luigui::darCartasBarajeadas() {
     vector<vector<Carta>> totales = cartas;
     cartas.clear();
     return totales;
+
+	cout << "Se dio la baraja barajeada con exito" << endl;
 }

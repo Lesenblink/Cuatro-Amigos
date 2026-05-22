@@ -33,12 +33,14 @@ void Jugador::asignarPosicion(string tipoMano) {
 			manoFinal[i].setPosition(posicion - Vector2f(i * 100.f, 0));
 		}
 	}
+
+	cout << "todos los jugadores posicionados" << endl;
 }
 
 void Jugador::separarCarta(Vector2f mousePos) { //Separar las cartas de la mano principal al pasar el mouse por encima
 	for (int i = 0; i < mano.size(); i++) {
 		if (mano[i].getGlobalBounds().contains(mousePos)) {
-			mano[i].setPosition(Vector2f(900.f - i * 70.f, 670.f));
+			mano[i].setPosition(Vector2f(1320.f - i * 70.f, 670.f));
 		}
 		else {
 			mano[i].setPosition(Vector2f(1320.f - i * 70.f, 770.f));
@@ -82,10 +84,13 @@ Jugador::Jugador( vector<Carta>& cartas) {
 	for (auto& carta : manoReserva) { //Aquí volteamos las cartas de la mano final
 		carta.voltear();
 	}
+
+	cout << "se repartieron todas las cartas de jugador" << endl;
 }
 void Jugador::operator+(Carta carta) {  //Función sobrecargada para comer 
 	mano.push_back(carta); // Agrega la carta a la última  de la mano
-	asignarPosicion("mano"); // Aquí acomoda la posicion de la nueva carta a la mano
+	mano.back().setPosition(Vector2f(1320.f - (mano.size() - 1) * 70.f, 770.f)); // Aquí acomoda la posicion de la nueva carta a la mano
+	cout << "Carta agregada a la mano del jugador" << endl;
 }
 Carta& Jugador::getCarta(int  posicion, string tipoMano) {  //Para dibujar las cartas, obtenemos una carta especifica
 	if (tipoMano == "mano") {
@@ -120,6 +125,8 @@ Carta  Jugador::QuitarCarta(int x, string tipoMano) {
 	}
 	else 
 		throw invalid_argument("Tipo de mano inválido"); // Si el tipo de mano no es válido, lanza una excepción
+
+	cout << "Carta quitada de la mano del jugador" << endl;
 }
 
 int Jugador::numeroCartas(string tipoMano) {
@@ -132,6 +139,8 @@ int Jugador::numeroCartas(string tipoMano) {
 	else {
 		return manoFinal.size();
 	}
+
+	cout << "Número de cartas en la mano del jugador: " << numeroCartas(tipoMano) << endl;
 }
 
 void Jugador::voltearCarta(int x) {
@@ -141,6 +150,8 @@ void Jugador::voltearCarta(int x) {
 	else {
 		throw out_of_range("Índice fuera de rango");//Detenemos el programa si el indice es incorrecto y lanzamos un mensaje de error 
 	}
+
+	cout << "Carta volteada en la mano del jugador" << endl;
 }
 
 
