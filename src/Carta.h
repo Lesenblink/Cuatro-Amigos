@@ -19,6 +19,8 @@ private:
     RectangleShape cartaReves; // La parte de atrás de la carta.
     RectangleShape marcoInterior; //Marco interior para el reves de la carta
     ConvexShape simbolo;  // El rombo o figura de la baraja
+    CircleShape hoja1, hoja2, hoja3;
+    RectangleShape tallo;
 
     void crearFrente();   //Decidimos separar la lógica del constructor en funciones privadas
     void crearReverso();
@@ -34,7 +36,7 @@ public:
     FloatRect getGlobalBounds() const;
     Vector2f getPos() const; //Función para tener la posición de la carta
     void voltear();
-    void aparecerAlreves(); //Funcion para aparecer la carta alreves
+    void voltear(bool tipo); //Funcion para aparecer la carta alreves
     bool getHItBox() const; //Función para obtener el valor de la hitbox
     void setHitBox(bool valor); //Función para establecer el valor de la hitbox
 };

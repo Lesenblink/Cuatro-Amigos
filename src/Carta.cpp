@@ -49,25 +49,27 @@ void Carta::crearSimbolo() {
         simbolo.setPoint(7, Vector2f(15, -10));  // Curva superior derecha
     }
     else if (color == Color::Black) {
-        //  Usamos 13 puntos para definir la silueta (3 hojas + tallo)
-        simbolo.setPointCount(13);
-        // --- Hoja Superior ---
-        simbolo.setPoint(0, Vector2f(0.f, -10.f));   // Centro superior (hendidura)
-        simbolo.setPoint(1, Vector2f(-15.f, -30.f)); // Pico izquierdo arriba
-        simbolo.setPoint(2, Vector2f(15.f, -30.f));  // Pico derecho arriba
-        // --- Hoja Derecha ---
-        simbolo.setPoint(3, Vector2f(10.f, -5.f));   // Unión
-        simbolo.setPoint(4, Vector2f(30.f, 5.f));    // Punta derecha
-        simbolo.setPoint(5, Vector2f(10.f, 15.f));   // Unión inferior derecha
-        // --- Tallo ---
-        simbolo.setPoint(6, Vector2f(5.f, 15.f));    // Inicio tallo derecho
-        simbolo.setPoint(7, Vector2f(0.f, 35.f));    // Punta del tallo (abajo)
-        simbolo.setPoint(8, Vector2f(-5.f, 15.f));   // Inicio tallo izquierdo
-        // --- Hoja Izquierda ---
-        simbolo.setPoint(9, Vector2f(-10.f, 15.f));  // Unión inferior izquierda
-        simbolo.setPoint(10, Vector2f(-30.f, 5.f));  // Punta izquierda
-        simbolo.setPoint(11, Vector2f(-10.f, -5.f)); // Unión superior izquierda
-        simbolo.setPoint(12, Vector2f(0.f, -10.f));  // Cerrar en el centro
+        float r = 12.f; // radio de cada hoja
+
+        hoja1.setRadius(r);
+        hoja1.setOrigin(Vector2f(r, r));
+        hoja1.setPosition(Vector2f(40.f, 87.f));
+        hoja1.setFillColor(Color::Black);
+
+        hoja2.setRadius(r);
+        hoja2.setOrigin(Vector2f(r, r));
+        hoja2.setPosition(Vector2f(50.f, 69.f));
+        hoja2.setFillColor(Color::Black);
+
+        hoja3.setRadius(r);
+        hoja3.setOrigin(Vector2f(r, r));
+        hoja3.setPosition(Vector2f(60.f, 87.f));
+        hoja3.setFillColor(Color::Black);
+
+        tallo.setSize(Vector2f(6.f, 30.f));
+        tallo.setOrigin(Vector2f(3.f, 0.f));
+        tallo.setPosition(Vector2f(50.f, 78.f));
+        tallo.setFillColor(Color::Black);
     }
     else if (color == Color::Blue) {
         // 1. Usamos 11 puntos para definir la forma de pica y su tallo
@@ -104,7 +106,7 @@ void Carta::crearSimbolo() {
 
     FloatRect bounds = simbolo.getLocalBounds();
     simbolo.setOrigin(Vector2f(bounds.size.x / 2.f, bounds.size.y / 2.f));
-    simbolo.setPosition(Vector2f(80.f, 115.f));
+    simbolo.setPosition(Vector2f(90.f, 125.f));
 
 }
 void Carta::configurarTexto() {
@@ -125,6 +127,17 @@ void Carta::draw(RenderTarget& target, RenderStates states) const {
         target.draw(numero, states);            // 2. Dibuja el número arriba
         target.draw(numeroAbajo, states);        // 3. Dibuja el número arriba
         target.draw(simbolo, states);       // 4. Dibuja el símbolo
+
+        if (color == Color::Black) {
+            // Dibujar trébol con círculos
+            target.draw(hoja1, states);
+            target.draw(hoja2, states);
+            target.draw(hoja3, states);
+            target.draw(tallo, states);
+        }
+        else {
+            target.draw(simbolo, states);
+        }
     }
     else if (enJuego == false) {
         states.transform *= getTransform();  //Aplica movimiento y rotación
@@ -146,7 +159,7 @@ Carta::Carta(Color color, string valor, const sf::Font* font, const Font* font2,
     numeroAbajo.setString(valor2);
     crearSimbolo();
     configurarTexto();
-    setPosition(Vector2f(800.f, 300.f));  //Posición inicial
+    setPosition(Vector2f(850.f, 420.f));  //Posición inicial
 
 }
 int Carta::getValor() {
@@ -168,11 +181,11 @@ FloatRect Carta::getGlobalBounds() const {
 Vector2f Carta::getPos() const { return Transformable::getPosition(); } //Función para tener la posición de la carta
 void Carta::voltear() {
     enJuego = true;
-    cout << "Se volteo la carta";
+    cout << "-[Se volteo la carta]-";
 }
-void Carta::aparecerAlreves() { //Funcion para aparecer la carta alreves
+void Carta::voltear(bool tipo) { //Funcion para aparecer la carta alreves
     enJuego = false;
-
+    cout << "*(Se volteo la carta  a asia arriba)*";
 }
 bool Carta::getHItBox() const { //Función para obtener el valor de la hitbox
     return hitBox;
