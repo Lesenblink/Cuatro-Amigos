@@ -32,11 +32,11 @@ private:
     virtual void draw(RenderTarget& target, RenderStates states) const override;
 public:
     Carta(Color color, string valor, const sf::Font* font, const Font* font2, string valor2);
-    int getValor(); // Retorna el valor numérico de la carta (J=11, Q=12, K=13, A=14)
-    FloatRect getGlobalBounds() const; // Retorna el área que ocupa la carta en pantalla (para detectar clicks)
+    int getValor();
+    FloatRect getGlobalBounds() const;
     Vector2f getPos() const; //Función para tener la posición de la carta
-    void voltear(); // Voltea la carta para mostrar el frente
-    void aparecerAlreves(); //Funcion para aparecer la carta alreves
+    void voltear();
+    void voltear(bool tipo); //Funcion para aparecer la carta alreves
     bool getHItBox() const; //Función para obtener el valor de la hitbox
     void setHitBox(bool valor); //Función para establecer el valor de la hitbox
 };

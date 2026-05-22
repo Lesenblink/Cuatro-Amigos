@@ -12,7 +12,7 @@ void GamePlay::validarFonts() {
 
 }
 void GamePlay::cargar() {    
-    window.create(VideoMode(Vector2u(1600, 1000)), "4 amigos", sf::Style::Titlebar | sf::Style::Close); //tamaño de la ventana y quitar el resize
+    window.create(VideoMode(Vector2u(1800, 1050)), "4 amigos", sf::Style::Titlebar | sf::Style::Close); //tamaño de la ventana y quitar el resize
     mesa = new Mesa(font, font2);
     luigui = new Luigui();
 
@@ -20,49 +20,31 @@ void GamePlay::cargar() {
     luigui->mesclarBaraja();
     mesa->recibirCartasBarajeadas(*luigui);
 
-    Carta c1 = mesa->darCarta(); c1.voltear();//poner todas volteadas al inicio
-    Carta c2 = mesa->darCarta(); c2.voltear();
-    Carta c3 = mesa->darCarta(); c3.voltear();
-    Carta c4 = mesa->darCarta(); c4.voltear();
-    Carta c5 = mesa->darCarta(); c5.voltear();
-    Carta c6 = mesa->darCarta(); c6.voltear();
-    Carta c7 = mesa->darCarta(); c7.voltear();
-    Carta c8 = mesa->darCarta(); c8.voltear();
-    Carta c9 = mesa->darCarta(); c9.voltear();
+    vector <Carta> cartasTotales;
+	for (int i = 0; i < 9; i++) {
+		cartasTotales.push_back(mesa->darCarta());
+	}
+    jugador1 = new Jugador(cartasTotales);
 
-    Carta c10 = mesa->darCarta(); c10.voltear();//poner todas volteadas al inicio
-    Carta c11 = mesa->darCarta(); c11.voltear();
-    Carta c12 = mesa->darCarta(); c12.voltear();
-    Carta c13 = mesa->darCarta(); c13.voltear();
-    Carta c14 = mesa->darCarta(); c14.voltear();
-    Carta c15 = mesa->darCarta(); c15.voltear();
-    Carta c16 = mesa->darCarta(); c16.voltear();
-    Carta c17 = mesa->darCarta(); c17.voltear();
-    Carta c18 = mesa->darCarta(); c18.voltear();
-    Carta c19 = mesa->darCarta(); c19.voltear();
-    Carta c20 = mesa->darCarta(); c20.voltear();//poner todas volteadas al inicio
-    Carta c21 = mesa->darCarta(); c21.voltear();
-    Carta c22 = mesa->darCarta(); c22.voltear();
-    Carta c23 = mesa->darCarta(); c23.voltear();
-    Carta c24 = mesa->darCarta(); c24.voltear();
-    Carta c25 = mesa->darCarta(); c25.voltear();
-    Carta c26 = mesa->darCarta(); c26.voltear();
-    Carta c27 = mesa->darCarta(); c27.voltear();
-    Carta c28 = mesa->darCarta(); c28.voltear();
-    Carta c29 = mesa->darCarta(); c29.voltear();
-    Carta c30 = mesa->darCarta(); c30.voltear();
+	cartasTotales.clear();
+    for (int i = 0; i < 9; i++) {
+        cartasTotales.push_back(mesa->darCarta());
+    }
+   
+    IA.push_back(new Bot(cartasTotales, 2));
 
-    Carta c31 = mesa->darCarta(); c31.voltear();//poner todas volteadas al inicio
-    Carta c32 = mesa->darCarta(); c32.voltear();
-    Carta c33 = mesa->darCarta(); c33.voltear();
-    Carta c34 = mesa->darCarta(); c34.voltear();
-    Carta c35 = mesa->darCarta(); c35.voltear();
-    Carta c36 = mesa->darCarta(); c36.voltear();
+    cartasTotales.clear();
+    for (int i = 0; i < 9; i++) {
+        cartasTotales.push_back(mesa->darCarta());
+    }
+    IA.push_back(new Bot(cartasTotales, 3));
 
-	IA.push_back(new Bot(c10, c11, c12, c13, c14, c15, c16, c17, c18,2));
-    IA.push_back(new Bot(c19, c20, c21, c22, c23, c24, c25, c26, c27, 3));
-    IA.push_back(new Bot(c28, c29, c30, c31, c32, c33, c34, c35, c36, 4));
-    jugador1 = new Jugador(c1, c2, c3, c4, c5, c6, c7, c8, c9);
+    cartasTotales.clear();
+    for (int i = 0; i < 9; i++) {
+        cartasTotales.push_back(mesa->darCarta());
+    }
+    IA.push_back(new Bot(cartasTotales, 4));
+    cartasTotales.clear();
     Carta inicial = mesa->darCarta();//inicializar variable para voltear la primera carta de el buche (las que se sueltan)
     inicial.voltear();
     mesa->llenarBuche(inicial);
@@ -149,7 +131,7 @@ void GamePlay::comerCartaBuche() {
 }
 void GamePlay::dejarCartas() {
 
-    for (int x = 0; x < jugador1->numeroCartas(); x++) {   //Aquí con este for ayuda a dejar las cartas.
+    for (int x = jugador1->numeroCartas()-1; x >=0; x--) {   //Aquí con este for ayuda a dejar las cartas.
         if (jugador1->getCarta(x).getGlobalBounds().contains(mousePos) && jugador1->getCartaHitBox(x) && turno == 1) {   //Si el jugador hizo click entonces...
 
             //Mecanica para el número 10
@@ -171,7 +153,7 @@ void GamePlay::dejarCartas() {
                     click = false;
                     turno = 2;
                 }
-
+                return;
             }
         }
 
@@ -179,11 +161,11 @@ void GamePlay::dejarCartas() {
     }
 }
 void GamePlay::jugarCartasReserva() {
-    if (jugador1->numeroCartas() == 0 && jugador1->numeroCartasReserva() > 0 && mesa->tamanoCartasTotales() == 0 && turno == 1) {  //Aquí le decimos al gamplay que si np hay cartas en la mano principal entonces pasar a la otra regla del gameplay
-        for (int y = 0; y < jugador1->numeroCartasReserva(); y++) { //For para las cartas de la mano reserva
-            if (jugador1->getCartaReserva(y).getGlobalBounds().contains(mousePos)) {  //Si el jugador hizo click entonces...
+    if (jugador1->numeroCartas() == 0 && jugador1->numeroCartas("reserva") > 0 && mesa->tamanoCartasTotales() == 0 && turno == 1) {  //Aquí le decimos al gamplay que si np hay cartas en la mano principal entonces pasar a la otra regla del gameplay
+        for (int y = 0; y < jugador1->numeroCartas("reserva"); y++) { //For para las cartas de la mano reserva
+            if (jugador1->getCarta(y, "reserva").getGlobalBounds().contains(mousePos)) {  //Si el jugador hizo click entonces...
 
-                (*jugador1) + jugador1->QuitarCartaReserva(y);  //Le pasamos esas carta a la mano principal
+                (*jugador1) + jugador1->QuitarCarta(y, "reserva");  //Le pasamos esas carta a la mano principal
                 click = false;
                 break;
             }
@@ -192,11 +174,11 @@ void GamePlay::jugarCartasReserva() {
     }//
 }
 void GamePlay::jugarCartasFinal() {
-    if (jugador1->numeroCartas() == 0 && jugador1->numeroCartasReserva() == 0 && turno == 1) {
-        for (int z = 0; z < jugador1->tamanoManoFinal(); z++) {
-            if (jugador1->getCartaManoFinal(z).getGlobalBounds().contains(mousePos)) {
+    if (jugador1->numeroCartas() == 0 && jugador1->numeroCartas("reserva") == 0 && turno == 1) {
+        for (int z = 0; z < jugador1->numeroCartas("final"); z++) {
+            if (jugador1->getCarta(z, "final").getGlobalBounds().contains(mousePos)) {
 
-                Carta cartaFinal = jugador1->darCartaFinal(z);  //Creamos una copia para mas tarde voltear esa carta
+                Carta cartaFinal = jugador1->QuitarCarta(z, "final");  //Creamos una copia para mas tarde voltear esa carta
                 cartaFinal.voltear();                   //Volteamos esa carta
                 (*jugador1) + cartaFinal;  //Le pasamos esa carta a la mano principal
                 click = false;
@@ -224,19 +206,19 @@ void GamePlay::dibujar() {
     // Jugador principal
     for (int i = 0; i < jugador1->numeroCartas(); i++)
         window.draw(jugador1->getCarta(i));
-    for (int i = 0; i < jugador1->tamanoManoFinal(); i++)
-        window.draw(jugador1->getCartaManoFinal(i));
-    for (int i = 0; i < jugador1->numeroCartasReserva(); i++)
-        window.draw(jugador1->getCartaReserva(i));
+    for (int i = 0; i < jugador1->numeroCartas("final"); i++)
+        window.draw(jugador1->getCarta(i, "final"));
+    for (int i = 0; i < jugador1->numeroCartas("reserva"); i++)
+        window.draw(jugador1->getCarta(i, "reserva"));
 
     //dibujar las cartas de la ia
     for (int b = 0; b < IA.size(); b++) {
         for (int i = 0; i < IA[b]->numeroCartas(); i++)
             window.draw(IA[b]->getCarta(i));
-        for (int i = 0; i < IA[b]->numeroCartasReserva(); i++)
-            window.draw(IA[b]->getCartaReserva(i));
-        for (int i = 0; i < IA[b]->tamanoManoFinal(); i++)
-            window.draw(IA[b]->getCartaManoFinal(i));
+        for (int i = 0; i < IA[b]->numeroCartas("reserva"); i++)
+            window.draw(IA[b]->getCarta(i, "reserva"));
+        for (int i = 0; i < IA[b]->numeroCartas("final"); i++)
+            window.draw(IA[b]->getCarta(i, "final"));
     }
     
     //buche y maso
@@ -342,7 +324,7 @@ void GamePlay::JugarManoIA(Bot* ia) {
 void GamePlay::IAcomerCarta(Bot* ia) {
     if (mesa->tamanoCartasTotales() > 0 && ia->numeroCartas() < 3) {
         Carta nueva = mesa->darCarta();
-        nueva.aparecerAlreves();  // que aparezca de espaldas
+        nueva.voltear();  // que aparezca de espaldas
         (*ia) + nueva;
     }
 }
@@ -352,7 +334,7 @@ void GamePlay::IAcomerCarta(Bot* ia) {
 void GamePlay::comerBuhceIA(Bot* ia) {
     while (mesa->tamanoDelBuche() > 0) {
         Carta delBuche = mesa->darCartaDelBuche();
-        delBuche.aparecerAlreves();  // que aparezca de espaldas
+        delBuche.voltear();  // que aparezca de espaldas
         (*ia) + delBuche;
     }
     turno = (ia->getNumeroJugador() % 4) + 1;
@@ -361,8 +343,8 @@ void GamePlay::comerBuhceIA(Bot* ia) {
 // Pasa una carta de la mano reserva a la mano principal
 // Solo cuando la mano principal está vacía y el mazo se acabó
 void GamePlay::jugarMAnoIAReserva(Bot* ia) {
-    if (ia->numeroCartas() == 0 && ia->numeroCartasReserva() > 0 && mesa->tamanoCartasTotales() == 0) {
-        Carta reserva = ia->QuitarCartaReserva(0);
+    if (ia->numeroCartas() == 0 && ia->numeroCartas("reserva") > 0 && mesa->tamanoCartasTotales() == 0) {
+        Carta reserva = ia->QuitarCarta(0, "reserva");
         (*ia) + reserva;
     }
 }
@@ -370,8 +352,8 @@ void GamePlay::jugarMAnoIAReserva(Bot* ia) {
 // Pasa una carta de la mano final a la mano principal
 // Solo cuando no tiene cartas en mano principal ni reserva
 void GamePlay::jugarManoIAFinal(Bot* ia) {
-    if (ia->numeroCartas() == 0 && ia->numeroCartasReserva() == 0 && ia->tamanoManoFinal() > 0) { 
-        Carta cartaFinal = ia->darCartaFinal(0);
+    if (ia->numeroCartas() == 0 && ia->numeroCartas("reserva") == 0 && ia->numeroCartas("final") > 0) { 
+        Carta cartaFinal = ia->QuitarCarta(0, "final");
 		cartaFinal.voltear(); // Voltear la carta para el frrente
         (*ia) + cartaFinal;
     }
@@ -385,7 +367,7 @@ void GamePlay::IAJugar(Bot* ia) {
     relojIA.restart();
 
     // Si no tiene ninguna carta en ninguna mano, ganó
-    if (ia->numeroCartas() == 0 && ia->numeroCartasReserva() == 0 && ia->tamanoManoFinal() == 0) {
+    if (ia->numeroCartas() == 0 && ia->numeroCartas("reserva") == 0 && ia->numeroCartas("final") == 0) {
         cout << "Bot " << ia->getNumeroJugador() << " gano!" << endl;
         turno = (ia->getNumeroJugador() % 4) + 1;
         return;
@@ -394,7 +376,7 @@ void GamePlay::IAJugar(Bot* ia) {
     // Reponer mano hasta 3 cartas si hay cartas en el mazo
     while (ia->numeroCartas() < 3 && mesa->tamanoCartasTotales() > 0) {
         Carta nueva = mesa->darCarta();
-        nueva.aparecerAlreves();
+        nueva.voltear();
         (*ia) + nueva;
     }
 
@@ -422,8 +404,8 @@ void GamePlay::IAJugar(Bot* ia) {
 bool GamePlay::verificarGanador() {
     // Verificar jugador principal
     if (jugador1->numeroCartas() == 0 &&
-        jugador1->numeroCartasReserva() == 0 &&
-        jugador1->tamanoManoFinal() == 0 &&
+        jugador1->numeroCartas("reserva") == 0 &&
+        jugador1->numeroCartas("final" ) == 0 &&
         mesa->tamanoCartasTotales() == 0) {
         cout << "Jugador 1 gano!" << endl;
         return true;
@@ -432,8 +414,8 @@ bool GamePlay::verificarGanador() {
     // Verificar bots
     for (int i = 0; i < IA.size(); i++) {
         if (IA[i]->numeroCartas() == 0 &&
-            IA[i]->numeroCartasReserva() == 0 &&
-            IA[i]->tamanoManoFinal() == 0) {
+            IA[i]->numeroCartas("reserva") == 0 &&
+            IA[i]->numeroCartas("final") == 0) {
             cout << "Bot " << IA[i]->getNumeroJugador() << " gano!" << endl;
             return true;
         }
