@@ -9,19 +9,19 @@ void Bot::asignarPosicion(std::string tipoMano) {
 	if (numeroBot == 2) {
 		if (tipoMano == "mano") {
 			for (int i = 0; i < numeroCartas(); i++) {
-				getCarta(i).setPosition(Vector2f(460.f + i * 30.f, 210.f));
+				getCarta(i).setPosition(Vector2f(460.f + i * 40.f, 210.f));
 				getCarta(i).setRotation(sf::degrees(180.f));
 			}
 		}
 		else if (tipoMano == "reserva") {
 			for (int i = 0; i < numeroCartas(tipoMano); i++) {
-				getCarta(i, tipoMano).setPosition(Vector2f(160.f + i * 30.f, 260.f));
+				getCarta(i, tipoMano).setPosition(Vector2f(160.f + i * 60.f, 260.f));
 				getCarta(i, tipoMano).setRotation(sf::degrees(180.f));
 			}
 		}
 		else if (tipoMano == "final") {
 			for (int i = 0; i < numeroCartas(tipoMano); i++) {
-				getCarta(i, tipoMano).setPosition(Vector2f(160.f + i * 30.f, 210.f));
+				getCarta(i, tipoMano).setPosition(Vector2f(160.f + i * 60.f, 210.f));
 				getCarta(i, tipoMano).setRotation(sf::degrees(180.f));
 			}
 		}
@@ -30,7 +30,7 @@ void Bot::asignarPosicion(std::string tipoMano) {
 
 		if (tipoMano == "mano") {
 			for (int i = 0; i < numeroCartas(); i++) {
-				getCarta(i).setPosition(Vector2f(210.f, 405.f + i * 90.f));
+				getCarta(i).setPosition(Vector2f(210.f, 405.f + i * 40.f));
 				getCarta(i).setRotation(sf::degrees(90.f));
 			}
 		}
@@ -51,7 +51,7 @@ void Bot::asignarPosicion(std::string tipoMano) {
 	else if (numeroBot == 4) {
 		if (tipoMano == "mano") {
 			for (int i = 0; i < numeroCartas(); i++) {
-				getCarta(i).setPosition(Vector2f(1590.f, 460.f + i * 90.f));
+				getCarta(i).setPosition(Vector2f(1590.f, 460.f + i * 40.f));
 				getCarta(i).setRotation(sf::degrees(-90.f));
 			}
 		}

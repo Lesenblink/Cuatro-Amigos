@@ -43,6 +43,9 @@ private:
 
 	SoundBuffer bufferPerdiste;
 	optional<Sound> sonidoPerder;
+
+	SoundBuffer bufferVictoria;
+	optional<Sound> sonidoVictoria;
 	void validarFonts();  //Separar la logica 
 	void cargar();
 	void comerCarta();
@@ -76,7 +79,9 @@ private:
 	void lanzarCarta();
 	void agarrarCartas();
 	void perder();
+	void victoria();
 	void quitarCadenas();
+
 public:
 
 	GamePlay();

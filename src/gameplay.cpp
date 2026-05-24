@@ -5,7 +5,7 @@
 #include "Mesa.h"
 #include "Luigui.h"
 using namespace sf;
-
+using namespace std;
 //Funciones privadas
 void GamePlay::validarFonts() {
     font.openFromFile("../assets/arial.ttf");
@@ -77,6 +77,13 @@ void GamePlay::cargar() {
 
     sonidoPerder.emplace(bufferPerdiste);
     sonidoPerder->setVolume(100.f);
+
+    if (!bufferVictoria.loadFromFile("../assets/victoria.wav")) {
+        cout << "Error cargando sonido comer" << endl;
+    }
+
+    sonidoVictoria.emplace(bufferVictoria);
+    sonidoVictoria->setVolume(100.f);
 }
 
 GamePlay::GamePlay() {
@@ -104,6 +111,11 @@ void GamePlay::agarrarCartas() {
 void GamePlay::perder() {
     if (sonidoPerder)
         sonidoPerder->play();
+}
+
+void GamePlay::victoria() {
+    if (sonidoVictoria)
+        sonidoVictoria->play();
 }
 /*----------------------------------------Lógica del Jugador  -----------------------------------------------------------*/
 void GamePlay::hitboxMano() {
@@ -243,10 +255,7 @@ void GamePlay::comerCartaBuche() {
 void GamePlay::dejarMultiplesCartas() {
     int eliminar = 0;
     int seElimino = jugador1->numeroCartas();
-    for (int i = jugador1->numeroCartas() - 1; i >= 0; i--) {
-        if (jugador1->getCarta(i).getValor() != valorCarta)
-            jugador1->getCarta(i).quitarCadena();
-    }
+   
 
     if (clicDerecho == true)quitarCadenas();
     for (int x = jugador1->numeroCartas() - 1; x >= 0; x--) {   //Aquí con este for ayuda a dejar las cartas.
@@ -255,10 +264,13 @@ void GamePlay::dejarMultiplesCartas() {
           
             if (numeroCartasIguales > 1 && jugador1->getCarta(x).getValor() == valorCarta) { //Aquí entramos a la mecanica de multiple carta si la carta clickeada cumple con la condición multi
              
-                
-                if (jugador1->getCarta(x).getValor() == valorCarta) {
+                for (int i = jugador1->numeroCartas() - 1; i >= 0; i--) {  //Quitar cadenas pasads 
+                    if (jugador1->getCarta(i).getValor() != valorCarta)
+                        jugador1->getCarta(i).quitarCadena();
+                }
+             
                     if ((mesa->tamanoDelBuche() == 0 || jugador1->getCarta(x).getValor() >= mesa->getBuche().getValor() || jugador1->getCarta(x).getValor() == 10 || jugador1->getCarta(x).getValor() == 2)) {
-                        if (jugador1->getCarta(x).getValor() == 10) { //Aquí empieza la cadena 
+                        if (valorCarta== 10) { //Aquí empieza la cadena 
                            
                           if(jugador1->getCarta(x).getEncadenada()==false){  //Si la carta que cumple con la condición y no está en cadena, entonces dar turno y encdadenar
                               
@@ -267,57 +279,57 @@ void GamePlay::dejarMultiplesCartas() {
                               turno = 1;
 
                           }else if(jugador1->getCarta(x).getEncadenada() == true && jugador1->getCarta(x).getValor()==valorCarta){  // Si está encadenada entonces lanzar todas las cartas encadenadas
-                             for(int i = jugador1->numeroCartas() - 1; i >= 0; i--){
-                                 if (jugador1->getCarta(i).getEncadenada())
-                                 {
-                                     jugador1->getCarta(i).quitarCadena();
-                                 
-                                     mesa->llenarBuche(jugador1->QuitarCarta(i) );
-                                     lanzarCarta();
-                                         eliminar++;
-                                         
-                                 }
+                              vector<int> indicesAeliminar;
+                              for (int i = jugador1->numeroCartas() - 1; i >= 0; i--) {
 
-                             }
-                             lanzarCarta();
-                          
-                              click = false;
+                                  if (jugador1->getCarta(i).getEncadenada())
+                                  {
+                                      jugador1->getCarta(i).quitarCadena();
+                                      indicesAeliminar.push_back(i);
+                                  }
+
+                              }
+                              sort(indicesAeliminar.rbegin(), indicesAeliminar.rend());//Aqui funcion de la libreria algoritmo de mayor a menor
+                              for (int z : indicesAeliminar)
+                                  mesa->llenarBuche(jugador1->QuitarCarta(z)); 
+                                 click = false;
+                                 lanzarCarta();
                               turno = 2;
-                          
+                              return;
                           }
                         
                            
                         }
-                        else if (jugador1->getCarta(x).getValor() == 2) {
+                        else if (valorCarta== 2) {
                             if (jugador1->getCarta(x).getEncadenada() == false) {
-                                mesa->limpiarBuche();  
                                 jugador1->getCarta(x).ponerCadena();
                                 click = false;
                                 turno = 1;
 
                             }
-                        }
-                        else if (jugador1->getCarta(x).getEncadenada() == true && jugador1->getCarta(x).getValor() == valorCarta && jugador1->getCarta(x).getValor() == 2) {
-                                for (int i = jugador1->numeroCartas() - 1; i >= 0; i--) {    // Lanzar cartas encadenadas
+                            else if (jugador1->getCarta(x).getEncadenada() == true && jugador1->getCarta(x).getValor() == 2 && valorCarta == 2) {
+                                vector<int> indicesAeliminar;
+                                for (int i = jugador1->numeroCartas() - 1; i >= 0; i--) {
+
                                     if (jugador1->getCarta(i).getEncadenada())
                                     {
                                         jugador1->getCarta(i).quitarCadena();
-                                        
-                                        mesa->llenarBuche(jugador1->QuitarCarta(i));
-                                     
-                                            eliminar++;
+                                        indicesAeliminar.push_back(i);
                                     }
 
                                 }
-                                if (eliminar == 4)
-                                    mesa->limpiarBuche();  // Si son cuantro cartas lanzadas entonces limpiar buhce
-                               
+                                sort(indicesAeliminar.rbegin(), indicesAeliminar.rend()); //Aqui funcion de la libreria algoritmo de mayor a menor
+                                for (int z : indicesAeliminar)
+                                    mesa->llenarBuche(jugador1->QuitarCarta(z));
                                 click = false;
                                 lanzarCarta();
                                 turno = 1;
+                                return;
+                            }
 
-                            } else {
-                            if (jugador1->getCarta(x).getEncadenada() == false) {
+                        } 
+                        else {
+                            if (jugador1->getCarta(x).getEncadenada() == false){
                             
                                 jugador1->getCarta(x).ponerCadena();            //dar turno si la carta no está encadenada 
                                 click = false;
@@ -325,42 +337,42 @@ void GamePlay::dejarMultiplesCartas() {
                             
                             }
                             else if (jugador1->getCarta(x).getEncadenada() == true) {  //Si la carta no es morada entonces ponerla morada 
+                                vector<int> indicesAeliminar;
                                 for (int i = jugador1->numeroCartas() - 1; i >= 0; i--) {
-                                    
+
                                     if (jugador1->getCarta(i).getEncadenada())
                                     {
                                         jugador1->getCarta(i).quitarCadena();
-                                        
-                                        mesa->llenarBuche( jugador1->QuitarCarta(i)  );
-                                    
-                                            eliminar++;
+                                        indicesAeliminar.push_back(i);
                                     }
-                                  
+
                                 }
-                             
-                                
-                                if (eliminar == 4)
-                                    mesa->limpiarBuche();
+                                sort(indicesAeliminar.rbegin(), indicesAeliminar.rend());  //Aqui funcion de la libreria algoritmo de mayor a menor
+                                for (int z : indicesAeliminar)
+                                    mesa->llenarBuche(jugador1->QuitarCarta(z));
                                 click = false;
                                 lanzarCarta();
                                 turno = 2;
-
+                                return;
                             }
                             else {
                                 for(int i=jugador1->numeroCartas()-1; i>=0; i-- ){ jugador1->getCarta(i).quitarCadena(); } //Quitar cadena a las demas cartas 
-                           
+                                turno = 2;
+                                click = false;
+                                return;
                             }
                            
                             
                         }
-                        return;
+                      
                     }
                 }
             }
           
-        }
+        
 
     }
+ 
 }
 void GamePlay::quitarCadenas() {
     // Si el jugador presiona click derecho entonces quitar cadenas
@@ -743,6 +755,8 @@ bool GamePlay::verificarGanador() {
         jugador1->numeroCartas("final" ) == 0 &&
         mesa->tamanoCartasTotales() == 0) {
         cout << "Jugador 1 gano!" << endl;
+        musica.stop();
+        victoria();
         return true;
     }
 
