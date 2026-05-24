@@ -110,6 +110,12 @@ void Carta::crearSimbolo() {
     FloatRect bounds = simbolo.getLocalBounds();
     simbolo.setOrigin(Vector2f(bounds.size.x / 2.f, bounds.size.y / 2.f));
     simbolo.setPosition(Vector2f(90.f, 125.f));
+    if(color==Color::Red)
+        simbolo.setPosition(Vector2f(85.f, 90.f));
+    if (color == Color::Green)
+        simbolo.setPosition(Vector2f(85.f, 110.f));
+    if (color == Color::Blue)
+        simbolo.setPosition(Vector2f(82.f, 100.f));
 
 	cout << "se creo el simbolo de las cartas" << endl;
 }
@@ -131,6 +137,11 @@ void Carta::draw(RenderTarget& target, RenderStates states) const {
         target.draw(numero, states);            // 2. Dibuja el número arriba
         target.draw(numeroAbajo, states);        // 3. Dibuja el número arriba
         target.draw(simbolo, states);       // 4. Dibuja el símbolo
+
+        if(encadenada ==true){
+            target.draw(bordemorado, states);
+        }
+           
 
         if (color == Color::Black) {
             // Dibujar trébol con círculos
@@ -164,13 +175,13 @@ Carta::Carta(Color color, string valor, const sf::Font* font, const Font* font2,
     crearReverso();
     numero.setFont(*font);
     numero.setString(valor);
-
+    encadenada = false;
     numeroAbajo.setFont(*font2);
     numeroAbajo.setString(valor2);
     crearSimbolo();
     configurarTexto();
     setPosition(Vector2f(850.f, 420.f));  //Posición inicial
-
+    bordeMorado();
 }
 int Carta::getValor() {
 
@@ -203,3 +214,19 @@ bool Carta::getHItBox() const { //Función para obtener el valor de la hitbox
 void Carta::setHitBox(bool valor) { //Función para establecer el valor de la hitbox
     hitBox = valor;
 }
+bool Carta::getEncadenada() { return encadenada; }
+void Carta::quitarCadena() { encadenada = false; }
+void Carta::ponerCadena() { encadenada = true; }
+void Carta::bordeMorado() {
+    bordemorado.setSize(Vector2f(108.f, 158.f));
+    bordemorado.setFillColor(Color::Transparent);
+
+    bordemorado.setOutlineThickness(5.f);
+    bordemorado.setOutlineColor(Color(180, 0, 255));
+
+    // Ajuste para que el borde quede afuera de la carta
+    bordemorado.setPosition(Vector2f(-4.f, -4.f));
+
+   
+}
+

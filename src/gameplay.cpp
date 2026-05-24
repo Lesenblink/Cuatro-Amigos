@@ -56,15 +56,55 @@ void GamePlay::cargar() {
         musica.setVolume(50.f);   // Volumen del 0 al 100
         musica.play();
     }
+   
+    if (!bufferCarta.loadFromFile("../assets/cadrSound.wav")) {
+        cout << "Error cargando sonido" << endl;
+    }
+
+    sonidoCarta.emplace(bufferCarta);
+    sonidoCarta->setVolume(80.f);
+
+    if (!bufferComer.loadFromFile("../assets/soudBaraja.wav")) {
+        cout << "Error cargando sonido comer" << endl;
+    }
+
+    sonidoComer.emplace(bufferComer);
+    sonidoComer->setVolume(100.f);
+
+    if (!bufferPerdiste.loadFromFile("../assets/perdiste.wav")) {
+        cout << "Error cargando sonido comer" << endl;
+    }
+
+    sonidoPerder.emplace(bufferPerdiste);
+    sonidoPerder->setVolume(100.f);
 }
 
 GamePlay::GamePlay() {
+    
     click = false;
     validarFonts();
 	turno = 1;
     cargar();
+    numeroCartasIguales = 0;
+    valorCarta = 0;
+    indice1 = -1;
+    indice2 = -1;
+    indice3 = -1;
+    indice4 = -1;
+   
 }
-
+void GamePlay::lanzarCarta(){
+    if (sonidoCarta)
+        sonidoCarta->play();
+}
+void GamePlay::agarrarCartas() {
+    if (sonidoComer)
+    sonidoComer->play();
+}
+void GamePlay::perder() {
+    if (sonidoPerder)
+        sonidoPerder->play();
+}
 /*----------------------------------------Lógica del Jugador  -----------------------------------------------------------*/
 void GamePlay::hitboxMano() {
 
@@ -76,13 +116,76 @@ void GamePlay::hitboxMano() {
         if (!estaLevantada && jugador1->getCarta(i).getGlobalBounds().contains(temporalMouse)) {
             jugador1->getCarta(i).setPosition(Vector2f(1320.f - i * 70.f, 810.f)); // ← carta levantada
             jugador1->getCarta(i).setHitBox(true);
+			valorCarta = jugador1->getCarta(i).getValor(); // Guardamos el valor de la carta levantada para usarlo en la función de dejar cartas
+            indice1 = i;
             estaLevantada = true;
+            //cout << valorCarta << endl;
         }
         else {
             jugador1->getCarta(i).setPosition(Vector2f(1320.f - i * 70.f, 840.f)); // ← posición normal
             jugador1->getCarta(i).setHitBox(false);
         }
     }
+}
+
+bool GamePlay::validarMultiples() {
+    if ((mesa->tamanoDelBuche() > 0 && valorCarta >= mesa->getBuche().getValor()) || valorCarta == 2 || valorCarta == 10 || mesa->tamanoDelBuche() == 0){ 
+        return true; }
+    else { 
+        indice1 = 0;
+        indice2 = 0;
+        indice3 = 0;
+        indice4 = 0;
+
+        return false; }
+       
+}
+void GamePlay::cuantasCartasIgualesTienes() {
+    numeroCartasIguales = 0;
+    if(validarMultiples()== true){
+    for (int i = jugador1->numeroCartas() - 1; i >= 0;i--) {
+		//cout << "Posicion " << i << " Valor carta: " << jugador1->getCarta(i).getValor() << endl;
+      //  cout <<"Vlaor del inidice  para ver que carta es: -> " << indice1 << endl;
+        if (mesa->tamanoDelBuche() != 0 && jugador1->getCarta(i).getValor() == valorCarta ) {
+            numeroCartasIguales++;
+            
+        }else if((jugador1->getCarta(i).getValor() == valorCarta)){ numeroCartasIguales++; }
+    }
+    if (numeroCartasIguales > 1) {
+   
+       // cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>Hay posible lanzamiento Multiple<<<<<<<<<<<<<<<<<<<<<<<<" << endl;
+         }
+		
+    else{ 
+	numeroCartasIguales = 0; // Reiniciamos el contador para la próxima vez que se levante una carta
+  
+    }
+}
+    else {
+        numeroCartasIguales = 0;
+        valorCarta = 0;
+       
+       
+    }
+}
+
+void GamePlay::encontrarIndices(){
+    for (int i = jugador1->numeroCartas() - 1; i >= 0; i--) {
+        if (i != indice1 && valorCarta == jugador1->getCarta(i).getValor()){
+            if (indice2 == -1)
+                indice2 = i;
+           
+            else if (indice3 == -1)
+                indice3 = i;
+
+            else if (indice4 == -1)
+                indice4 = i;
+        }
+    }
+    cout << " INdice 1 " << indice1 << endl;
+    cout << " INdice 2 " << indice2 << endl;
+    cout << " INdice 3 " << indice3 << endl;
+    cout << " INdice 4 " << indice4 << endl;
 }
 
 void GamePlay::eventos() {   // Aquí manejamos la función de los eventos
@@ -110,6 +213,7 @@ void GamePlay::comerCarta() {
         Carta nueva = mesa->darCarta(); // Saca la carta del mazo
         nueva.voltear(); // La voltea para que se vea el frente
         (*jugador1) + nueva; // La agrega a la mano del jugador
+        lanzarCarta();
         click = false;
     }
 }
@@ -126,35 +230,164 @@ void GamePlay::comerCartaBuche() {
             (*jugador1) + delBuche; // La agrega a la mano del jugador
         }
         click = false;
+        agarrarCartas();
         turno = 2; // Pasa el turno al siguiente jugador
     }
 }
-void GamePlay::dejarCartas() {
 
-    for (int x = jugador1->numeroCartas()-1; x >=0; x--) {   //Aquí con este for ayuda a dejar las cartas.
+void GamePlay::dejarMultiplesCartas() {
+    int eliminar = 0;
+    int seElimino = jugador1->numeroCartas();
+    for (int x = jugador1->numeroCartas() - 1; x >= 0; x--) {   //Aquí con este for ayuda a dejar las cartas.
+
         if (jugador1->getCarta(x).getGlobalBounds().contains(mousePos) && jugador1->getCartaHitBox(x) && turno == 1) {   //Si el jugador hizo click entonces...
+            if (numeroCartasIguales > 1 && jugador1->getCarta(x).getValor() == valorCarta) { //Aquí entramos a la mecanica de multiple carta si la carta clickeada cumple con la condición multi
+                if (jugador1->getCarta(x).getValor() == valorCarta) {
+                    if ((mesa->tamanoDelBuche() == 0 || jugador1->getCarta(x).getValor() >= mesa->getBuche().getValor() || jugador1->getCarta(x).getValor() == 10 || jugador1->getCarta(x).getValor() == 2)) {
+                        if (jugador1->getCarta(x).getValor() == 10) { //Aquí empieza la cadena 
+                           
+                          if(jugador1->getCarta(x).getEncadenada()==false){  //Si la carta que cumple con la condición y no está en cadena, entonces dar turno y encdadenar
+                              
+                              jugador1->getCarta(x).ponerCadena();
+                              click = false;
+                              turno = 1;
 
-            //Mecanica para el número 10
-            if ((mesa->tamanoDelBuche() == 0 || jugador1->getCarta(x).getValor() >= mesa->getBuche().getValor() || jugador1->getCarta(x).getValor() == 10 || jugador1->getCarta(x).getValor() == 2)) {
-                if (jugador1->getCarta(x).getValor() == 10) { //Si la carta es un 10, se limpia el buche
-                    mesa->llenarBuche(jugador1->QuitarCarta(x));
-                    mesa->limpiarBuche();  // La mecanica es eliminar todo el buhce que hay con un 10 puesto
-                    click = false;
-                    turno = 2;
+                          }else if(jugador1->getCarta(x).getEncadenada() == true && jugador1->getCarta(x).getValor()==valorCarta){  // Si está encadenada entonces lanzar todas las cartas encadenadas
+                             for(int i = jugador1->numeroCartas() - 1; i >= 0; i--){
+                                 if (jugador1->getCarta(i).getEncadenada())
+                                 {
+                                     jugador1->getCarta(i).quitarCadena();
+                                 
+                                     mesa->llenarBuche(jugador1->QuitarCarta(i) );
+                                     lanzarCarta();
+                                         eliminar++;
+                                         
+                                 }
+
+                             }
+                             lanzarCarta();
+                          
+                              click = false;
+                              turno = 2;
+                          
+                          }
+                        
+                           
+                        }
+                        else if (jugador1->getCarta(x).getValor() == 2) {
+                            if (jugador1->getCarta(x).getEncadenada() == false) {
+                                mesa->limpiarBuche();  
+                                jugador1->getCarta(x).ponerCadena();
+                                click = false;
+                                turno = 1;
+
+                            }
+                        }
+                        else if (jugador1->getCarta(x).getEncadenada() == true && jugador1->getCarta(x).getValor() == valorCarta && jugador1->getCarta(x).getValor() == 2) {
+                                for (int i = jugador1->numeroCartas() - 1; i >= 0; i--) {    // Lanzar cartas encadenadas
+                                    if (jugador1->getCarta(i).getEncadenada())
+                                    {
+                                        jugador1->getCarta(i).quitarCadena();
+                                        
+                                        mesa->llenarBuche(jugador1->QuitarCarta(i));
+                                     
+                                            eliminar++;
+                                    }
+
+                                }
+                                if (eliminar == 4)
+                                    mesa->limpiarBuche();  // Si son cuantro cartas lanzadas entonces limpiar buhce
+                               
+                                click = false;
+                                lanzarCarta();
+                                turno = 1;
+
+                            } else {
+                            if (jugador1->getCarta(x).getEncadenada() == false) {
+                            
+                                jugador1->getCarta(x).ponerCadena();            //dar turno si la carta no está encadenada 
+                                click = false;
+                                turno = 1;
+                            
+                            }
+                            else if (jugador1->getCarta(x).getEncadenada() == true) {  //Si la carta no es morada entonces ponerla morada 
+                                for (int i = jugador1->numeroCartas() - 1; i >= 0; i--) {
+                                    
+                                    if (jugador1->getCarta(i).getEncadenada())
+                                    {
+                                        jugador1->getCarta(i).quitarCadena();
+                                        
+                                        mesa->llenarBuche( jugador1->QuitarCarta(i)  );
+                                    
+                                            eliminar++;
+                                    }
+                                  
+                                }
+                             
+                                
+                                if (eliminar == 4)
+                                    mesa->limpiarBuche();
+                                click = false;
+                                lanzarCarta();
+                                turno = 2;
+
+                            }
+                            else {
+                                for(int i=jugador1->numeroCartas()-1; i>=0; i-- ){ jugador1->getCarta(i).quitarCadena(); } //Quitar cadena a las demas cartas 
+                           
+                            }
+                           
+                            
+                        }
+                        return;
+                    }
                 }
-                else if (jugador1->getCarta(x).getValor() == 2)
-                {
-                    mesa->llenarBuche(jugador1->QuitarCarta(x));
-                    click = false;
-					turno = 1;  //Esto hace que el poder del 2, le da otra posibilidad de tirar otra carta
-                }
-                else {
-                    mesa->llenarBuche(jugador1->QuitarCarta(x)); // Mueve la carta al buche
-                    click = false;
-                    turno = 2;
-                }
-                return;
             }
+          
+        }
+
+    }
+}
+
+void GamePlay::dejarCartas() {
+    for (int i = jugador1->numeroCartas() - 1; i >= 0; i--) { jugador1->getCarta(i).quitarCadena(); }  //Quitar cartas encadenadas si se lanza una que no cumple con el multiple cartas 
+    for (int x = jugador1->numeroCartas()-1; x >=0; x--) {   //Aquí con este for ayuda a dejar las cartas.
+  
+
+    
+        Vector2 posicion = Vector2f(1320.f, 770.f);
+        if (jugador1->getCarta(x).getGlobalBounds().contains(mousePos) && jugador1->getCartaHitBox(x) && turno == 1) {   //Si el jugador hizo click entonces...
+           
+            //Mecanica para el número 10
+          
+                if ((mesa->tamanoDelBuche() == 0 || jugador1->getCarta(x).getValor() >= mesa->getBuche().getValor() || jugador1->getCarta(x).getValor() == 10 || jugador1->getCarta(x).getValor() == 2)) {
+                    if (jugador1->getCarta(x).getValor() == 10) { //Si la carta es un 10, se limpia el buche
+                        mesa->llenarBuche(jugador1->QuitarCarta(x));
+                        mesa->limpiarBuche();  // La mecanica es eliminar todo el buhce que hay con un 10 puesto
+                        lanzarCarta();
+                        click = false;
+                        turno = 2;
+                    }
+                    else if (jugador1->getCarta(x).getValor() == 2)
+                    {
+                        mesa->llenarBuche(jugador1->QuitarCarta(x));
+                        lanzarCarta();
+                        click = false;
+                        turno = 1;  //Esto hace que el poder del 2, le da otra posibilidad de tirar otra carta
+                    }
+                    else {
+                        mesa->llenarBuche(jugador1->QuitarCarta(x)); // Mueve la carta al buche
+                        click = false;
+                        lanzarCarta();
+                     
+                        turno = 2;
+
+                    }
+                   
+                    return;
+                }
+            
+           
         }
 
 
@@ -167,6 +400,7 @@ void GamePlay::jugarCartasReserva() {
 
                 (*jugador1) + jugador1->QuitarCarta(y, "reserva");  //Le pasamos esas carta a la mano principal
                 click = false;
+                lanzarCarta();
                 break;
             }
 
@@ -182,7 +416,9 @@ void GamePlay::jugarCartasFinal() {
                 cartaFinal.voltear();                   //Volteamos esa carta
                 (*jugador1) + cartaFinal;  //Le pasamos esa carta a la mano principal
                 click = false;
+                lanzarCarta();
                 break;
+
             }
         }
     }
@@ -196,6 +432,8 @@ void GamePlay::limpiar4Buhce() {
         int valorCarta4 = mesa->valorDeCartaBuche(a - 3);
         if (valorCarta1 == valorCarta2 && valorCarta2 == valorCarta3 && valorCarta3 == valorCarta4)  //Si las 4 son iguales entonces limpiar buhce 
             mesa->limpiarBuche();
+
+        agarrarCartas();
     }
 }
 void GamePlay::dibujar() {
@@ -239,18 +477,31 @@ void GamePlay::juego() {
         nueva.voltear();
         (*jugador1) + nueva;
     }
-
+   
     hitboxMano(); // Detecta el mouse sobre las cartas y las levanta
+    cuantasCartasIgualesTienes();
+    encontrarIndices();
     if (!click) return; // Si no hubo click, no hacer nada
-    comerCarta(); // Intentar comer carta del mazo
-    comerCartaBuche(); // Intentar comer cartas del buche
-    dejarCartas(); // Intentar tirar una carta al buche
+    if (numeroCartasIguales > 1)
+    {
+        dejarMultiplesCartas();
+    }
+    else
+    {
+        dejarCartas();
+    }
+        
+        comerCarta(); // Intentar comer carta del mazo
+        comerCartaBuche(); // Intentar comer cartas del buche
+      
+
     jugarCartasReserva(); // Intentar pasar cartas de reserva a mano principal
     jugarCartasFinal(); // Intentar pasar cartas de mano final a mano principal
     limpiar4Buhce(); // Verificar si se limpia el buche por 4 iguales
     mousePos = window.mapPixelToCoords(Mouse::getPosition(window)); // Actualizar posicion del mouse
     jugador1->separarCarta(mousePos); // Separar carta bajo el mouse
     click = false; // Resetear el click
+    doubleClick = false;
 }
 
 
@@ -296,7 +547,22 @@ int GamePlay::mejorCartaIA(Bot* ia) {
     }
     return mejorIndice;
 }
+void GamePlay::verificarMulitplesCartas(Bot* ia) {
+    cartasMultipleIA = 0;  //reiniciamos el contador
 
+    int indice = mejorCartaIA(ia);  //Ponemos una variable donde se ubica la mejor carta 
+
+    if (indice == -1) return; //Si es indice no es valido entonces ahí muere 
+
+    guardarCartaIA = ia->getCarta(indice).getValor(); //Guardamos el valor de las cartas para compararlo más tarde 
+
+    for (int i = ia->numeroCartas() - 1; i >= 0; i--) {
+
+        if (ia->getCarta(i).getValor() == guardarCartaIA)
+            cartasMultipleIA++;  //Sabremos cuantas cartas puede lanzar la IA
+    }
+    cout << "Puede la IA: " << ia->getNumeroJugador() << " Lanzar este numero de cartas: " << cartasMultipleIA << endl;
+}
 void GamePlay::JugarManoIA(Bot* ia) {
     int indice = mejorCartaIA(ia);
     if (indice == -1) return; // No tiene carta válida
@@ -306,20 +572,45 @@ void GamePlay::JugarManoIA(Bot* ia) {
     if (valor == 10) {
         mesa->llenarBuche(ia->QuitarCarta(indice));
         mesa->limpiarBuche(); // El 10 limpia todo el buche
+        lanzarCarta();
         turno = (ia->getNumeroJugador() % 4) + 1;
     }
     else if (valor == 2) {
+        
         mesa->llenarBuche(ia->QuitarCarta(indice));
+        lanzarCarta();
         // turno extra: no cambia turno
     }
     else {
         mesa->llenarBuche(ia->QuitarCarta(indice));
+        lanzarCarta();
         turno = (ia->getNumeroJugador() % 4) + 1;
     }
 
     limpiar4Buhce(); // Verificar si se limpian 4 iguales
 }
+void GamePlay::lanzarMultiple(Bot* ia) { //Reutilizamos la función anterior
+    int indice = mejorCartaIA(ia);  
+    if (indice == -1) return; // No tiene carta válida
 
+    int valor = ia->getCarta(indice).getValor();  
+    if(cartasMultipleIA >1){ //Aquí está la diferencia,  si hay más de dos cartas iguales entonces 
+        for (int y = ia->numeroCartas() - 1;y >= 0; y-- ) {
+           //Rocorremos toda la mano
+            if (guardarCartaIA == ia->getCarta(y).getValor()) {  //Si la carta tiene el mismo valor entonces 
+                mesa->llenarBuche(ia->QuitarCarta(y));  //Lanzar
+        }
+        
+        } 
+        lanzarCarta();
+    
+    }
+    if (valor == 10)
+        mesa->limpiarBuche();
+    if (valor != 2)
+    turno = (ia->getNumeroJugador() % 4) + 1;  //Aqui cambiamos de turno 
+    limpiar4Buhce(); // Verificar si se limpian 4 iguales
+}
 // La IA toma una carta del mazo si tiene menos de 3 en mano
 // La carta aparece de espaldas para que el jugador no la vea
 void GamePlay::IAcomerCarta(Bot* ia) {
@@ -327,7 +618,9 @@ void GamePlay::IAcomerCarta(Bot* ia) {
         Carta nueva = mesa->darCarta();
         nueva.voltear();  // que aparezca de espaldas
         (*ia) + nueva;
+        lanzarCarta();
     }
+   
 }
 
 // La IA toma todas las cartas del buche cuando no puede jugar
@@ -338,6 +631,7 @@ void GamePlay::comerBuhceIA(Bot* ia) {
         delBuche.voltear();  // que aparezca de espaldas
         (*ia) + delBuche;
     }
+    agarrarCartas();
     turno = (ia->getNumeroJugador() % 4) + 1;
 }
 
@@ -347,7 +641,9 @@ void GamePlay::jugarMAnoIAReserva(Bot* ia) {
     if (ia->numeroCartas() == 0 && ia->numeroCartas("reserva") > 0 && mesa->tamanoCartasTotales() == 0) {
         Carta reserva = ia->QuitarCarta(0, "reserva");
         (*ia) + reserva;
+        lanzarCarta();
     }
+   
 }
 
 // Pasa una carta de la mano final a la mano principal
@@ -357,6 +653,7 @@ void GamePlay::jugarManoIAFinal(Bot* ia) {
         Carta cartaFinal = ia->QuitarCarta(0, "final");
 		cartaFinal.voltear(); // Voltear la carta para el frrente
         (*ia) + cartaFinal;
+        lanzarCarta();
     }
 }
 
@@ -383,15 +680,21 @@ void GamePlay::IAJugar(Bot* ia) {
 
     // Si no tiene cartas en mano principal, pasar de reserva o final
     if (ia->numeroCartas() == 0) {
-        jugarMAnoIAReserva(ia);
-        jugarManoIAFinal(ia);
-        return;
+            jugarMAnoIAReserva(ia);
+            jugarManoIAFinal(ia);
+            return;
+      
     }
 
     // Si tiene carta válida la tira, si no se come el buche
     int indice = mejorCartaIA(ia);
+    verificarMulitplesCartas(ia);
     if (indice != -1) {
-        JugarManoIA(ia);
+        if (cartasMultipleIA > 1) {
+            lanzarMultiple(ia);
+           
+        }else{ JugarManoIA(ia); }
+      
     }
     else {
         comerBuhceIA(ia);
@@ -418,6 +721,8 @@ bool GamePlay::verificarGanador() {
             IA[i]->numeroCartas("reserva") == 0 &&
             IA[i]->numeroCartas("final") == 0) {
             cout << "Bot " << IA[i]->getNumeroJugador() << " gano!" << endl;
+            musica.stop();
+            perder();
             return true;
         }
     }
@@ -427,6 +732,7 @@ bool GamePlay::verificarGanador() {
 // Alterna entre el turno del jugador y los turnos de las IAs
 // Al detectar un ganador espera 3 segundos y cierra la ventana
 void GamePlay::ejecutarJuego() {
+    
     while (window.isOpen()) {
         eventos();
         dibujar();
@@ -453,6 +759,8 @@ void GamePlay::ejecutarJuego() {
     delete mesa;
     delete jugador1;
     delete luigui;
+	
+	cout << " XD XD  XD >>> Retornar numero de cartas iguales----" << numeroCartasIguales << endl;
     for (int i = 0; i < IA.size(); i++)
         delete IA[i];
     IA.clear();
