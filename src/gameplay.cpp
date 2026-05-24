@@ -91,7 +91,7 @@ GamePlay::GamePlay() {
     indice2 = -1;
     indice3 = -1;
     indice4 = -1;
-   
+    clicDerecho = false;
 }
 void GamePlay::lanzarCarta(){
     if (sonidoCarta)
@@ -192,12 +192,17 @@ void GamePlay::eventos() {   // Aquí manejamos la función de los eventos
     while (const auto event = window.pollEvent()) {
         if (event->is<Event::Closed>())
             window.close();
-        if (auto mouseEvent = event->getIf<Event::MouseButtonPressed>()) {  // Si el usuario presiona el botón izquierdo del mouse
-            if (mouseEvent->button == Mouse::Button::Left) {
+        if (auto mouseEvent = event->getIf<Event::MouseButtonPressed>()) {
 
+            if (mouseEvent->button == Mouse::Button::Left) {
                 mousePos = window.mapPixelToCoords(mouseEvent->position);
                 click = true;
+            }
 
+            if (mouseEvent->button == Mouse::Button::Right) {
+                mousePos = window.mapPixelToCoords(mouseEvent->position);
+                clicDerecho = true;
+                
             }
         }
     }
@@ -238,10 +243,19 @@ void GamePlay::comerCartaBuche() {
 void GamePlay::dejarMultiplesCartas() {
     int eliminar = 0;
     int seElimino = jugador1->numeroCartas();
+    for (int i = jugador1->numeroCartas() - 1; i >= 0; i--) {
+        if (jugador1->getCarta(i).getValor() != valorCarta)
+            jugador1->getCarta(i).quitarCadena();
+    }
+
+    if (clicDerecho == true)quitarCadenas();
     for (int x = jugador1->numeroCartas() - 1; x >= 0; x--) {   //Aquí con este for ayuda a dejar las cartas.
 
         if (jugador1->getCarta(x).getGlobalBounds().contains(mousePos) && jugador1->getCartaHitBox(x) && turno == 1) {   //Si el jugador hizo click entonces...
+          
             if (numeroCartasIguales > 1 && jugador1->getCarta(x).getValor() == valorCarta) { //Aquí entramos a la mecanica de multiple carta si la carta clickeada cumple con la condición multi
+             
+                
                 if (jugador1->getCarta(x).getValor() == valorCarta) {
                     if ((mesa->tamanoDelBuche() == 0 || jugador1->getCarta(x).getValor() >= mesa->getBuche().getValor() || jugador1->getCarta(x).getValor() == 10 || jugador1->getCarta(x).getValor() == 2)) {
                         if (jugador1->getCarta(x).getValor() == 10) { //Aquí empieza la cadena 
@@ -348,7 +362,20 @@ void GamePlay::dejarMultiplesCartas() {
 
     }
 }
+void GamePlay::quitarCadenas() {
+    // Si el jugador presiona click derecho entonces quitar cadenas
 
+    if (clicDerecho) {
+
+        for (int j = jugador1->numeroCartas() - 1; j >= 0; j--) {
+
+          
+                jugador1->getCarta(j).quitarCadena();
+        }
+
+        clicDerecho = false;
+    }
+}
 void GamePlay::dejarCartas() {
     for (int i = jugador1->numeroCartas() - 1; i >= 0; i--) { jugador1->getCarta(i).quitarCadena(); }  //Quitar cartas encadenadas si se lanza una que no cumple con el multiple cartas 
     for (int x = jugador1->numeroCartas()-1; x >=0; x--) {   //Aquí con este for ayuda a dejar las cartas.
@@ -477,17 +504,21 @@ void GamePlay::juego() {
         nueva.voltear();
         (*jugador1) + nueva;
     }
-   
+    eventos();
     hitboxMano(); // Detecta el mouse sobre las cartas y las levanta
     cuantasCartasIgualesTienes();
     encontrarIndices();
+    if (clicDerecho == true) quitarCadenas();
     if (!click) return; // Si no hubo click, no hacer nada
+    if (clicDerecho == true) quitarCadenas();
     if (numeroCartasIguales > 1)
     {
+        if (clicDerecho == true) quitarCadenas();
         dejarMultiplesCartas();
     }
     else
     {
+        if (clicDerecho == true) quitarCadenas();
         dejarCartas();
     }
         
@@ -739,7 +770,7 @@ void GamePlay::ejecutarJuego() {
 
         if (verificarGanador()) {
             // Esperar 3 segundos y cerrar
-            sf::sleep(sf::seconds(3.f));
+            sf::sleep(sf::seconds(6.f));
             window.close();
             break;
         }

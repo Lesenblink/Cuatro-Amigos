@@ -35,6 +35,7 @@ private:
 	bool doubleClick;
 	int guardarCartaIA;
 	int cartasMultipleIA;
+	bool clicDerecho;
 	SoundBuffer bufferCarta; //Poner sonido de cartas 
 	optional<Sound> sonidoCarta;
 	SoundBuffer bufferComer;
@@ -75,7 +76,7 @@ private:
 	void lanzarCarta();
 	void agarrarCartas();
 	void perder();
-	
+	void quitarCadenas();
 public:
 
 	GamePlay();
