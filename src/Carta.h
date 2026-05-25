@@ -21,7 +21,8 @@ private:
     ConvexShape simbolo;  // El rombo o figura de la baraja
     CircleShape hoja1, hoja2, hoja3;
     RectangleShape tallo;
-
+    bool encadenada;
+    RectangleShape bordemorado;
     void crearFrente();   //Decidimos separar la lógica del constructor en funciones privadas
     void crearReverso();
     void crearSimbolo();
@@ -39,4 +40,8 @@ public:
     void voltear(bool tipo); //Funcion para aparecer la carta alreves
     bool getHItBox() const; //Función para obtener el valor de la hitbox
     void setHitBox(bool valor); //Función para establecer el valor de la hitbox
+    bool getEncadenada();
+    void quitarCadena();
+    void  ponerCadena();
+    void bordeMorado();
 };

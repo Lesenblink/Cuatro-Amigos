@@ -105,27 +105,26 @@ Carta& Jugador::getCarta(int  posicion, string tipoMano) {  //Para dibujar las c
 }
 Carta  Jugador::QuitarCarta(int x, string tipoMano) {
 	if (tipoMano == "mano") {
-		Carta carta = mano[x]; // Guarda la carta que se va a quitar
+		Carta carta = mano.at(x); // Guarda la carta que se va a quitar
 		mano.erase(mano.begin() + x); // Elimina la carta de la mano
 		asignarPosicion(tipoMano); // Reajusta las posiciones de las cartas restantes
 		return carta; // Devuelve la carta quitada
 	}
 	else if(tipoMano=="reserva")
 	{
-		Carta carta = manoReserva[x]; // Guarda la carta que se va a quitar
+		Carta carta = manoReserva.at(x); // Guarda la carta que se va a quitar
 		manoReserva.erase(manoReserva.begin() + x); // Elimina la carta de la mano reserva
 		asignarPosicion("reserva"); // Reajusta las posiciones de las cartas restantes en la mano reserva
 		return carta; // Devuelve la carta quitada
 	}else if(tipoMano == "final")
 	{
-		Carta carta = manoFinal[x]; // Guarda la carta que se va a quitar
+		Carta carta = manoFinal.at(x); // Guarda la carta que se va a quitar
 		manoFinal.erase(manoFinal.begin() + x); // Elimina la carta de la mano final
 		asignarPosicion("final"); // Reajusta las posiciones de las cartas restantes en la mano final
 		return carta; // Devuelve la carta quitada
 	}
 	else 
-		throw invalid_argument("Tipo de mano inválido"); // Si el tipo de mano no es válido, lanza una excepción
-
+		
 	cout << "Carta quitada de la mano del jugador" << endl;
 }
 
@@ -148,7 +147,7 @@ void Jugador::voltearCarta(int x) {
 		mano[x].voltear();
 	}
 	else {
-		throw out_of_range("Índice fuera de rango");//Detenemos el programa si el indice es incorrecto y lanzamos un mensaje de error 
+		cout << "Error en voltear Carta" << endl;
 	}
 
 	cout << "Carta volteada en la mano del jugador" << endl;
@@ -162,7 +161,7 @@ bool Jugador::getCartaHitBox(int x) {
 		return mano[x].getHItBox();
 	}
 	else {
-		throw out_of_range("Índice fuera de rango");//Detenemos el programa si el indice es incorrecto y lanzamos un mensaje de error 
+		cout << "Error fuera del rango de hitBox " << endl;
 	}
 }
 

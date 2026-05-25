@@ -86,9 +86,6 @@ int main() {
 }
 
 /*
-COSAS OBSERVADAS:
--Tarda en arrancar (creo que se puede optimizar mejor)
--Falta la última meécanica, lanzar cartas encadenadas
-
-
+Lógica, totalmente termianda
+Falta algunos detalles visuales nada más.
 */
