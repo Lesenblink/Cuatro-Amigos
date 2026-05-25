@@ -50,6 +50,10 @@ private:
 	Texture luigiTex;
 	optional<Sprite> luigiIcono;
 
+	int personajeElegido;
+	Texture iconosTex[4];
+	optional<Sprite> iconos[4];
+
 	void validarFonts();  //Separar la logica 
 	void cargar();
 	void comerCarta();
@@ -87,7 +91,7 @@ private:
 	void quitarCadenas();
 
 public:
-
+	GamePlay(int personaje);
 	GamePlay();
 	void ejecutarJuego();
 
