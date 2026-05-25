@@ -119,22 +119,22 @@ void GamePlay::victoria() {
 }
 /*----------------------------------------Lógica del Jugador  -----------------------------------------------------------*/
 void GamePlay::hitboxMano() {
-
     Vector2f temporalMouse = window.mapPixelToCoords(Mouse::getPosition(window));
     estaLevantada = false;
 
     for (int i = jugador1->numeroCartas() - 1; i >= 0; i--) {
+        float filaY = (i < 8) ? 840.f : 770.f;
+        float x = (i < 8) ? 1320.f - i * 70.f : 1320.f - (i - 8) * 70.f;
 
         if (!estaLevantada && jugador1->getCarta(i).getGlobalBounds().contains(temporalMouse)) {
-            jugador1->getCarta(i).setPosition(Vector2f(1320.f - i * 70.f, 810.f)); // ← carta levantada
+            jugador1->getCarta(i).setPosition(Vector2f(x, filaY - 30.f)); // ← carta levantada
             jugador1->getCarta(i).setHitBox(true);
-			valorCarta = jugador1->getCarta(i).getValor(); // Guardamos el valor de la carta levantada para usarlo en la función de dejar cartas
+            valorCarta = jugador1->getCarta(i).getValor();
             indice1 = i;
             estaLevantada = true;
-            //cout << valorCarta << endl;
         }
         else {
-            jugador1->getCarta(i).setPosition(Vector2f(1320.f - i * 70.f, 840.f)); // ← posición normal
+            jugador1->getCarta(i).setPosition(Vector2f(x, filaY)); // ← posición normal
             jugador1->getCarta(i).setHitBox(false);
         }
     }
@@ -469,9 +469,13 @@ void GamePlay::limpiar4Buhce() {
         int valorCarta2 = mesa->valorDeCartaBuche(a - 1);
         int valorCarta3 = mesa->valorDeCartaBuche(a - 2);
         int valorCarta4 = mesa->valorDeCartaBuche(a - 3);
-        if (valorCarta1 == valorCarta2 && valorCarta2 == valorCarta3 && valorCarta3 == valorCarta4)  //Si las 4 son iguales entonces limpiar buhce 
+        if (valorCarta1 == valorCarta2 && valorCarta2 == valorCarta3 && valorCarta3 == valorCarta4) {  //Si las 4 son iguales entonces limpiar buhce 
+            
+			sleep(seconds(1)); // Pausa de 1 segundo antes de limpiar el buche para que el jugador vea las cartas
             mesa->limpiarBuche();
+			sleep(seconds(1)); // Pausa de 0.5 segundos después de limpiar el buche para que el jugador vea que se limpió
 
+        }
         agarrarCartas();
     }
 }
