@@ -18,7 +18,7 @@ void GamePlay::cargar() {
     luigui = new Luigui();
     
     //sprite de luigi
-    luigiTex.loadFromFile("C:\\Users\\fzava\\source\\repos\\ConsoleApplication1\\assets\\Luigi.png");
+    luigiTex.loadFromFile("../assets/Luigi.png");
     luigiIcono.emplace(luigiTex);
     luigiIcono->setPosition(sf::Vector2f(550.f, 320.f)); //ajustar pocisión
     luigiIcono->setScale(sf::Vector2f(0.7f, 0.7f)); //ajustar tamaño

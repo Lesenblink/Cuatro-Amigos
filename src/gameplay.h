@@ -65,7 +65,6 @@ private:
 	bool validarMultiples(); 
 	void encontrarIndices();
 	void entrarDobleClick();
-	void dejarCartasMultiples();
 	void JugarManoIA(Bot* ia); // La IA tira la mejor carta válida al buche
 	void comerBuhceIA(Bot* ia); // La IA toma todas las cartas del buche si no puede jugar
 	void IAcomerCarta(Bot* ia); // La IA toma cartas del mazo para reponer su mano
