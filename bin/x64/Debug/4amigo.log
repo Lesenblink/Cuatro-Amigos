@@ -1,2 +1,19 @@
-﻿  Carta.cpp
+﻿  Bot.cpp
+  Carta.cpp
+  Jugador.cpp
+C:\Users\COREP\source\repos\proyecto\src\Jugador.cpp(134,19): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\proyecto\src\Jugador.cpp(137,26): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\proyecto\src\Jugador.cpp(140,24): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+  Luigui.cpp
+  Mesa.cpp
+C:\Users\COREP\source\repos\proyecto\src\Mesa.cpp(55,16): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\proyecto\src\Mesa.cpp(69,16): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\proyecto\src\Mesa.cpp(81,35): warning C4267: '+=': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\proyecto\src\Mesa.cpp(101,30): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+  gameplay.cpp
+C:\Users\COREP\source\repos\proyecto\src\gameplay.cpp(11,22): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
+C:\Users\COREP\source\repos\proyecto\src\gameplay.cpp(12,23): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
+  Generando código...
+C:\Users\COREP\source\repos\proyecto\src\Mesa.cpp(118,1): warning C4715: 'Mesa::darCartaDelBuche': no todas las rutas de acceso de control devuelven un valor
+  LINK : no se encontró C:\Users\COREP\source\repos\proyecto\src\..\bin\Debug\4amigo.exe o no lo generó el último vínculo incremental; ejecutando vínculo completo
   4amigo.vcxproj -> C:\Users\COREP\source\repos\proyecto\bin\Debug\4amigo.exe
