@@ -16,6 +16,13 @@ void GamePlay::cargar() {
     window.create(VideoMode(Vector2u(1800, 1050)), "4 amigos", sf::Style::Titlebar | sf::Style::Close); //tamaño de la ventana y quitar el resize
     mesa = new Mesa(font, font2);
     luigui = new Luigui();
+    
+    //sprite de luigi
+    luigiTex.loadFromFile("C:\\Users\\fzava\\source\\repos\\ConsoleApplication1\\assets\\Luigi.png");
+    luigiIcono.emplace(luigiTex);
+    luigiIcono->setPosition(sf::Vector2f(550.f, 320.f)); //ajustar pocisión
+    luigiIcono->setScale(sf::Vector2f(0.7f, 0.7f)); //ajustar tamaño
+
 
     luigui->recibirBaraja(mesa->darTodasLasCartas());
     luigui->mesclarBaraja();
@@ -483,6 +490,9 @@ void GamePlay::dibujar() {
     window.clear();
     window.draw(mesa->getBorde());
     window.draw(*mesa);
+
+    //Sprite de Luigi
+    if (luigiIcono) window.draw(*luigiIcono);
 
     // Jugador principal
     for (int i = 0; i < jugador1->numeroCartas(); i++)

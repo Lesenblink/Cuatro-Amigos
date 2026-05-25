@@ -46,6 +46,10 @@ private:
 
 	SoundBuffer bufferVictoria;
 	optional<Sound> sonidoVictoria;
+
+	Texture luigiTex;
+	optional<Sprite> luigiIcono;
+
 	void validarFonts();  //Separar la logica 
 	void cargar();
 	void comerCarta();
