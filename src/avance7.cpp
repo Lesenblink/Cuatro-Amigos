@@ -73,12 +73,79 @@ public:
     }
 };
 
+class Roster {
+private:
+    int personajeElegido = -1;
+public:
+    void mostrarRoster() {
+        sf::RenderWindow window(sf::VideoMode({ 1400, 800 }), "Four Friends - Select Your Character");
+
+        sf::Texture rosterTex;
+        rosterTex.loadFromFile("C:\\Users\\fzava\\source\\repos\\ConsoleApplication1\\assets\\Roster.png");
+        sf::Sprite rosterSprite(rosterTex);
+        rosterSprite.setScale(sf::Vector2f(1400.f / rosterTex.getSize().x, 800.f / rosterTex.getSize().y));
+
+        // Botones semitransparentes para calibrar, después los ponés Transparent
+        RectangleShape btn[4];
+        btn[0] = RectangleShape(Vector2f(250.f, 300.f)); // Leon
+        btn[0].setOrigin(Vector2f(-590.f, -80.f));
+        btn[0].setFillColor(Color::Transparent);
+
+        btn[1] = RectangleShape(Vector2f(250.f, 300.f)); // Peashooter
+        btn[1].setOrigin(Vector2f(-990.f, -80.f));
+        btn[1].setFillColor(Color::Transparent);
+
+        btn[2] = RectangleShape(Vector2f(250.f, 300.f)); // Kenny
+        btn[2].setOrigin(Vector2f(-590.f, -410.f));
+        btn[2].setFillColor(Color::Transparent);
+
+        btn[3] = RectangleShape(Vector2f(250.f, 300.f)); // Sans
+        btn[3].setOrigin(Vector2f(-990.f, -410.f));
+        btn[3].setFillColor(Color::Transparent);
+
+        while (window.isOpen())
+        {
+            while (const std::optional event = window.pollEvent())
+            {
+                if (event->is<sf::Event::Closed>())
+                    window.close();
+
+                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+
+                if (event->is<sf::Event::MouseButtonPressed>())
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                        if (btn[i].getGlobalBounds().contains(sf::Vector2f(mousePos)))
+                        {
+                            personajeElegido = i;
+                            window.close();
+                        }
+                    }
+                }
+            }
+
+            window.clear();
+            window.draw(rosterSprite);
+            for (int i = 0; i < 4; i++)
+                window.draw(btn[i]);
+            window.display();
+        }
+    }
+
+    int getPersonajeElegido() const { return personajeElegido; }
+};
+
 //Motor del juego
 int main() {
-    GamePlay juego;
     Menu menu;
     menu.iniciarMenu();
     if (menu.getIniciarJuego() == 1) {
+        Roster roster;
+        roster.mostrarRoster();
+        int personaje = roster.getPersonajeElegido();
+
+        GamePlay juego(personaje);
         juego.ejecutarJuego();
     }
 

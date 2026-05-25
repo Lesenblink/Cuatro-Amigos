@@ -24,6 +24,39 @@ void GamePlay::cargar() {
     luigiIcono->setScale(sf::Vector2f(0.7f, 0.7f)); //ajustar tamaño
 
 
+///////////////////////////////////////////////////////////////////////////////////////
+//SPRITES DE LOS PERSONAJES JUGABLES
+
+    string archivos[4] = {
+    "C:\\Users\\fzava\\source\\repos\\ConsoleApplication1\\assets\\Leon.png",
+    "C:\\Users\\fzava\\source\\repos\\ConsoleApplication1\\assets\\Peashooter.png",
+    "C:\\Users\\fzava\\source\\repos\\ConsoleApplication1\\assets\\Kenny.png",
+    "C:\\Users\\fzava\\source\\repos\\ConsoleApplication1\\assets\\Sans.png"
+    };
+
+    float tamanoBots = 0.4f;
+    
+    vector<int> rivales;
+    for (int i = 0; i < 4; i++)
+        if (i != personajeElegido) rivales.push_back(i);
+
+    for (int i = 0; i < 4; i++) {
+        iconosTex[i].loadFromFile(archivos[i]);
+        iconos[i].emplace(iconosTex[i]);
+    }
+
+    iconos[personajeElegido]->setScale(Vector2f(0.6f, 0.6f));
+    iconos[personajeElegido]->setPosition(Vector2f(1150.f, 570.f));
+
+    iconos[rivales[0]]->setScale(Vector2f(tamanoBots, tamanoBots));
+    iconos[rivales[0]]->setPosition(Vector2f(260.f, 250.f));
+    iconos[rivales[1]]->setScale(Vector2f(tamanoBots, tamanoBots));
+    iconos[rivales[1]]->setPosition(Vector2f(260, 760.f));
+    iconos[rivales[2]]->setScale(Vector2f(tamanoBots, tamanoBots));
+    iconos[rivales[2]]->setPosition(Vector2f(1360.f, 110.f));
+
+///////////////////////////////////////////////////////////////////////////////////////
+
     luigui->recibirBaraja(mesa->darTodasLasCartas());
     luigui->mesclarBaraja();
     mesa->recibirCartasBarajeadas(*luigui);
@@ -93,11 +126,14 @@ void GamePlay::cargar() {
     sonidoVictoria->setVolume(100.f);
 }
 
-GamePlay::GamePlay() {
-    
+GamePlay::GamePlay() : GamePlay(0) {}
+
+// Constructor que recibe el personaje seleccionado
+GamePlay::GamePlay(int personaje) {
+    personajeElegido = personaje;
     click = false;
     validarFonts();
-	turno = 1;
+    turno = 1;
     cargar();
     numeroCartasIguales = 0;
     valorCarta = 0;
@@ -493,6 +529,16 @@ void GamePlay::dibujar() {
 
     //Sprite de Luigi
     if (luigiIcono) window.draw(*luigiIcono);
+
+    //Sprite de jugadores
+    vector<int> rivales;
+    for (int i = 0; i < 4; i++)
+        if (i != personajeElegido) rivales.push_back(i);
+
+    if (iconos[personajeElegido]) window.draw(*iconos[personajeElegido]);
+    if (iconos[rivales[0]])       window.draw(*iconos[rivales[0]]);
+    if (iconos[rivales[1]])       window.draw(*iconos[rivales[1]]);
+    if (iconos[rivales[2]])       window.draw(*iconos[rivales[2]]);
 
     // Jugador principal
     for (int i = 0; i < jugador1->numeroCartas(); i++)
