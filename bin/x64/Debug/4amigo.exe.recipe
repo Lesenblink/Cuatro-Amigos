@@ -2,15 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-<<<<<<< HEAD
-      <FullPath>C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\bin\Debug\4amigo.exe</FullPath>
-=======
-<<<<<<< HEAD
-      <FullPath>C:\Users\Admin\source\repos\Lesenblink\Cuatro-Amigos\bin\Debug\4amigo.exe</FullPath>
-=======
-      <FullPath>C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\bin\Debug\4amigo.exe</FullPath>
->>>>>>> 0cb4faacb84d8c46680c17aef0860b37bf9a8e78
->>>>>>> 43da6d6f2c86c3c414286d2effad6f5fc907024f
+      <FullPath>C:\Users\fzava\source\repos\ConsoleApplication1\bin\Debug\4amigo.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

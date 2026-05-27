@@ -15,25 +15,37 @@ void Mesa::crearMazo(const sf::Font& font, const Font& font2) {
             string u = v;
             pinta.push_back(Carta(colores[j], v, &font, &font2, u));
             Carta carta(colores[j], v, &font, &font2, u);
-            carta.aparecerAlreves();//para que aparezca al revez
+            carta.voltear("a");//para que aparezca al revez
             pinta.push_back(carta);//Agrega la carta al vector temporal de esa fila
         }
         cartasTotales.push_back(pinta);
 
     }
+
+    cout<<"se creo el mazo"<<endl;
+
 }
 void Mesa::estatica() {
     setFillColor(Color(0, 80, 0));
     setPosition(Vector2f(50.f, 50.f));
     borde.setFillColor(Color(128, 64, 0));
+
+    cout << "se creo el borde"<<endl;
+
 }
 //Publico
 
+<<<<<<< HEAD
 Mesa::Mesa(const sf::Font& font, const Font& font2) : RectangleShape(Vector2f(1300.f, 800.f)), borde(Vector2f(1400.f, 900.f)) {
 	estatica();
 	crearMazo(font, font2);
+=======
+Mesa::Mesa(const sf::Font& font, const Font& font2) : RectangleShape(Vector2f(1700.f, 950.f)), borde(Vector2f(1800.f, 1050.f)) {
+>>>>>>> 70f5719d16e1a00a49b78eeaf07915e22b276042
     estatica();
     crearMazo(font, font2);
+
+    cout << "se creo la mesa"<<endl;
 }
 vector<vector<Carta>> Mesa::darTodasLasCartas() {
     vector<vector<Carta>> todas = cartasTotales;
@@ -42,6 +54,7 @@ vector<vector<Carta>> Mesa::darTodasLasCartas() {
 }
 void Mesa::recibirCartasBarajeadas(Luigui& mario) {
     cartasTotales = mario.darCartasBarajeadas();
+    cout << "se recibieron las cartas barajeadas";
 }
 Carta Mesa::darCarta() {
     //Este for se adapta al tamaño del vector, el -1 es porque los vectores inician desde 0.
@@ -54,6 +67,8 @@ Carta Mesa::darCarta() {
         }
     }
     throw runtime_error("No hay cartas disponibles");
+
+    cout << "se dieron todas las cartas";
 }
 Carta& Mesa::getCarta() {
     //Este for se adapta al tamaño del vector, el -1 es porque los vectores inician desde 0.
@@ -64,6 +79,8 @@ Carta& Mesa::getCarta() {
         }
     }
     throw runtime_error("No hay cartas en el mazo");
+
+    cout << "se tomo una carta";
 }
 int Mesa::tamanoCartasTotales() {      //Función para saber cuantas cartas hay en total en la mesa
     int totalDeCartas = 0; //Variable temporal
@@ -71,12 +88,18 @@ int Mesa::tamanoCartasTotales() {      //Función para saber cuantas cartas hay 
         totalDeCartas += fila.size();
     }
     return totalDeCartas; // Regresamos el resultado del for 
+
+	cout << "se obtuvo el tamaño de las cartas totales" << endl;
 }
 RectangleShape& Mesa::getBorde() { return borde; }
 
-void Mesa::llenarBuche(Carta carta) {  //Mecanica de 4 amigos como el UNO, recibe las cartas del jugador y los mete en el buche
-    carta.setPosition(Vector2f(650.f, 360.f)); // Aquí se coloca las cartas en el centro
-    bucheDeCartas.push_back(carta);//Agrega la carta al buche
+void Mesa::llenarBuche(Carta carta) {
+    carta.voltear();                          // Voltear para que se vea el frente
+    carta.setRotation(sf::degrees(0.f));      // Quitar rotación
+    carta.setPosition(Vector2f(750.f, 600.f));
+    bucheDeCartas.push_back(carta);
+
+	cout << "se lleno el buche" << endl;
 }
 Carta& Mesa::getBuche() {  //Obtemenos la carta del buche 
     return bucheDeCartas.back();
@@ -86,17 +109,19 @@ int Mesa::tamanoDelBuche() {  //Tamaño del buche
 }
 Carta Mesa::darCartaDelBuche() {  //Función para comer la carta del buche
     if (bucheDeCartas.empty()) {
-        cout << "No hay cartas en el buche para comer." << endl;
+        throw std::runtime_error("Buche vacio");
     }
     else {
-        for (int i = bucheDeCartas.size() - 1; i >= 0; i--) {
+   
             if (!bucheDeCartas.empty()) {
                 Carta carta = bucheDeCartas.back(); // Guarda la última carta del buche antes de eliminarla
                 bucheDeCartas.pop_back(); // Elimina la carta del buche
                 return carta; // Regresa la copia guardada del objeto eliminado
             }
-        }
+        
     }
+
+	cout << "se dio una carta del buche" << endl;
 }
 int Mesa::valorDeCartaBuche(int a) { //Obtenemos el valor de la ultima carta 
     return bucheDeCartas[a].getValor();

@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="avance7.cpp" />
+    <ClCompile Include="Bot.cpp" />
     <ClCompile Include="Carta.cpp" />
     <ClCompile Include="gameplay.cpp" />
     <ClCompile Include="Jugador.cpp" />

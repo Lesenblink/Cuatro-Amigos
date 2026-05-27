@@ -9,6 +9,8 @@ void Carta::crearFrente() {
     forma.setFillColor(Color::White);
     forma.setOutlineColor(Color::Black);
     forma.setOutlineThickness(3.f);
+
+    cout << "se creo el frente de las cartas"<<endl;
 }
 
 void Carta::crearReverso() {
@@ -35,6 +37,7 @@ void Carta::crearReverso() {
     else {
         marcoInterior.setOutlineColor(Color::Green);
     }
+	cout << "se creo el reverso y el marco de las cartas" << endl;
 }
 void Carta::crearSimbolo() {
     if (color == Color::Red) {
@@ -49,25 +52,27 @@ void Carta::crearSimbolo() {
         simbolo.setPoint(7, Vector2f(15, -10));  // Curva superior derecha
     }
     else if (color == Color::Black) {
-        //  Usamos 13 puntos para definir la silueta (3 hojas + tallo)
-        simbolo.setPointCount(13);
-        // --- Hoja Superior ---
-        simbolo.setPoint(0, Vector2f(0.f, -10.f));   // Centro superior (hendidura)
-        simbolo.setPoint(1, Vector2f(-15.f, -30.f)); // Pico izquierdo arriba
-        simbolo.setPoint(2, Vector2f(15.f, -30.f));  // Pico derecho arriba
-        // --- Hoja Derecha ---
-        simbolo.setPoint(3, Vector2f(10.f, -5.f));   // Unión
-        simbolo.setPoint(4, Vector2f(30.f, 5.f));    // Punta derecha
-        simbolo.setPoint(5, Vector2f(10.f, 15.f));   // Unión inferior derecha
-        // --- Tallo ---
-        simbolo.setPoint(6, Vector2f(5.f, 15.f));    // Inicio tallo derecho
-        simbolo.setPoint(7, Vector2f(0.f, 35.f));    // Punta del tallo (abajo)
-        simbolo.setPoint(8, Vector2f(-5.f, 15.f));   // Inicio tallo izquierdo
-        // --- Hoja Izquierda ---
-        simbolo.setPoint(9, Vector2f(-10.f, 15.f));  // Unión inferior izquierda
-        simbolo.setPoint(10, Vector2f(-30.f, 5.f));  // Punta izquierda
-        simbolo.setPoint(11, Vector2f(-10.f, -5.f)); // Unión superior izquierda
-        simbolo.setPoint(12, Vector2f(0.f, -10.f));  // Cerrar en el centro
+        float r = 12.f; // radio de cada hoja
+
+        hoja1.setRadius(r);
+        hoja1.setOrigin(Vector2f(r, r));
+        hoja1.setPosition(Vector2f(40.f, 87.f));
+        hoja1.setFillColor(Color::Black);
+
+        hoja2.setRadius(r);
+        hoja2.setOrigin(Vector2f(r, r));
+        hoja2.setPosition(Vector2f(50.f, 69.f));
+        hoja2.setFillColor(Color::Black);
+
+        hoja3.setRadius(r);
+        hoja3.setOrigin(Vector2f(r, r));
+        hoja3.setPosition(Vector2f(60.f, 87.f));
+        hoja3.setFillColor(Color::Black);
+
+        tallo.setSize(Vector2f(6.f, 30.f));
+        tallo.setOrigin(Vector2f(3.f, 0.f));
+        tallo.setPosition(Vector2f(50.f, 78.f));
+        tallo.setFillColor(Color::Black);
     }
     else if (color == Color::Blue) {
         // 1. Usamos 11 puntos para definir la forma de pica y su tallo
@@ -113,8 +118,15 @@ void Carta::crearSimbolo() {
 
     FloatRect bounds = simbolo.getLocalBounds();
     simbolo.setOrigin(Vector2f(bounds.size.x / 2.f, bounds.size.y / 2.f));
-    simbolo.setPosition(Vector2f(80.f, 115.f));
+    simbolo.setPosition(Vector2f(90.f, 125.f));
+    if(color==Color::Red)
+        simbolo.setPosition(Vector2f(85.f, 90.f));
+    if (color == Color::Green)
+        simbolo.setPosition(Vector2f(85.f, 110.f));
+    if (color == Color::Blue)
+        simbolo.setPosition(Vector2f(82.f, 100.f));
 
+	cout << "se creo el simbolo de las cartas" << endl;
 }
 void Carta::configurarTexto() {
 	numero.setCharacterSize(20);   // Configuramos el texto del número
@@ -141,12 +153,34 @@ void Carta::draw(RenderTarget& target, RenderStates states) const {
         target.draw(numero, states);            // 2. Dibuja el número arriba
         target.draw(numeroAbajo, states);        // 3. Dibuja el número arriba
         target.draw(simbolo, states);       // 4. Dibuja el símbolo
+
+        if(encadenada ==true){
+            target.draw(bordemorado, states);
+        }
+           
+
+        if (color == Color::Black) {
+            // Dibujar trébol con círculos
+            target.draw(hoja1, states);
+            target.draw(hoja2, states);
+            target.draw(hoja3, states);
+            target.draw(tallo, states);
+        }
+        else {
+            target.draw(simbolo, states);
+        }
     }
     else if (enJuego == false) {
         states.transform *= getTransform();  //Aplica movimiento y rotación
         target.draw(cartaReves, states); //1. Dibuja el fondo del reverso de la carta
 
         target.draw(marcoInterior, states); //2. Dibuja el marco interior del reverso de la carta
+    }
+
+    static bool yaImprimio = false;
+    if (!yaImprimio) {
+        cout << "se dibujaron las cartas" << endl;
+        yaImprimio = true;
     }
 }
 
@@ -157,13 +191,13 @@ Carta::Carta(Color color, string valor, const sf::Font* font, const Font* font2,
     crearReverso();
     numero.setFont(*font);
     numero.setString(valor);
-
+    encadenada = false;
     numeroAbajo.setFont(*font2);
     numeroAbajo.setString(valor2);
     crearSimbolo();
     configurarTexto();
-    setPosition(Vector2f(800.f, 300.f));  //Posición inicial
-
+    setPosition(Vector2f(850.f, 420.f));  //Posición inicial
+    bordeMorado();
 }
 int Carta::getValor() {
 
@@ -184,12 +218,16 @@ FloatRect Carta::getGlobalBounds() const {
 Vector2f Carta::getPos() const { return Transformable::getPosition(); } //Función para tener la posición de la carta
 void Carta::voltear() {
     enJuego = true;
-    cout << "Se volteo la carta";
+    cout << "se volteo la carta" << endl;
 }
-void Carta::aparecerAlreves() { //Funcion para aparecer la carta alreves
+void Carta::voltear(bool tipo) { //Funcion para aparecer la carta alreves
     enJuego = false;
+<<<<<<< HEAD
 
 
+=======
+	cout << "se volteo la carta" << endl;
+>>>>>>> 70f5719d16e1a00a49b78eeaf07915e22b276042
 }
 bool Carta::getHItBox() const { //Función para obtener el valor de la hitbox
     return hitBox;
@@ -197,3 +235,19 @@ bool Carta::getHItBox() const { //Función para obtener el valor de la hitbox
 void Carta::setHitBox(bool valor) { //Función para establecer el valor de la hitbox
     hitBox = valor;
 }
+bool Carta::getEncadenada() { return encadenada; }
+void Carta::quitarCadena() { encadenada = false; }
+void Carta::ponerCadena() { encadenada = true; }
+void Carta::bordeMorado() {
+    bordemorado.setSize(Vector2f(108.f, 158.f));
+    bordemorado.setFillColor(Color::Transparent);
+
+    bordemorado.setOutlineThickness(5.f);
+    bordemorado.setOutlineColor(Color(180, 0, 255));
+
+    // Ajuste para que el borde quede afuera de la carta
+    bordemorado.setPosition(Vector2f(-4.f, -4.f));
+
+   
+}
+
