@@ -28,10 +28,10 @@ void GamePlay::cargar() {
 //SPRITES DE LOS PERSONAJES JUGABLES
 
     string archivos[4] = {
-    "C:\\Users\\fzava\\source\\repos\\ConsoleApplication1\\assets\\Leon.png",
-    "C:\\Users\\fzava\\source\\repos\\ConsoleApplication1\\assets\\Peashooter.png",
-    "C:\\Users\\fzava\\source\\repos\\ConsoleApplication1\\assets\\Kenny.png",
-    "C:\\Users\\fzava\\source\\repos\\ConsoleApplication1\\assets\\Sans.png"
+    "../assets/Leon.png",
+    "../assets/Peashooter.png",
+    "../assets/Kenny.png",
+    "../assets/Sans.png"
     };
 
     float tamanoBots = 0.4f;
@@ -464,16 +464,21 @@ void GamePlay::dejarCartas() {
                      
                         turno = 2;
 
-                    }
-                   
+                    }                   
+
                     return;
+
                 }
-            
+                
            
         }
-
+        
+        
 
     }
+
+    
+
 }
 void GamePlay::jugarCartasReserva() {
     if (jugador1->numeroCartas() == 0 && jugador1->numeroCartas("reserva") > 0 && mesa->tamanoCartasTotales() == 0 && turno == 1) {  //Aquí le decimos al gamplay que si np hay cartas en la mano principal entonces pasar a la otra regla del gameplay

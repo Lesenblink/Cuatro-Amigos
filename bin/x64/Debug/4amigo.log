@@ -1,7 +1,14 @@
-﻿  gameplay.cpp
-C:\Users\fzava\source\repos\ConsoleApplication1\src\gameplay.cpp(11,22): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
-C:\Users\fzava\source\repos\ConsoleApplication1\src\gameplay.cpp(12,23): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
-C:\Users\fzava\source\repos\ConsoleApplication1\src\gameplay.cpp(21,26): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
-C:\Users\fzava\source\repos\ConsoleApplication1\src\gameplay.cpp(44,34): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
-  LINK : no se encontró C:\Users\fzava\source\repos\ConsoleApplication1\src\..\bin\Debug\4amigo.exe o no lo generó el último vínculo incremental; ejecutando vínculo completo
-  4amigo.vcxproj -> C:\Users\fzava\source\repos\ConsoleApplication1\bin\Debug\4amigo.exe
+﻿  Jugador.cpp
+C:\Users\COREP\source\repos\proyecto\src\Jugador.cpp(97,8): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\proyecto\src\Jugador.cpp(140,19): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\proyecto\src\Jugador.cpp(143,26): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\COREP\source\repos\proyecto\src\Jugador.cpp(146,24): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+  gameplay.cpp
+C:\Users\COREP\source\repos\proyecto\src\gameplay.cpp(11,22): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
+C:\Users\COREP\source\repos\proyecto\src\gameplay.cpp(12,23): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
+C:\Users\COREP\source\repos\proyecto\src\gameplay.cpp(21,26): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
+C:\Users\COREP\source\repos\proyecto\src\gameplay.cpp(44,34): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
+  Generando código...
+C:\Users\COREP\source\repos\proyecto\src\Jugador.cpp(173,1): warning C4715: 'Jugador::getCartaHitBox': no todas las rutas de acceso de control devuelven un valor
+C:\Users\COREP\source\repos\proyecto\src\Jugador.cpp(136,1): warning C4715: 'Jugador::QuitarCarta': no todas las rutas de acceso de control devuelven un valor
+  4amigo.vcxproj -> C:\Users\COREP\source\repos\proyecto\bin\Debug\4amigo.exe
