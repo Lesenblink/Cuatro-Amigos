@@ -18,7 +18,7 @@ void GamePlay::cargar() {
     luigui = new Luigui();
     
     //sprite de luigi
-    luigiTex.loadFromFile("C:\\Users\\fzava\\source\\repos\\ConsoleApplication1\\assets\\Luigi.png");
+    luigiTex.loadFromFile("../assets/Luigi.png");
     luigiIcono.emplace(luigiTex);
     luigiIcono->setPosition(sf::Vector2f(550.f, 320.f)); //ajustar pocisión
     luigiIcono->setScale(sf::Vector2f(0.7f, 0.7f)); //ajustar tamaño
@@ -27,20 +27,22 @@ void GamePlay::cargar() {
 ///////////////////////////////////////////////////////////////////////////////////////
 //SPRITES DE LOS PERSONAJES JUGABLES
 
-    string archivos[4] = {
-    "C:\\Users\\fzava\\source\\repos\\ConsoleApplication1\\assets\\Leon.png",
-    "C:\\Users\\fzava\\source\\repos\\ConsoleApplication1\\assets\\Peashooter.png",
-    "C:\\Users\\fzava\\source\\repos\\ConsoleApplication1\\assets\\Kenny.png",
-    "C:\\Users\\fzava\\source\\repos\\ConsoleApplication1\\assets\\Sans.png"
+    string archivos[6] = {
+    "../assets/Leon.png",
+    "../assets/Peashooter.png",
+    "../assets/Kenny.png",
+    "../assets/Sans.png",
+    "../assets/Otaku.png",
+    "../assets/Employee.png"
     };
 
     float tamanoBots = 0.4f;
     
     vector<int> rivales;
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 6; i++)
         if (i != personajeElegido) rivales.push_back(i);
 
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 6; i++) {
         iconosTex[i].loadFromFile(archivos[i]);
         iconos[i].emplace(iconosTex[i]);
     }
