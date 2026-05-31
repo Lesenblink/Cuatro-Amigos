@@ -28,10 +28,10 @@ void GamePlay::cargar() {
 //SPRITES DE LOS PERSONAJES JUGABLES
 
     string archivos[4] = {
-    "C:\\Users\\fzava\\source\\repos\\ConsoleApplication1\\assets\\Leon.png",
-    "C:\\Users\\fzava\\source\\repos\\ConsoleApplication1\\assets\\Peashooter.png",
-    "C:\\Users\\fzava\\source\\repos\\ConsoleApplication1\\assets\\Kenny.png",
-    "C:\\Users\\fzava\\source\\repos\\ConsoleApplication1\\assets\\Sans.png"
+    "..\\assets\\Leon.png",
+    "..\\assets\\Peashooter.png",
+    "..\\assets\\Kenny.png",
+    "..\\assets\\Sans.png"
     };
 
     float tamanoBots = 0.4f;

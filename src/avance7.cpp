@@ -81,7 +81,7 @@ public:
         sf::RenderWindow window(sf::VideoMode({ 1400, 800 }), "Four Friends - Select Your Character");
 
         sf::Texture rosterTex;
-        rosterTex.loadFromFile("C:\\Users\\fzava\\source\\repos\\ConsoleApplication1\\assets\\Roster.png");
+        rosterTex.loadFromFile("..\\assets\\Roster.png");
         sf::Sprite rosterSprite(rosterTex);
         rosterSprite.setScale(sf::Vector2f(1400.f / rosterTex.getSize().x, 800.f / rosterTex.getSize().y));
 
