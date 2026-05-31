@@ -78,15 +78,21 @@ private:
     int personajeElegido = -1;
 public:
     void mostrarRoster() {
-        sf::RenderWindow window(sf::VideoMode({ 1400, 800 }), "Four Friends - Select Your Character");
+        RenderWindow window(sf::VideoMode({ 1400, 800 }), "Four Friends - Select Your Character");
 
-        sf::Texture rosterTex;
+        Texture sharinganTex;
+        sharinganTex.loadFromFile("../assets/Sharingan.png");
+        Sprite sharingan(sharinganTex);
+        sharingan.setScale(Vector2f(0.1f, 0.1f));
+        sharingan.setPosition(Vector2f(1320.f, 730.f));
+
+        Texture rosterTex;
         rosterTex.loadFromFile("../assets/Roster.png");
-        sf::Sprite rosterSprite(rosterTex);
-        rosterSprite.setScale(sf::Vector2f(1400.f / rosterTex.getSize().x, 800.f / rosterTex.getSize().y));
+        Sprite rosterSprite(rosterTex);
+        rosterSprite.setScale(Vector2f(1400.f / rosterTex.getSize().x, 800.f / rosterTex.getSize().y));
 
-        // Botones semitransparentes para calibrar, después los ponés Transparent
-        RectangleShape btn[4];
+		//Botones transparentes del roster principal
+        RectangleShape btn[6];
         btn[0] = RectangleShape(Vector2f(250.f, 300.f)); // Leon
         btn[0].setOrigin(Vector2f(-590.f, -80.f));
         btn[0].setFillColor(Color::Transparent);
@@ -103,6 +109,15 @@ public:
         btn[3].setOrigin(Vector2f(-990.f, -410.f));
         btn[3].setFillColor(Color::Transparent);
 
+        //¿Más personajes?
+        btn[4] = RectangleShape(Vector2f(50.f, 50.f)); // Personaje secreto 1
+        btn[4].setOrigin(Vector2f(-1330.f, -730.f));
+        btn[4].setFillColor(Color::Transparent);
+
+        btn[5] = RectangleShape(Vector2f(50.f, 50.f)); // Personaje secreto 2
+        btn[5].setOrigin(Vector2f(-94.f, -600.f));
+        btn[5].setFillColor(Color::Transparent);
+
         while (window.isOpen())
         {
             while (const std::optional event = window.pollEvent())
@@ -114,7 +129,7 @@ public:
 
                 if (event->is<sf::Event::MouseButtonPressed>())
                 {
-                    for (int i = 0; i < 4; i++)
+                    for (int i = 0; i < 6; i++)
                     {
                         if (btn[i].getGlobalBounds().contains(sf::Vector2f(mousePos)))
                         {
@@ -127,7 +142,8 @@ public:
 
             window.clear();
             window.draw(rosterSprite);
-            for (int i = 0; i < 4; i++)
+            window.draw(sharingan);
+            for (int i = 0; i < 6; i++)
                 window.draw(btn[i]);
             window.display();
         }

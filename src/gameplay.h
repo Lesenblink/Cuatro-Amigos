@@ -51,8 +51,8 @@ private:
 	optional<Sprite> luigiIcono;
 
 	int personajeElegido;
-	Texture iconosTex[4];
-	optional<Sprite> iconos[4];
+	Texture iconosTex[6];
+	optional<Sprite> iconos[6];
 
 	void validarFonts();  //Separar la logica 
 	void cargar();
