@@ -1,6 +1,7 @@
-﻿  gameplay.cpp
-C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\gameplay.cpp(11,22): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
-C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\gameplay.cpp(12,23): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
-C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\gameplay.cpp(21,26): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
-C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\gameplay.cpp(44,34): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
+﻿  avance7.cpp
+C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\avance7.cpp(19,19): warning C4244: 'inicializando': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\avance7.cpp(20,19): warning C4244: 'inicializando': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\avance7.cpp(26,29): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
+C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\avance7.cpp(83,34): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
+C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\src\avance7.cpp(89,31): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
   4amigo.vcxproj -> C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\bin\Debug\4amigo.exe
