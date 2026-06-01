@@ -153,72 +153,15 @@ void GamePlay::agarrarCartas() {
     if (sonidoComer)
     sonidoComer->play();
 }
-
 void GamePlay::perder() {
     if (sonidoPerder)
         sonidoPerder->play();
-    seacabajuego(false); // Mostrar pantalla de derrota
 }
 
 void GamePlay::victoria() {
     if (sonidoVictoria)
         sonidoVictoria->play();
-    seacabajuego(true); // Mostrar pantalla de victoria
-
 }
-
-void GamePlay::seacabajuego(bool quienGano) {
-
-    RenderWindow window(VideoMode({ 1000, 800 }), "Resultado");
-
-    // fondo
-    RectangleShape fondo;
-    fondo.setSize(Vector2f(1000.f, 800.f));
-    fondo.setPosition(Vector2f(0.f, 0.f));
-    fondo.setFillColor(Color::Black);
-
-    //texto
-    sf::Font fuente;
-    fuente.openFromFile("../assets/arial.ttf");
-
-    sf::Text texto(fuente);
-    texto.setCharacterSize(20);
-    texto.setFillColor(sf::Color::White);
-    texto.setPosition({ 350.f, 400.f });
-
-    if (quienGano == false)
-    {
-        texto.setString("Perdiste! Haz click para cerrar el juego.");
-    }
-    else {
-        texto.setString("Ganaste! Haz click para cerrar el juego.");
-    }
-
-    //Aqui sucede el click para cerrar el juego
-    while (window.isOpen()) {
-        while (const std::optional event = window.pollEvent())
-        {
-
-            sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-
-            if (event->is<sf::Event::MouseButtonPressed>())
-            {
-                if (fondo.getGlobalBounds().contains(sf::Vector2f(mousePos)))
-                {
-                    window.close();
-
-                }
-            }
-        }
-
-        window.clear();
-        window.draw(fondo);
-        window.draw(texto);
-        window.display();
-    }
-}
-
-
 /*----------------------------------------Lógica del Jugador  -----------------------------------------------------------*/
 void GamePlay::hitboxMano() {
 
@@ -860,7 +803,6 @@ void GamePlay::IAJugar(Bot* ia) {
     }
 }
 
-
 // Verifica si algún jugador se quedó sin cartas en todas sus manos
 // El jugador principal también necesita que el mazo esté vacío para ganar
 // Retorna true si hay un ganador y cierra el juego después de 3 segundos
@@ -899,9 +841,10 @@ void GamePlay::ejecutarJuego() {
         dibujar();
 
         if (verificarGanador()) {
-                window.close();
-                break;
-            
+            // Esperar 3 segundos y cerrar
+            sf::sleep(sf::seconds(6.f));
+            window.close();
+            break;
         }
 
         if (turno == 1) {

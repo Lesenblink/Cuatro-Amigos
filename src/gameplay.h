@@ -36,7 +36,6 @@ private:
 	int guardarCartaIA;
 	int cartasMultipleIA;
 	bool clicDerecho;
-	bool quienGano;
 	SoundBuffer bufferCarta; //Poner sonido de cartas 
 	optional<Sound> sonidoCarta;
 	SoundBuffer bufferComer;
@@ -90,7 +89,7 @@ private:
 	void perder();
 	void victoria();
 	void quitarCadenas();
-	void seacabajuego(bool quienGano);
+
 public:
 	GamePlay(int personaje);
 	GamePlay();

@@ -152,45 +152,9 @@ public:
     int getPersonajeElegido() const { return personajeElegido; }
 };
 
-class Acabajuego {
-private:
-    bool replayValue = 0; 
-public:
-    void creaPantalla() {
-
-            RenderWindow window(VideoMode({ 800, 600 }), "Resultado");
-
-            // fondo
-            RectangleShape fondo;
-            fondo.setSize(Vector2f(1000.f, 1000.f));
-            fondo.setPosition(Vector2f(100.f, 100.f));
-            fondo.setFillColor(Color::Black);
-
-            while (const std::optional event = window.pollEvent())
-            {
-
-                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-
-                if (event->is<sf::Event::MouseButtonPressed>())
-                {
-                    if (fondo.getGlobalBounds().contains(sf::Vector2f(mousePos)))
-                    {
-                        window.close();
-
-                    }
-                    window.clear();
-                    window.draw(fondo);
-                    window.display();
-                }
-
-            }
-        }
-};
-
 //Motor del juego
 int main() {
     Menu menu;
-	Acabajuego acabajuego;
     menu.iniciarMenu();
     if (menu.getIniciarJuego() == 1) {
         Roster roster;
@@ -200,8 +164,6 @@ int main() {
         GamePlay juego(personaje);
         juego.ejecutarJuego();
     }
-    
-    
 
     return 0;
 }
