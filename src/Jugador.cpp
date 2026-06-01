@@ -10,11 +10,13 @@ void Jugador::asignarPosicion(string tipoMano) {
 	Vector2f posicion;
 
 	if (tipoMano == "mano") {
-
-		posicion = Vector2f(1320.f, 770.f);
-
 		for (int i = 0; i < mano.size(); i++) {
-			mano[i].setPosition(posicion - Vector2f(i * 70.f, 0));
+			if (i < 10) {
+				mano[i].setPosition(Vector2f(1050.f - i * 70.f, 840.f)); // Primera fila
+			}
+			else {
+				mano[i].setPosition(Vector2f(1050.f - (i - 10) * 70.f, 790.f)); // Segunda fila
+			}
 		}
 	}
 	else if (tipoMano == "reserva") {
@@ -37,13 +39,16 @@ void Jugador::asignarPosicion(string tipoMano) {
 	cout << "todos los jugadores posicionados" << endl;
 }
 
-void Jugador::separarCarta(Vector2f mousePos) { //Separar las cartas de la mano principal al pasar el mouse por encima
+void Jugador::separarCarta(Vector2f mousePos) {
 	for (int i = 0; i < mano.size(); i++) {
+		float filaY = (i < 10) ? 840.f : 790.f;
+		float x = (i < 10) ? 1050.f - i * 70.f : 1050.f - (i - 10) * 70.f;
+
 		if (mano[i].getGlobalBounds().contains(mousePos)) {
-			mano[i].setPosition(Vector2f(1320.f - i * 70.f, 670.f));
+			mano[i].setPosition(Vector2f(x, filaY - 30.f));
 		}
 		else {
-			mano[i].setPosition(Vector2f(1320.f - i * 70.f, 770.f));
+			mano[i].setPosition(Vector2f(x, filaY));
 		}
 	}
 }
@@ -87,10 +92,12 @@ Jugador::Jugador( vector<Carta>& cartas) {
 
 	cout << "se repartieron todas las cartas de jugador" << endl;
 }
-void Jugador::operator+(Carta carta) {  //Función sobrecargada para comer 
-	mano.push_back(carta); // Agrega la carta a la última  de la mano
-	mano.back().setPosition(Vector2f(1320.f - (mano.size() - 1) * 70.f, 770.f)); // Aquí acomoda la posicion de la nueva carta a la mano
-	cout << "Carta agregada a la mano del jugador" << endl;
+void Jugador::operator+(Carta carta) {
+	mano.push_back(carta);
+	int i = mano.size() - 1;
+	float filaY = (i < 10) ? 840.f : 790.f;
+	float x = (i < 10) ? 1050.f - i * 70.f : 1050.f - (i - 10) * 70.f;
+	mano.back().setPosition(Vector2f(x, filaY));
 }
 Carta& Jugador::getCarta(int  posicion, string tipoMano) {  //Para dibujar las cartas, obtenemos una carta especifica
 	if (tipoMano == "mano") {
