@@ -94,6 +94,7 @@ Bot::Bot(vector<Carta>& cartas, int num) : Jugador(cartas) {
 // Agrega una carta a la mano del bot y la posiciona según el lado que ocupa en la mesa
 // La rotación y posición se adaptan automáticamente al número del bot
 void Bot::operator+(Carta carta) {
+	carta.voltear(true);
 	mano.push_back(carta);
 	if (numeroBot == 2) {
 		mano.back().setPosition(Vector2f(460.f + (mano.size() - 1) * 30.f, 210.f));

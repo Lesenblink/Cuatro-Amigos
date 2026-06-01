@@ -153,16 +153,22 @@ public:
 
 //Motor del juego
 int main() {
-    Menu menu;
-    menu.iniciarMenu();
-    if (menu.getIniciarJuego() == 1) {
+
+    do {//Este do while permite reiniciar el juego si se presiono el botón de volver al menu dentro de GamePlay
+        Menu menu;
+        menu.iniciarMenu();
+        if (menu.getIniciarJuego() == false)
+            break; // salir del programa
         Roster roster;
         roster.mostrarRoster();
-        int personaje = roster.getPersonajeElegido();
 
-        GamePlay juego(personaje);
-        juego.ejecutarJuego();
-    }
+        GamePlay juego(roster.getPersonajeElegido());
+        juego.ejecutarJuego();  //Aqui entra al ciclo dentro de está funcion
+
+        if (juego.getValorPausa() == false)  //Revisa si presiono el volver al menu
+            break; // terminó el juego normalmente
+    } while (true); //Reiniciar ciclo siempre
+
 
     return 0;
 }

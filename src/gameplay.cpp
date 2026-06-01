@@ -126,15 +126,36 @@ void GamePlay::cargar() {
 
     sonidoVictoria.emplace(bufferVictoria);
     sonidoVictoria->setVolume(100.f);
+
+    /************************************Pantalla de Pausa **************************************************/
+     //Boton volver al menu
+    botonMenu.setSize(Vector2f(270.f, 60.f));
+    botonMenu.setFillColor(Color::Blue);
+    botonMenu.setPosition(Vector2f(800.f, 500.f));
+
+    // Texto botón azul
+
+    textoMenu.setString("Volver al menu");
+    textoMenu.setCharacterSize(40);
+    textoMenu.setFillColor(Color::White);
+    textoMenu.setPosition(Vector2f(800.f, 500.f));
+
+    //Pantalla pausa
+    botonSalir.setSize(Vector2f(270.f, 60.f));
+    botonSalir.setFillColor(Color::Red);
+    botonSalir.setPosition(Vector2f(800.f, 570.f));
+
+    // Texto botón azul
+
+    textoSalir.setString("Salir");
+    textoSalir.setCharacterSize(40);
+    textoSalir.setFillColor(Color::White);
+    textoSalir.setPosition(Vector2f(880.f, 580.f));
 }
-
-GamePlay::GamePlay() : GamePlay(0) {}
-
-// Constructor que recibe el personaje seleccionado
-GamePlay::GamePlay(int personaje) {
-    personajeElegido = personaje;
+GamePlay::GamePlay(int personaje) :personajeElegido(personaje), textoMenu(font), textoSalir(font) {
     click = false;
     validarFonts();
+
     turno = 1;
     cargar();
     numeroCartasIguales = 0;
@@ -145,6 +166,27 @@ GamePlay::GamePlay(int personaje) {
     indice4 = -1;
     clicDerecho = false;
 }
+void GamePlay::menuPausa() {
+    if (!click) return;// Si no se dio clicl entonces salir de la funcion
+
+    // Botón volver al menú
+    if (botonMenu.getGlobalBounds().contains(mousePos))
+    {
+        confirmarSalida = true;
+        window.close(); // Cerrar todo y volver al avance7.cpp
+        return;
+    }
+
+    // Botón salir
+    if (botonSalir.getGlobalBounds().contains(mousePos))
+    {
+        confirmarSalida = false;
+        window.close();  // Cerrar todo y volver al avance7.cpp
+    }
+    click = false;
+    return;
+}
+bool GamePlay::getValorPausa() { return confirmarSalida; }
 void GamePlay::lanzarCarta(){
     if (sonidoCarta)
         sonidoCarta->play();
@@ -299,11 +341,17 @@ void GamePlay::encontrarIndices(){
     cout << " INdice 3 " << indice3 << endl;
     cout << " INdice 4 " << indice4 << endl;
 }
-
 void GamePlay::eventos() {   // Aquí manejamos la función de los eventos
     while (const auto event = window.pollEvent()) {
         if (event->is<Event::Closed>())
             window.close();
+
+        if (auto keyEvent = event->getIf<sf::Event::KeyPressed>()) { //Botón de Pausa, Si se detecta que se presiono la letra  ESC
+            if (keyEvent->code == sf::Keyboard::Key::Escape)  //Cambiar la variable pausa al estado contrario
+            {
+                pausa = !pausa;
+            }
+        }
         if (auto mouseEvent = event->getIf<Event::MouseButtonPressed>()) {
 
             if (mouseEvent->button == Mouse::Button::Left) {
@@ -314,7 +362,7 @@ void GamePlay::eventos() {   // Aquí manejamos la función de los eventos
             if (mouseEvent->button == Mouse::Button::Right) {
                 mousePos = window.mapPixelToCoords(mouseEvent->position);
                 clicDerecho = true;
-                
+
             }
         }
     }
@@ -617,7 +665,12 @@ void GamePlay::dibujar() {
         window.draw(mesa->getCartaBuche(i));
     if (mesa->tamanoCartasTotales() > 0)
         window.draw(mesa->getCarta());
-
+    if (pausa == true) {
+        window.draw(botonMenu);
+        window.draw(textoMenu);
+        window.draw(botonSalir);
+        window.draw(textoSalir);
+    }
     window.display();
 }
 
@@ -890,36 +943,40 @@ bool GamePlay::verificarGanador() {
 // Alterna entre el turno del jugador y los turnos de las IAs
 // Al detectar un ganador espera 3 segundos y cierra la ventana
 void GamePlay::ejecutarJuego() {
-    
+
     while (window.isOpen()) {
         eventos();
         dibujar();
+        if (pausa == true)  // Si se dio pausa entonces
+            menuPausa();
+        if (pausa == false) {
+            if (verificarGanador()) {
+                // Esperar 3 segundos y cerrar
+                sf::sleep(sf::seconds(6.f));
+                window.close();
+                break;
+            }
 
-        if (verificarGanador()) {
-            window.close();
-            break;
-        }
-
-        if (turno == 1) {
-            juego();
-        }
-        else {
-            for (int i = 0; i < IA.size(); i++) {
-                if (IA[i]->getNumeroJugador() == turno) {
-                    IAJugar(IA[i]);
-                    break;
+            if (turno == 1) {
+                juego();
+            }
+            else {
+                for (int i = 0; i < IA.size(); i++) {
+                    if (IA[i]->getNumeroJugador() == turno) {
+                        IAJugar(IA[i]);
+                        break;
+                    }
                 }
             }
         }
     }
+
     delete mesa;
     delete jugador1;
     delete luigui;
-	
-	cout << " XD XD  XD >>> Retornar numero de cartas iguales----" << numeroCartasIguales << endl;
+
+    cout << " XD XD  XD >>> Retornar numero de cartas iguales----" << numeroCartasIguales << endl;
     for (int i = 0; i < IA.size(); i++)
         delete IA[i];
     IA.clear();
 }
-
-
