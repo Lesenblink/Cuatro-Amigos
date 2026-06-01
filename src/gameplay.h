@@ -89,6 +89,7 @@ private:
 	void perder();
 	void victoria();
 	void quitarCadenas();
+	void seacabajuego(bool quienGano); 
 
 public:
 	GamePlay(int personaje);
