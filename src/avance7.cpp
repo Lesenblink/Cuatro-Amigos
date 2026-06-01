@@ -72,7 +72,6 @@ public:
         return iniciarJuego;
     }
 };
-
 class Roster {
 private:
     int personajeElegido = -1;
@@ -91,7 +90,7 @@ public:
         Sprite rosterSprite(rosterTex);
         rosterSprite.setScale(Vector2f(1400.f / rosterTex.getSize().x, 800.f / rosterTex.getSize().y));
 
-		//Botones transparentes del roster principal
+        //Botones transparentes del roster principal
         RectangleShape btn[6];
         btn[0] = RectangleShape(Vector2f(250.f, 300.f)); // Leon
         btn[0].setOrigin(Vector2f(-590.f, -80.f));
@@ -154,16 +153,22 @@ public:
 
 //Motor del juego
 int main() {
-    Menu menu;
-    menu.iniciarMenu();
-    if (menu.getIniciarJuego() == 1) {
+
+    do {//Este do while permite reiniciar el juego si se presiono el botón de volver al menu dentro de GamePlay
+        Menu menu;
+        menu.iniciarMenu();
+        if (menu.getIniciarJuego() == false)
+            break; // salir del programa
         Roster roster;
         roster.mostrarRoster();
-        int personaje = roster.getPersonajeElegido();
 
-        GamePlay juego(personaje);
-        juego.ejecutarJuego();
-    }
+        GamePlay juego(roster.getPersonajeElegido());
+        juego.ejecutarJuego();  //Aqui entra al ciclo dentro de está funcion
+
+        if (juego.getValorPausa() == false)  //Revisa si presiono el volver al menu
+            break; // terminó el juego normalmente
+    } while (true); //Reiniciar ciclo siempre
+
 
     return 0;
 }

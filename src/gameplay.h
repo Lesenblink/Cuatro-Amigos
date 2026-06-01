@@ -36,6 +36,8 @@ private:
 	int guardarCartaIA;
 	int cartasMultipleIA;
 	bool clicDerecho;
+	bool pausa;
+	bool confirmarSalida;
 	SoundBuffer bufferCarta; //Poner sonido de cartas 
 	optional<Sound> sonidoCarta;
 	SoundBuffer bufferComer;
@@ -53,7 +55,10 @@ private:
 	int personajeElegido;
 	Texture iconosTex[6];
 	optional<Sprite> iconos[6];
-
+	RectangleShape botonMenu;
+	Text textoMenu;
+	RectangleShape botonSalir;
+	Text textoSalir;
 	void validarFonts();  //Separar la logica 
 	void cargar();
 	void comerCarta();
@@ -89,11 +94,13 @@ private:
 	void victoria();
 	void quitarCadenas();
 	void seacabajuego(bool quienGano); 
-
+	void menuPausa();
 public:
 	GamePlay(int personaje);
 	GamePlay();
 	void ejecutarJuego();
-
+	
+	void eleguirPersonaje(int personaje);
+	bool getValorPausa();
 
 };
