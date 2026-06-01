@@ -209,74 +209,94 @@ void GamePlay::victoria() {
 }
 
 void GamePlay::seacabajuego(bool quienGano) {
+    RenderWindow ventanaFinal(VideoMode({ 1000, 800 }), "Resultado");
 
-    RenderWindow window(VideoMode({ 1000, 800 }), "Resultado");
-
-    // fondo
     RectangleShape fondo;
     fondo.setSize(Vector2f(1000.f, 800.f));
-    fondo.setPosition(Vector2f(0.f, 0.f));
     fondo.setFillColor(Color::Black);
 
-    //texto
     sf::Font fuente;
     fuente.openFromFile("../assets/arial.ttf");
 
     sf::Text texto(fuente);
-    texto.setCharacterSize(20);
+    texto.setCharacterSize(40);
     texto.setFillColor(sf::Color::White);
-    texto.setPosition({ 350.f, 400.f });
+    texto.setPosition({ 250.f, 200.f });
+    texto.setString(quienGano ? "Ganaste!" : "Perdiste!");
 
-    if (quienGano == false)
-    {
-        texto.setString("Perdiste! Haz click para cerrar el juego.");
-    }
-    else {
-        texto.setString("Ganaste! Haz click para cerrar el juego.");
-    }
+    // Botón volver al menú
+    RectangleShape btnMenu(Vector2f(270.f, 60.f));
+    btnMenu.setFillColor(Color::Blue);
+    btnMenu.setPosition(Vector2f(350.f, 400.f));
 
-    //Aqui sucede el click para cerrar el juego
-    while (window.isOpen()) {
-        while (const std::optional event = window.pollEvent())
-        {
+    sf::Text txtMenu(fuente);
+    txtMenu.setString("Volver al menu");
+    txtMenu.setCharacterSize(30);
+    txtMenu.setFillColor(Color::White);
+    txtMenu.setPosition(Vector2f(360.f, 410.f));
 
-            sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+    // Botón salir
+    RectangleShape btnSalir(Vector2f(270.f, 60.f));
+    btnSalir.setFillColor(Color::Red);
+    btnSalir.setPosition(Vector2f(350.f, 480.f));
 
-            if (event->is<sf::Event::MouseButtonPressed>())
-            {
-                if (fondo.getGlobalBounds().contains(sf::Vector2f(mousePos)))
-                {
-                    window.close();
+    sf::Text txtSalir(fuente);
+    txtSalir.setString("Salir");
+    txtSalir.setCharacterSize(30);
+    txtSalir.setFillColor(Color::White);
+    txtSalir.setPosition(Vector2f(460.f, 490.f));
 
+    while (ventanaFinal.isOpen()) {
+        while (const std::optional event = ventanaFinal.pollEvent()) {
+            if (event->is<sf::Event::Closed>())
+                ventanaFinal.close();
+
+            sf::Vector2i mouse = sf::Mouse::getPosition(ventanaFinal);
+            sf::Vector2f mouseF = sf::Vector2f(mouse);
+
+            if (event->is<sf::Event::MouseButtonPressed>()) {
+                if (btnMenu.getGlobalBounds().contains(mouseF)) {
+                    confirmarSalida = true;   // ← volver al menú
+                    ventanaFinal.close();
+                }
+                if (btnSalir.getGlobalBounds().contains(mouseF)) {
+                    confirmarSalida = false;  // ← salir del programa
+                    ventanaFinal.close();
                 }
             }
         }
 
-        window.clear();
-        window.draw(fondo);
-        window.draw(texto);
-        window.display();
+        ventanaFinal.clear();
+        ventanaFinal.draw(fondo);
+        ventanaFinal.draw(texto);
+        ventanaFinal.draw(btnMenu);
+        ventanaFinal.draw(txtMenu);
+        ventanaFinal.draw(btnSalir);
+        ventanaFinal.draw(txtSalir);
+        ventanaFinal.display();
     }
 }
 
 /*----------------------------------------Lógica del Jugador  -----------------------------------------------------------*/
 void GamePlay::hitboxMano() {
+    if (turno != 1) return;
 
     Vector2f temporalMouse = window.mapPixelToCoords(Mouse::getPosition(window));
     estaLevantada = false;
 
     for (int i = jugador1->numeroCartas() - 1; i >= 0; i--) {
+        float filaY = (i < 10) ? 840.f : 790.f;  
+        float x = (i < 10) ? 1050.f - i * 70.f : 1050.f - (i - 10) * 70.f;  
 
         if (!estaLevantada && jugador1->getCarta(i).getGlobalBounds().contains(temporalMouse)) {
-            jugador1->getCarta(i).setPosition(Vector2f(1320.f - i * 70.f, 810.f)); // ← carta levantada
+            jugador1->getCarta(i).setPosition(Vector2f(x, filaY - 30.f));  
             jugador1->getCarta(i).setHitBox(true);
-			valorCarta = jugador1->getCarta(i).getValor(); // Guardamos el valor de la carta levantada para usarlo en la función de dejar cartas
+            valorCarta = jugador1->getCarta(i).getValor();
             indice1 = i;
             estaLevantada = true;
-            //cout << valorCarta << endl;
         }
         else {
-            jugador1->getCarta(i).setPosition(Vector2f(1320.f - i * 70.f, 840.f)); // ← posición normal
+            jugador1->getCarta(i).setPosition(Vector2f(x, filaY));  
             jugador1->getCarta(i).setHitBox(false);
         }
     }
@@ -542,7 +562,7 @@ void GamePlay::dejarCartas() {
   
 
     
-        Vector2 posicion = Vector2f(1320.f, 770.f);
+        Vector2 posicion = Vector2f(1100.f, 770.f);
         if (jugador1->getCarta(x).getGlobalBounds().contains(mousePos) && jugador1->getCartaHitBox(x) && turno == 1) {   //Si el jugador hizo click entonces...
            
             //Mecanica para el número 10
@@ -951,8 +971,6 @@ void GamePlay::ejecutarJuego() {
             menuPausa();
         if (pausa == false) {
             if (verificarGanador()) {
-                // Esperar 3 segundos y cerrar
-                sf::sleep(sf::seconds(6.f));
                 window.close();
                 break;
             }

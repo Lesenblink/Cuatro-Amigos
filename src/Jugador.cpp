@@ -11,11 +11,11 @@ void Jugador::asignarPosicion(string tipoMano) {
 
 	if (tipoMano == "mano") {
 		for (int i = 0; i < mano.size(); i++) {
-			if (i < 8) {
-				mano[i].setPosition(Vector2f(1320.f - i * 70.f, 840.f)); // Primera fila
+			if (i < 10) {
+				mano[i].setPosition(Vector2f(1050.f - i * 70.f, 840.f)); // Primera fila
 			}
 			else {
-				mano[i].setPosition(Vector2f(1320.f - (i - 8) * 70.f, 770.f)); // Segunda fila
+				mano[i].setPosition(Vector2f(1050.f - (i - 10) * 70.f, 790.f)); // Segunda fila
 			}
 		}
 	}
@@ -41,8 +41,8 @@ void Jugador::asignarPosicion(string tipoMano) {
 
 void Jugador::separarCarta(Vector2f mousePos) {
 	for (int i = 0; i < mano.size(); i++) {
-		float filaY = (i < 8) ? 840.f : 770.f;
-		float x = (i < 8) ? 1320.f - i * 70.f : 1320.f - (i - 8) * 70.f;
+		float filaY = (i < 10) ? 840.f : 790.f;
+		float x = (i < 10) ? 1050.f - i * 70.f : 1050.f - (i - 10) * 70.f;
 
 		if (mano[i].getGlobalBounds().contains(mousePos)) {
 			mano[i].setPosition(Vector2f(x, filaY - 30.f));
@@ -95,8 +95,8 @@ Jugador::Jugador( vector<Carta>& cartas) {
 void Jugador::operator+(Carta carta) {
 	mano.push_back(carta);
 	int i = mano.size() - 1;
-	float filaY = (i < 8) ? 840.f : 770.f;
-	float x = (i < 8) ? 1320.f - i * 70.f : 1320.f - (i - 8) * 70.f;
+	float filaY = (i < 10) ? 840.f : 790.f;
+	float x = (i < 10) ? 1050.f - i * 70.f : 1050.f - (i - 10) * 70.f;
 	mano.back().setPosition(Vector2f(x, filaY));
 }
 Carta& Jugador::getCarta(int  posicion, string tipoMano) {  //Para dibujar las cartas, obtenemos una carta especifica

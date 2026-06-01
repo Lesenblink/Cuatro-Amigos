@@ -100,7 +100,7 @@ public:
 	GamePlay();
 	void ejecutarJuego();
 	
-	void eleguirPersonaje(int personaje);
+	
 	bool getValorPausa();
 
 };

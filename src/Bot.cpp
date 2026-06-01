@@ -9,7 +9,7 @@ void Bot::asignarPosicion(std::string tipoMano) {
 	if (numeroBot == 2) {
 		if (tipoMano == "mano") {
 			for (int i = 0; i < numeroCartas(); i++) {
-				getCarta(i).setPosition(Vector2f(460.f + i * 40.f, 210.f));
+				getCarta(i).setPosition(Vector2f(460.f + i * 40.f, 210.f)); // ← una sola fila
 				getCarta(i).setRotation(sf::degrees(180.f));
 			}
 		}
@@ -30,7 +30,9 @@ void Bot::asignarPosicion(std::string tipoMano) {
 
 		if (tipoMano == "mano") {
 			for (int i = 0; i < numeroCartas(); i++) {
-				getCarta(i).setPosition(Vector2f(210.f, 405.f + i * 40.f));
+				float filaX = (i < 8) ? 210.f : 260.f;
+				float filaY = (i < 8) ? 590.f - i * 30.f : 590.f - (i - 8) * 30.f;
+				getCarta(i).setPosition(Vector2f(filaX, filaY));
 				getCarta(i).setRotation(sf::degrees(90.f));
 			}
 		}
@@ -51,7 +53,9 @@ void Bot::asignarPosicion(std::string tipoMano) {
 	else if (numeroBot == 4) {
 		if (tipoMano == "mano") {
 			for (int i = 0; i < numeroCartas(); i++) {
-				getCarta(i).setPosition(Vector2f(1590.f, 460.f + i * 40.f));
+				float filaX = (i < 8) ? 1590.f : 1540.f;  // segunda fila más a la izquierda
+				float filaY = (i < 8) ? 460.f + i * 40.f : 460.f + (i - 8) * 40.f;
+				getCarta(i).setPosition(Vector2f(filaX, filaY));
 				getCarta(i).setRotation(sf::degrees(-90.f));
 			}
 		}
@@ -94,22 +98,25 @@ Bot::Bot(vector<Carta>& cartas, int num) : Jugador(cartas) {
 // Agrega una carta a la mano del bot y la posiciona según el lado que ocupa en la mesa
 // La rotación y posición se adaptan automáticamente al número del bot
 void Bot::operator+(Carta carta) {
-<<<<<<< HEAD
-	carta.voltear(true); // Voltea la carta para que quede oculta
-=======
 	carta.voltear(true);
->>>>>>> c36b49c0a80e64443566d79a5ddc87cb6acdb8da
 	mano.push_back(carta);
+	int i = mano.size() - 1;
+
 	if (numeroBot == 2) {
-		mano.back().setPosition(Vector2f(460.f + (mano.size() - 1) * 30.f, 210.f));
+		mano.back().setPosition(Vector2f(460.f + (mano.size() - 1) * 40.f, 210.f)); // ← una sola fila
 		mano.back().setRotation(sf::degrees(180.f));
 	}
 	else if (numeroBot == 3) {
-		mano.back().setPosition(Vector2f(210.f, 405.f + (mano.size() - 1) * 30.f));
+		float filaX = (i < 8) ? 210.f : 260.f;
+		float filaY = (i < 8) ? 590.f - i * 30.f : 590.f - (i - 8) * 30.f;
+		mano.back().setPosition(Vector2f(filaX, filaY));
 		mano.back().setRotation(sf::degrees(90.f));
 	}
+
 	else if (numeroBot == 4) {
-		mano.back().setPosition(Vector2f(1590.f, 460.f + (mano.size() - 1) * 30.f));
+		float filaX = (i < 8) ? 1590.f : 1540.f;
+		float filaY = (i < 8) ? 460.f + i * 40.f : 460.f + (i - 8) * 40.f;
+		mano.back().setPosition(Vector2f(filaX, filaY));
 		mano.back().setRotation(sf::degrees(-90.f));
 	}
 
