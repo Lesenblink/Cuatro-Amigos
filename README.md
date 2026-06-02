@@ -9,6 +9,12 @@ lo suficientemente impredecible para que cada ronda sea una experiencia única. 
 ## Descripción
 Cuatro Amigos es un juego de cartas de cuatro jugadores basado en estrategia, suerte y sabotaje. Diseñado para partidas rápidas, iteracción constante entre jugadores, y más.
 
+## Integrantes
+- Aaron Avalos (Aaron / CFEAAS)
+- Sahid Velazquez (SahidV-code)
+- Fernando Zavalza (Heefler1945)
+- Haniel Acosta (Lesenblink)
+
 ## Términos y condiciones
 
 Si usas, modificas o distribuyes este proyecto:

@@ -80,7 +80,7 @@ public:
         RenderWindow window(sf::VideoMode({ 1400, 800 }), "Four Friends - Select Your Character");
 
         Texture sharinganTex;
-        sharinganTex.loadFromFile("../assets/Sharingan.png");
+           sharinganTex.loadFromFile("../assets/Sharingan.png");
         Sprite sharingan(sharinganTex);
         sharingan.setScale(Vector2f(0.1f, 0.1f));
         sharingan.setPosition(Vector2f(1320.f, 730.f));
@@ -172,8 +172,3 @@ int main() {
 
     return 0;
 }
-
-/*
-Lógica, totalmente termianda
-Falta algunos detalles visuales nada más.
-*/
