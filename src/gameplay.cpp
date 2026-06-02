@@ -356,10 +356,11 @@ void GamePlay::encontrarIndices(){
                 indice4 = i;
         }
     }
-    cout << " INdice 1 " << indice1 << endl;
+  /*
+  cout << " INdice 1 " << indice1 << endl;
     cout << " INdice 2 " << indice2 << endl;
     cout << " INdice 3 " << indice3 << endl;
-    cout << " INdice 4 " << indice4 << endl;
+    cout << " INdice 4 " << indice4 << endl;*/  
 }
 void GamePlay::eventos() {   // Aquí manejamos la función de los eventos
     while (const auto event = window.pollEvent()) {
