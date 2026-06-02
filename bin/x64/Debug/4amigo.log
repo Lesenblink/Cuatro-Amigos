@@ -1,7 +1,2 @@
-﻿  gameplay.cpp
-C:\Users\COREP\source\repos\proyecto\src\gameplay.cpp(11,22): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
-C:\Users\COREP\source\repos\proyecto\src\gameplay.cpp(12,23): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
-C:\Users\COREP\source\repos\proyecto\src\gameplay.cpp(21,26): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
-C:\Users\COREP\source\repos\proyecto\src\gameplay.cpp(46,34): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
-C:\Users\COREP\source\repos\proyecto\src\gameplay.cpp(219,24): warning C4834: Descartar el valor de retorno de la función con el atributo [[nodiscard]]
-  4amigo.vcxproj -> C:\Users\COREP\source\repos\proyecto\bin\Debug\4amigo.exe
+﻿  Carta.cpp
+  4amigo.vcxproj -> C:\Users\aaron\OneDrive\Desktop\Metodos de programacion\holaFinal\Cuatro-Amigos\bin\Debug\4amigo.exe
